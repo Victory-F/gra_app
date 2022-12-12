@@ -14,13 +14,16 @@ type Guide = {
   id: number;
   name: string;
   imgUrl: string;
+  characterDescription: string;
 };
 
 type Traveller = {
   id: number;
   name: string;
+  race: string;
   imgUrl: string;
   ability: string;
+  abilityDescription: string;
   points: number;
 };
 
