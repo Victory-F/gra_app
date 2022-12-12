@@ -13,8 +13,9 @@ type Game = {
 type Guide = {
   id: number;
   name: string;
+  race: string;
   imgUrl: string;
-  characterDescription: string;
+  description: string;
 };
 
 type Traveller = {
