@@ -6,6 +6,7 @@ import {
   CreateGuidePage,
   CreateLocationPage,
   CreateTravellerPage,
+  CreateGameNamePage,
 } from "./pages";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/create-guide" element={<CreateGuidePage />} />
         <Route path="/create-location" element={<CreateLocationPage />} />
         <Route path="/create-traveller" element={<CreateTravellerPage />} />
+        <Route path="/create-game-name" element={<CreateGameNamePage />} />
       </Routes>
     </div>
   );

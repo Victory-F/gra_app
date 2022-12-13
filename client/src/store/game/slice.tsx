@@ -3,7 +3,7 @@ import { Game, Guide, Place } from "../../../../types/gameTypes";
 
 const initialState: Game = {
   id: "GENERATE_ID",
-  name: "?????",
+  name: "",
   guide: null,
   travellers: null,
   places: null,
@@ -23,9 +23,13 @@ export const gameSlice = createSlice({
         ? (state.places = [...state.places, place])
         : (state.places = [place]);
     },
+    addGameName: (state, action) => {
+      state.name = action.payload;
+      console.log(action.payload);
+    },
   },
 });
 
-export const { createGuide, addPlace } = gameSlice.actions;
+export const { createGuide, addPlace, addGameName } = gameSlice.actions;
 
 export default gameSlice.reducer;
