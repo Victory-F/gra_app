@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide } from "../../../types/gameTypes";
+import { createGuide } from "../store/game/slice";
 
 const CreateGuidePage = () => {
   const navigate: NavigateFunction = useNavigate();
+  const dispatch = useDispatch();
 
   const [guide, setGuide] = useState<Guide>({
     id: "GENERATE_ID",
@@ -15,8 +18,8 @@ const CreateGuidePage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(createGuide(guide));
     navigate("/create-location");
-    console.log(guide);
   };
 
   return (
