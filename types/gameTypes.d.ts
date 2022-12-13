@@ -5,41 +5,41 @@ export type GameState =
 
 type Game = {
   id: string;
+  name: string;
   guide: Guide | null;
-  travellers: Traveller[];
-  places: Place[];
+  travellers: Traveller[] | null;
+  places: Place[] | null;
 };
 
 type Guide = {
-  id: number;
+  id: string;
   name: string;
-  race: string;
-  imgUrl: string;
+  kind: string;
   description: string;
+  imgUrl: string;
 };
 
 type Traveller = {
-  id: number;
+  id: string;
   name: string;
-  race: string;
-  imgUrl: string;
+  kind: string;
   ability: string;
   abilityDescription: string;
+  imgUrl: string;
   points: number;
 };
 
 type Place = {
-  //   id: number;
   name: string;
   imgUrl: string;
-  encounter?: Encounter;
+  encounter: Encounter;
 };
+
 type Encounter = {
-  //   id: number;
   name: string;
+  kind: string;
   imgUrl: string;
   description: string;
-  timeStart: Date;
-  durationSeconds: number;
-  visibleTo: number[];
+  secret: string;
+  visibleTo: string[];
 };
