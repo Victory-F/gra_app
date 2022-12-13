@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide } from "../../../types/gameTypes";
 
 const CreateGuidePage = () => {
+  const navigate: NavigateFunction = useNavigate();
+
   const [guide, setGuide] = useState<Guide>({
     id: "GENERATE_ID",
     name: "",
@@ -12,6 +15,7 @@ const CreateGuidePage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    navigate("/create-location");
     console.log(guide);
   };
 

@@ -1,6 +1,8 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 // import { GameState } from "../../types/gameTypes";
 import {
+  HomePage,
   CreateGuidePage,
   CreateLocationPage,
   CreateTravellerPage,
@@ -10,9 +12,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      <CreateTravellerPage />
-      <CreateGuidePage />
-      <CreateLocationPage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/create-guide" element={<CreateGuidePage />} />
+        <Route path="/create-location" element={<CreateLocationPage />} />
+        <Route path="/create-traveller" element={<CreateTravellerPage />} />
+      </Routes>
     </div>
   );
 }
