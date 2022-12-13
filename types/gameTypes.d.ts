@@ -43,3 +43,5 @@ type Encounter = {
   secret: string;
   visibleTo: string[];
 };
+
+// SOCKET.IO TYPES
