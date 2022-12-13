@@ -1,6 +1,10 @@
 import "./App.css";
 // import { GameState } from "../../types/gameTypes";
-import { CreateGuidePage, CreateTravellerPage } from "./pages";
+import {
+  CreateGuidePage,
+  CreateLocationPage,
+  CreateTravellerPage,
+} from "./pages";
 
 function App() {
   return (
@@ -8,6 +12,7 @@ function App() {
       <header className="App-header"></header>
       <CreateTravellerPage />
       <CreateGuidePage />
+      <CreateLocationPage />
     </div>
   );
 }
