@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Game, Guide } from "../../../../types/gameTypes";
+import { Game, Guide, Place } from "../../../../types/gameTypes";
 
 const initialState: Game = {
   id: "GENERATE_ID",
@@ -15,12 +15,17 @@ export const gameSlice = createSlice({
   reducers: {
     createGuide: (state, action) => {
       const guide: Guide = action.payload;
-      console.log(guide);
       state.guide = guide;
+    },
+    addPlace: (state, action) => {
+      const place: Place = action.payload;
+      state.places
+        ? (state.places = [...state.places, place])
+        : (state.places = [place]);
     },
   },
 });
 
-export const { createGuide } = gameSlice.actions;
+export const { createGuide, addPlace } = gameSlice.actions;
 
 export default gameSlice.reducer;

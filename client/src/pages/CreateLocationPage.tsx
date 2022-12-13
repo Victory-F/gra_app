@@ -1,9 +1,13 @@
 import { Place } from "../../../types/gameTypes";
 
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPlace } from "../store/game/slice";
 
 const CreateLocationPage = () => {
   const [addEncounter, setAddEncounter] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   const [location, setLocation] = useState<Place>({
     name: "",
@@ -20,6 +24,7 @@ const CreateLocationPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(addPlace(location));
     console.log(location);
   };
   return (
@@ -48,8 +53,23 @@ const CreateLocationPage = () => {
             <h4>Encounter</h4>
             <input
               type="checkbox"
-              onChange={() => {
-                setAddEncounter(!addEncounter);
+              onChange={(e) => {
+                setAddEncounter(e.target.checked);
+                setLocation(
+                  e.target.checked
+                    ? { ...location }
+                    : {
+                        ...location,
+                        encounter: {
+                          name: "",
+                          kind: "",
+                          imgUrl: "",
+                          description: "",
+                          secret: "",
+                          visibleTo: [],
+                        },
+                      }
+                );
               }}
             />
           </div>
