@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { Traveller } from "../../../types/gameTypes";
 
 const CreateTravellerPage = () => {
-  const [name, setName] = useState("");
-  const [race, setRace] = useState("");
-  const [image, setImage] = useState("");
-  const [ability, setAbility] = useState("");
-  const [abilityDescription, setAbilityDescription] = useState("");
+  const [traveller, setTraveller] = useState<Traveller>({
+    id: "GENERATE_ID",
+    name: "",
+    kind: "",
+    ability: "",
+    abilityDescription: "",
+    imgUrl: "",
+    points: 0,
+  });
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(traveller);
   };
 
   return (
@@ -17,36 +23,42 @@ const CreateTravellerPage = () => {
       <form onSubmit={submitForm}>
         <input
           placeholder="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={traveller.name}
+          onChange={(e) => setTraveller({ ...traveller, name: e.target.value })}
           required
         />
         <br />
         <input
-          placeholder="race"
-          value={race}
-          onChange={(e) => setRace(e.target.value)}
+          placeholder="kind"
+          value={traveller.kind}
+          onChange={(e) => setTraveller({ ...traveller, kind: e.target.value })}
           required
         />
         <br />
         <input
           placeholder="ability"
-          value={ability}
-          onChange={(e) => setAbility(e.target.value)}
+          value={traveller.ability}
+          onChange={(e) =>
+            setTraveller({ ...traveller, ability: e.target.value })
+          }
           required
         />
         <br />
         <input
           placeholder="ability description"
-          value={abilityDescription}
-          onChange={(e) => setAbilityDescription(e.target.value)}
+          value={traveller.abilityDescription}
+          onChange={(e) =>
+            setTraveller({ ...traveller, abilityDescription: e.target.value })
+          }
           required
         />
         <br />
         <input
           placeholder="image/gif URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={traveller.imgUrl}
+          onChange={(e) =>
+            setTraveller({ ...traveller, imgUrl: e.target.value })
+          }
           required
         />
         <br />
