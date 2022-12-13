@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { Guide } from "../../../types/gameTypes";
 
 const CreateGuidePage = () => {
-  const [name, setName] = useState("");
-  const [race, setRace] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
+  const [guide, setGuide] = useState<Guide>({
+    id: "GENERATE_ID",
+    name: "",
+    kind: "",
+    description: "",
+    imgUrl: "",
+  });
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(guide);
   };
 
   return (
@@ -16,29 +21,29 @@ const CreateGuidePage = () => {
       <form onSubmit={submitForm}>
         <input
           placeholder="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={guide.name}
+          onChange={(e) => setGuide({ ...guide, name: e.target.value })}
           required
         />
         <br />
         <input
-          placeholder="race"
-          value={race}
-          onChange={(e) => setRace(e.target.value)}
+          placeholder="kind"
+          value={guide.kind}
+          onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
           required
         />
         <br />
         <input
           placeholder="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={guide.description}
+          onChange={(e) => setGuide({ ...guide, description: e.target.value })}
           required
         />
         <br />
         <input
           placeholder="image/gif URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={guide.imgUrl}
+          onChange={(e) => setGuide({ ...guide, imgUrl: e.target.value })}
           required
         />
         <br />
