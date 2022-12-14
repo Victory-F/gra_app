@@ -3,9 +3,13 @@ import { Place } from "../../../types/gameTypes";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addPlace } from "../store/game/slice";
+import { useNavigate } from "react-router-dom";
 
 const CreateLocationPage = () => {
+  const navigate = useNavigate();
   const [addEncounter, setAddEncounter] = useState<boolean>(false);
+
+  const [created, setCreated] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,138 +30,169 @@ const CreateLocationPage = () => {
     e.preventDefault();
     dispatch(addPlace(location));
     console.log(location);
+    setCreated(true);
   };
   return (
     <div>
       <h1>Create Location</h1>
-      <form onSubmit={submitForm}>
-        <h3>Location</h3>
-        <input
-          placeholder="name"
-          type="text"
-          value={location.name}
-          onChange={(e) => setLocation({ ...location, name: e.target.value })}
-          required
-        />
-        <br />
-        <input
-          placeholder="image/gif URL"
-          type="text"
-          value={location.imgUrl}
-          onChange={(e) => setLocation({ ...location, imgUrl: e.target.value })}
-          required
-        />
-        <br />
-        <div>
+      {!created ? (
+        <form onSubmit={submitForm}>
+          <h3>Location</h3>
+          <input
+            placeholder="name"
+            type="text"
+            value={location.name}
+            onChange={(e) => setLocation({ ...location, name: e.target.value })}
+            required
+          />
+          <br />
+          <input
+            placeholder="image/gif URL"
+            type="text"
+            value={location.imgUrl}
+            onChange={(e) =>
+              setLocation({ ...location, imgUrl: e.target.value })
+            }
+            required
+          />
+          <br />
           <div>
-            <h4>Encounter</h4>
-            <input
-              type="checkbox"
-              onChange={(e) => {
-                setAddEncounter(e.target.checked);
-                setLocation(
-                  e.target.checked
-                    ? { ...location }
-                    : {
-                        ...location,
-                        encounter: {
-                          name: "",
-                          kind: "",
-                          imgUrl: "",
-                          description: "",
-                          secret: "",
-                          visibleTo: [],
-                        },
-                      }
-                );
-              }}
-            />
-          </div>
-          {addEncounter ? (
             <div>
+              <h4>Encounter</h4>
               <input
-                placeholder="name"
-                type="text"
-                value={location.encounter.name}
-                onChange={(e) =>
-                  setLocation({
-                    ...location,
-                    encounter: { ...location.encounter, name: e.target.value },
-                  })
-                }
-                required
+                type="checkbox"
+                onChange={(e) => {
+                  setAddEncounter(e.target.checked);
+                  setLocation(
+                    e.target.checked
+                      ? { ...location }
+                      : {
+                          ...location,
+                          encounter: {
+                            name: "",
+                            kind: "",
+                            imgUrl: "",
+                            description: "",
+                            secret: "",
+                            visibleTo: [],
+                          },
+                        }
+                  );
+                }}
               />
-              <br />
-              <input
-                placeholder="kind"
-                type="text"
-                value={location.encounter.kind}
-                onChange={(e) =>
-                  setLocation({
-                    ...location,
-                    encounter: { ...location.encounter, kind: e.target.value },
-                  })
-                }
-                required
-              />
-              <br />
-              <input
-                placeholder="img/gif URL"
-                type="text"
-                value={location.encounter.imgUrl}
-                onChange={(e) =>
-                  setLocation({
-                    ...location,
-                    encounter: {
-                      ...location.encounter,
-                      imgUrl: e.target.value,
-                    },
-                  })
-                }
-                required
-              />
-              <br />
-              <input
-                placeholder="description"
-                type="text"
-                value={location.encounter.description}
-                onChange={(e) =>
-                  setLocation({
-                    ...location,
-                    encounter: {
-                      ...location.encounter,
-                      description: e.target.value,
-                    },
-                  })
-                }
-                required
-              />
-              <br />
-              <input
-                placeholder="secret"
-                type="text"
-                value={location.encounter.secret}
-                onChange={(e) =>
-                  setLocation({
-                    ...location,
-                    encounter: {
-                      ...location.encounter,
-                      secret: e.target.value,
-                    },
-                  })
-                }
-                required
-              />
-              <br />
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <button type="submit">Done</button>
-      </form>
-      <button>Create Next Location</button>
-      <button>Create the Game</button>
+            {addEncounter ? (
+              <div>
+                <input
+                  placeholder="name"
+                  type="text"
+                  value={location.encounter.name}
+                  onChange={(e) =>
+                    setLocation({
+                      ...location,
+                      encounter: {
+                        ...location.encounter,
+                        name: e.target.value,
+                      },
+                    })
+                  }
+                  required
+                />
+                <br />
+                <input
+                  placeholder="kind"
+                  type="text"
+                  value={location.encounter.kind}
+                  onChange={(e) =>
+                    setLocation({
+                      ...location,
+                      encounter: {
+                        ...location.encounter,
+                        kind: e.target.value,
+                      },
+                    })
+                  }
+                  required
+                />
+                <br />
+                <input
+                  placeholder="img/gif URL"
+                  type="text"
+                  value={location.encounter.imgUrl}
+                  onChange={(e) =>
+                    setLocation({
+                      ...location,
+                      encounter: {
+                        ...location.encounter,
+                        imgUrl: e.target.value,
+                      },
+                    })
+                  }
+                  required
+                />
+                <br />
+                <input
+                  placeholder="description"
+                  type="text"
+                  value={location.encounter.description}
+                  onChange={(e) =>
+                    setLocation({
+                      ...location,
+                      encounter: {
+                        ...location.encounter,
+                        description: e.target.value,
+                      },
+                    })
+                  }
+                  required
+                />
+                <br />
+                <input
+                  placeholder="secret"
+                  type="text"
+                  value={location.encounter.secret}
+                  onChange={(e) =>
+                    setLocation({
+                      ...location,
+                      encounter: {
+                        ...location.encounter,
+                        secret: e.target.value,
+                      },
+                    })
+                  }
+                  required
+                />
+                <br />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <button type="submit">Done</button>
+        </form>
+      ) : (
+        "Location Created"
+      )}
+      <button
+        onClick={() => {
+          setCreated(false);
+          setLocation({
+            name: "",
+            imgUrl: "",
+            encounter: {
+              name: "",
+              kind: "",
+              imgUrl: "",
+              description: "",
+              secret: "",
+              visibleTo: [],
+            },
+          });
+        }}
+      >
+        Create Next Location
+      </button>
+      <button onClick={() => navigate("/start-game")}>Create the Game</button>
     </div>
   );
 };

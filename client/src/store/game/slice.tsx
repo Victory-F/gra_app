@@ -14,7 +14,6 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {
     setGameId: (state, action) => {
-      console.log(action.payload);
       state.id = action.payload;
     },
     createGuide: (state, action) => {
@@ -29,7 +28,6 @@ export const gameSlice = createSlice({
     },
     addGameName: (state, action) => {
       state.name = action.payload;
-      console.log(action.payload);
     },
   },
 });
