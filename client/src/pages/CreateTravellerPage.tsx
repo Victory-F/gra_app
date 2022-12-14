@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Traveller } from "../../../types/gameTypes";
 
 const CreateTravellerPage = () => {
+  const navigate = useNavigate();
   const [traveller, setTraveller] = useState<Traveller>({
     id: "GENERATE_ID",
     name: "",
@@ -14,11 +16,12 @@ const CreateTravellerPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(traveller);
+    navigate("/start-game");
   };
 
   return (
     <div>
+      <h3>Make a field to enter the code</h3>
       <h1>Create Traveller</h1>
       <form onSubmit={submitForm}>
         <input
