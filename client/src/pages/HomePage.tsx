@@ -1,12 +1,21 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div>
-      <h1>HomePage</h1>
-      <NavLink to="/create-guide">Create a Guide</NavLink>
+      <h1>GAME HomePage</h1>
+      <button
+        onClick={() => {
+          navigate("/create-guide");
+        }}
+      >
+        Create a Game
+      </button>
       <br />
-      <NavLink to="/create-traveller">Create a Traveller</NavLink>
+      <div>
+        <button onClick={() => navigate("/create-traveller")}>Join game</button>
+      </div>
     </div>
   );
 };
