@@ -171,28 +171,33 @@ const CreateLocationPage = () => {
           <button type="submit">Done</button>
         </form>
       ) : (
-        "Location Created"
+        <div>
+          Location Created
+          <br />
+          <button
+            onClick={() => {
+              setCreated(false);
+              setLocation({
+                name: "",
+                imgUrl: "",
+                encounter: {
+                  name: "",
+                  kind: "",
+                  imgUrl: "",
+                  description: "",
+                  secret: "",
+                  visibleTo: [],
+                },
+              });
+            }}
+          >
+            Create Next Location
+          </button>
+          <button onClick={() => navigate("/start-game")}>
+            Create the Game
+          </button>
+        </div>
       )}
-      <button
-        onClick={() => {
-          setCreated(false);
-          setLocation({
-            name: "",
-            imgUrl: "",
-            encounter: {
-              name: "",
-              kind: "",
-              imgUrl: "",
-              description: "",
-              secret: "",
-              visibleTo: [],
-            },
-          });
-        }}
-      >
-        Create Next Location
-      </button>
-      <button onClick={() => navigate("/start-game")}>Create the Game</button>
     </div>
   );
 };
