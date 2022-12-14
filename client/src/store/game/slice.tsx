@@ -13,6 +13,10 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    setGameId: (state, action) => {
+      console.log(action.payload);
+      state.id = action.payload;
+    },
     createGuide: (state, action) => {
       const guide: Guide = action.payload;
       state.guide = guide;
@@ -30,6 +34,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { createGuide, addPlace, addGameName } = gameSlice.actions;
+export const { createGuide, addPlace, addGameName, setGameId } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;
