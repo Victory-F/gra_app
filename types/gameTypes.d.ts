@@ -5,10 +5,10 @@ export type GameState =
 
 type Game = {
   id: string;
-  name: string;
+  name: string | null;
   guide: Guide | null;
-  travellers: Traveller[] | null;
-  places: Place[] | null;
+  travellers: Traveller[];
+  places: Place[];
 };
 
 type Guide = {

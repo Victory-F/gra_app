@@ -10,6 +10,7 @@ import {
   ClientToServerEvents,
   SocketData,
   InterServerEvents,
+  Traveller,
 } from "../types/gameTypes";
 
 const PORT = process.env.PORT || 4000;
@@ -22,30 +23,69 @@ const io = new Server(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// MAKE IT BETTER!
-const games: { [key: string]: GameState } = {};
+let currGame: Game;
 
-app.get("/game", (req: Request, res: Response) => {
-  const rand = Math.random().toString().slice(2, 8);
-  // Create new game
-  games[rand] = {
-    state: "setup",
-    game: {
-      id: rand,
-      name: "",
-      guide: null,
-      travellers: null,
-      places: null,
-    },
-  };
-  console.log(`New game created with gameId: ${rand}`);
-  res.send({ id: rand });
-});
+let games: Game[] = [];
 
 // Every socket.on and socket.emit needs to be wrapped around "io.on('connection, socket)"
 io.on("connection", (socket: Socket) => {
-  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  socket.on("create-guide", (guide) => {
+    games.push({
+      id: guide.id,
+      name: null,
+      guide: guide,
+      travellers: [],
+      places: [],
+    });
+    console.log(games);
+  });
+  socket.on("add-location", (location, gameId) => {
+    games = games.map((game) =>
+      game.id === gameId
+        ? { ...game, places: [...game.places, location] }
+        : game
+    );
+  });
+  socket.on("add-game-name", (gameName, gameId) => {
+    games = games.map((game) =>
+      game.id === gameId ? { ...game, name: gameName } : game
+    );
+    console.log("GAMES", games);
+  });
+  socket.on("check-code", (code) => {
+    games.find((game) => game.id === code)
+      ? console.log("found")
+      : console.log("not found");
+  });
+  socket.on("add-traveller", (traveller, code) => {
+    games = games.map((game) =>
+      game.id === code
+        ? { ...game, travellers: [...game.travellers, traveller] }
+        : game
+    );
+    console.log("GAMES", games);
+  });
+  socket.on("start-game", (gameId) => {
+    games.find((game) => game.id === gameId)
+      ? socket.emit(
+          "game-data",
+          games.find((game) => game.id === gameId)
+        )
+      : socket.emit("game-data", "GAME NOT FOUND");
+  });
+  console.log("GAMES", games);
+
+  socket.on("game-play", (gameId, locationNumber) => {
+    games.find((game) => game.id === gameId)
+      ? socket.emit(
+          "game-play-data",
+          games.find((game) => game.id === gameId)
+        )
+      : socket.emit("game-data", "GAME NOT FOUND");
+  });
+  console.log("GAMES", games);
 });
+
 server.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
 });
