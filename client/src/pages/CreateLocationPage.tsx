@@ -1,17 +1,13 @@
 import { Place } from "../../../types/gameTypes";
-
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addPlace } from "../store/game/slice";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../socket/socket";
 
 const CreateLocationPage = () => {
   const navigate = useNavigate();
   const [addEncounter, setAddEncounter] = useState<boolean>(false);
 
   const [created, setCreated] = useState(false);
-
-  const dispatch = useDispatch();
 
   const [location, setLocation] = useState<Place>({
     name: "",
@@ -28,8 +24,7 @@ const CreateLocationPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addPlace(location));
-    console.log(location);
+    socket.emit("add-location", location, localStorage.getItem("token"));
     setCreated(true);
   };
   return (
@@ -193,7 +188,7 @@ const CreateLocationPage = () => {
           >
             Create Next Location
           </button>
-          <button onClick={() => navigate("/start-game")}>
+          <button onClick={() => navigate("/create-game-name")}>
             Create the Game
           </button>
         </div>

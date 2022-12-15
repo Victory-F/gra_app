@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Traveller } from "../../../types/gameTypes";
+import { socket } from "../socket/socket";
 
 const CreateTravellerPage = () => {
   const navigate = useNavigate();
+
+  const [code, setCode] = useState("");
   const [traveller, setTraveller] = useState<Traveller>({
-    id: "GENERATE_ID",
+    id: "",
     name: "",
     kind: "",
     ability: "",
@@ -16,12 +19,31 @@ const CreateTravellerPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    socket.emit("add-traveller", traveller, code);
+    localStorage.clear();
+    localStorage.setItem("token", code);
+    socket.emit("add-traveller");
     navigate("/start-game");
+  };
+
+  const submitCode = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    socket.emit("check-code", code);
   };
 
   return (
     <div>
-      <h3>Make a field to enter the code</h3>
+      <h3>Enter the Secret Code</h3>
+      <form onSubmit={submitCode}>
+        <input
+          placeholder="code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          required
+        />
+        <button type="submit">Check the code</button>
+      </form>
+
       <h1>Create Traveller</h1>
       <form onSubmit={submitForm}>
         <input

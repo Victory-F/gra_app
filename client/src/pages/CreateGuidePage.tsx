@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide } from "../../../types/gameTypes";
-import { createGuide } from "../store/game/slice";
+import { socket } from "../socket/socket";
 
 const CreateGuidePage = () => {
   const navigate: NavigateFunction = useNavigate();
-  const dispatch = useDispatch();
 
   const [guide, setGuide] = useState<Guide>({
-    id: "GENERATE_ID",
+    id: "",
     name: "",
     kind: "",
     description: "",
@@ -18,7 +16,9 @@ const CreateGuidePage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createGuide(guide));
+    socket.emit("create-guide", guide);
+    localStorage.clear();
+    localStorage.setItem("token", guide.id);
     navigate("/create-location");
   };
 
@@ -29,7 +29,15 @@ const CreateGuidePage = () => {
         <input
           placeholder="name"
           value={guide.name}
-          onChange={(e) => setGuide({ ...guide, name: e.target.value })}
+          onChange={(e) =>
+            setGuide({
+              ...guide,
+              id:
+                (Math.random() * 1000).toString().slice(0, 3) +
+                socket.id.toString().slice(0, 3),
+              name: e.target.value,
+            })
+          }
           required
         />
         <br />

@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addGameName } from "../store/game/slice";
+import { useNavigate } from "react-router-dom";
+import { socket } from "../socket/socket";
 
 const CreateGameNamePage = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [gameName, setGameName] = useState("");
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addGameName(gameName));
+    socket.emit("add-game-name", gameName, localStorage.getItem("token"));
+    navigate("/start-game");
   };
 
   return (
