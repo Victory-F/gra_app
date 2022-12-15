@@ -4,8 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store";
+
 import { socket, SocketContext } from "./socket/socket";
 
 const root = ReactDOM.createRoot(
@@ -13,13 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <SocketContext.Provider value={socket}>
-          <App />
-        </SocketContext.Provider>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <SocketContext.Provider value={socket}>
+        <App />
+      </SocketContext.Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

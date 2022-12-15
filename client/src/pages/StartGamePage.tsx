@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Game } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
 const StartGamePage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [thisGame, setThisGame] = useState<Game>({
     id: "",
@@ -16,18 +14,17 @@ const StartGamePage = () => {
     places: [],
   });
 
-  socket.on("game-data", (game) => {
-    setThisGame(game);
-  });
+  socket.emit("join-room", localStorage.getItem("token"));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      socket.emit("start-game", localStorage.getItem("token"));
-    }, 5000);
-
-    return () => clearInterval(interval);
+    socket.emit("send-game", localStorage.getItem("token"));
   }, []);
-  console.log("I rerender");
+
+  socket.on("receive-game", (game) => {
+    setThisGame(game);
+    console.log(thisGame.toString());
+  });
+
   return (
     <div>
       <h1>Name of The Game: {thisGame.name && thisGame.name}</h1>
@@ -36,7 +33,7 @@ const StartGamePage = () => {
       <h4>Travellers:</h4>
       {thisGame.travellers &&
         thisGame.travellers.length !== 0 &&
-        thisGame.travellers.map((t) => <h2>{t.name}</h2>)}
+        thisGame.travellers.map((t) => <h2 key={t.id}>{t.name}</h2>)}
       <button
         onClick={() => {
           navigate("/play-game");

@@ -63,27 +63,18 @@ io.on("connection", (socket: Socket) => {
         ? { ...game, travellers: [...game.travellers, traveller] }
         : game
     );
-    console.log("GAMES", games);
+    console.log("TravellerAdded", traveller);
   });
-  socket.on("start-game", (gameId) => {
-    games.find((game) => game.id === gameId)
-      ? socket.emit(
-          "game-data",
-          games.find((game) => game.id === gameId)
-        )
-      : socket.emit("game-data", "GAME NOT FOUND");
-  });
-  console.log("GAMES", games);
 
-  socket.on("game-play", (gameId, locationNumber) => {
-    games.find((game) => game.id === gameId)
-      ? socket.emit(
-          "game-play-data",
-          games.find((game) => game.id === gameId)
-        )
-      : socket.emit("game-data", "GAME NOT FOUND");
+  socket.on("send-game", (gameId) => {
+    io.to(gameId).emit(
+      "receive-game",
+      games.find((g) => g.id === gameId)
+    );
   });
-  console.log("GAMES", games);
+  socket.on("join-room", (room) => {
+    socket.join(room);
+  });
 });
 
 server.listen(PORT, () => {

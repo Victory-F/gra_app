@@ -22,7 +22,6 @@ const CreateTravellerPage = () => {
     socket.emit("add-traveller", traveller, code);
     localStorage.clear();
     localStorage.setItem("token", code);
-    socket.emit("add-traveller");
     navigate("/start-game");
   };
 
