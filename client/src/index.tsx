@@ -5,17 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-import { socket, SocketContext } from "./socket/socket";
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SocketContext.Provider value={socket}>
-        <App />
-      </SocketContext.Provider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
