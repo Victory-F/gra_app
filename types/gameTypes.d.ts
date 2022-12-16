@@ -3,6 +3,13 @@ export type GameState =
   | { state: "running"; game: Game }
   | { state: "ended"; game: Game };
 
+type Lobby = {
+  id: string;
+  name: string;
+  guide: string;
+  travellers: string[];
+};
+
 type Game = {
   id: string;
   name: string | null;
