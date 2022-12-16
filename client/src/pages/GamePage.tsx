@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GameLocation } from "../../../types/gameTypes";
+import { TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
@@ -20,6 +21,8 @@ const GamePage = () => {
       "send-game-location",
       localStorage.getItem("token") + "",
       localStorage.getItem("location") + ""
+      // null,
+      // null
     );
     socket.on("get-game-location", (gameLocation: GameLocation) => {
       setGameLocation(gameLocation);
@@ -36,6 +39,44 @@ const GamePage = () => {
       <div>
         <h1>Current Place</h1>
         {gameLocation.place && gameLocation.place.name}
+      </div>
+      {/* Here we can see traveller card */}
+      <div>
+        {gameLocation &&
+          gameLocation.travellers.map((t) => (
+            <TravellerCard traveller={t}>
+              {playerId === gameLocation.id && (
+                <div>
+                  <button
+                    onClick={() => {
+                      socket.emit(
+                        "send-game-location",
+                        localStorage.getItem("token") + "",
+                        localStorage.getItem("location") + "",
+                        t.id,
+                        t.points + 1
+                      );
+                    }}
+                  >
+                    IncreasePoints
+                  </button>
+                  <button
+                    onClick={() => {
+                      socket.emit(
+                        "send-game-location",
+                        localStorage.getItem("token") + "",
+                        localStorage.getItem("location") + "",
+                        t.id,
+                        t.points - 1
+                      );
+                    }}
+                  >
+                    Decrease Points
+                  </button>
+                </div>
+              )}
+            </TravellerCard>
+          ))}
       </div>
       {playerId === gameLocation.id && (
         <button

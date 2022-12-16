@@ -82,23 +82,41 @@ io.on("connection", (socket: Socket) => {
     io.to(gameId).emit("set-start", started);
   });
   //GAME
-  socket.on("send-game-location", (gameId: string, location: string) => {
-    const locationIndex: number = location === "null" ? 0 : parseInt(location);
-
-    const game = games.find((g) => g.id === gameId);
-    socket.join(gameId);
-    if (locationIndex + 1 === game?.places.length) {
-      io.to(gameId).emit("get-game-finish", true);
-    } else {
-      io.to(gameId).emit("get-game-location", {
-        id: gameId,
-        name: game?.name,
-        guide: game?.guide?.name,
-        travellers: game?.travellers,
-        place: game?.places[locationIndex],
-      });
+  socket.on(
+    "send-game-location",
+    (gameId: string, location: string, playerId: string, newPoints: number) => {
+      if (newPoints) {
+        games = games.map((g) =>
+          g.id === gameId
+            ? {
+                ...g,
+                travellers: g.travellers.map((t) =>
+                  t.id === playerId ? { ...t, points: newPoints } : t
+                ),
+              }
+            : g
+        );
+      }
+      const locationIndex: number =
+        location === "null" ? 0 : parseInt(location);
+      const game = games.find((g) => g.id === gameId);
+      socket.join(gameId);
+      if (
+        locationIndex + 1 === game?.places.length &&
+        game.places.length !== 1
+      ) {
+        io.to(gameId).emit("get-game-finish", true);
+      } else {
+        io.to(gameId).emit("get-game-location", {
+          id: gameId,
+          name: game?.name,
+          guide: game?.guide?.name,
+          travellers: game?.travellers,
+          place: game?.places[locationIndex],
+        });
+      }
     }
-  });
+  );
 });
 
 server.listen(PORT, () => {
