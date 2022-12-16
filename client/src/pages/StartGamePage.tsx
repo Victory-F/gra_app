@@ -1,47 +1,45 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Game } from "../../../types/gameTypes";
+import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
 const StartGamePage = () => {
   const navigate = useNavigate();
 
-  const [thisGame, setThisGame] = useState<Game>({
+  const [lobby, setLobby] = useState<Lobby>({
     id: "",
-    name: null,
-    guide: null,
+    name: "",
+    guide: "",
     travellers: [],
-    places: [],
   });
-
-  socket.emit("join-room", localStorage.getItem("token"));
 
   useEffect(() => {
-    socket.emit("send-game", localStorage.getItem("token"));
-  }, []);
-
-  socket.on("receive-game", (game) => {
-    setThisGame(game);
-    console.log(thisGame.toString());
-  });
+    socket.emit("send-lobby", localStorage.getItem("token"), false);
+    socket.on("get-lobby", (lobby: Lobby) => {
+      setLobby(lobby);
+    });
+    socket.on("set-start", (start: boolean) => {
+      start && navigate("/play-game");
+    });
+  }, [navigate]);
 
   return (
     <div>
-      <h1>Name of The Game: {thisGame.name && thisGame.name}</h1>
-      <h2>Code: {thisGame.id && thisGame.id}</h2>
-      <h3>Guide: {thisGame.guide && thisGame.guide.name}</h3>
+      <h1>Name of The Game: {lobby.name && lobby.name}</h1>
+      <h2>Code: {lobby.id && lobby.id}</h2>
+      <h3>Guide: {lobby.guide && lobby.guide}</h3>
       <h4>Travellers:</h4>
-      {thisGame.travellers &&
-        thisGame.travellers.length !== 0 &&
-        thisGame.travellers.map((t) => <h2 key={t.id}>{t.name}</h2>)}
+      {lobby.travellers &&
+        lobby.travellers.length !== 0 &&
+        lobby.travellers.map((l: string) => <h2 key={l}>{l}</h2>)}
       <button
         onClick={() => {
-          navigate("/play-game");
-          localStorage.setItem("location", "0");
+          socket.emit("send-lobby", lobby.id, true);
         }}
       >
         Let's play!
       </button>
+      <button>Exit The Game</button>
     </div>
   );
 };
