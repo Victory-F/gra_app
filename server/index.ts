@@ -11,7 +11,9 @@ import {
   SocketData,
   InterServerEvents,
   Traveller,
+  Place,
 } from "../types/gameTypes";
+import { start } from "repl";
 
 const PORT = process.env.PORT || 4000;
 const app: Application = express();
@@ -29,6 +31,7 @@ let games: Game[] = [];
 
 // Every socket.on and socket.emit needs to be wrapped around "io.on('connection, socket)"
 io.on("connection", (socket: Socket) => {
+  console.log("New connection", socket.id);
   socket.on("create-guide", (guide) => {
     games.push({
       id: guide.id,
@@ -39,41 +42,44 @@ io.on("connection", (socket: Socket) => {
     });
     console.log(games);
   });
-  socket.on("add-location", (location, gameId) => {
+  socket.on("add-location", (location: Place, gameId: string) => {
     games = games.map((game) =>
       game.id === gameId
         ? { ...game, places: [...game.places, location] }
         : game
     );
   });
-  socket.on("add-game-name", (gameName, gameId) => {
+  socket.on("add-game-name", (gameName: string, gameId: string) => {
     games = games.map((game) =>
       game.id === gameId ? { ...game, name: gameName } : game
     );
     console.log("GAMES", games);
   });
-  socket.on("check-code", (code) => {
+
+  socket.on("check-code", (code: string) => {
     games.find((game) => game.id === code)
       ? console.log("found")
       : console.log("not found");
   });
-  socket.on("add-traveller", (traveller, code) => {
+
+  socket.on("add-traveller", (traveller: Traveller, code: string) => {
     games = games.map((game) =>
       game.id === code
         ? { ...game, travellers: [...game.travellers, traveller] }
         : game
     );
-    console.log("TravellerAdded", traveller);
   });
-
-  socket.on("send-game", (gameId) => {
-    io.to(gameId).emit(
-      "receive-game",
-      games.find((g) => g.id === gameId)
-    );
-  });
-  socket.on("join-room", (room) => {
-    socket.join(room);
+  //LOBBY
+  socket.on("send-lobby", (gameId: string, started: boolean) => {
+    const game = games.find((g) => g.id === gameId);
+    socket.join(gameId);
+    io.to(gameId).emit("get-lobby", {
+      id: gameId,
+      name: game?.name,
+      guide: game?.guide?.name,
+      travellers: game?.travellers.map((t) => t.name),
+    });
+    io.to(gameId).emit("set-start", started);
   });
 });
 
