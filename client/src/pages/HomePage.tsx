@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  localStorage.clear();
   return (
     <div>
       <h1>GAME HomePage</h1>

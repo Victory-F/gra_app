@@ -20,8 +20,8 @@ const CreateTravellerPage = () => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket.emit("add-traveller", traveller, code);
-    localStorage.clear();
     localStorage.setItem("token", code);
+    localStorage.setItem("player", traveller.id);
     navigate("/start-game");
   };
 
@@ -48,7 +48,15 @@ const CreateTravellerPage = () => {
         <input
           placeholder="name"
           value={traveller.name}
-          onChange={(e) => setTraveller({ ...traveller, name: e.target.value })}
+          onChange={(e) =>
+            setTraveller({
+              ...traveller,
+              id:
+                socket.id.toString().slice(0, 3) +
+                (Math.random() * 1000).toString().slice(0, 3),
+              name: e.target.value,
+            })
+          }
           required
         />
         <br />

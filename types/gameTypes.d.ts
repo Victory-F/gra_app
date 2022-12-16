@@ -10,9 +10,17 @@ type Lobby = {
   travellers: string[];
 };
 
+type GameLocation = {
+  id: string;
+  name: string;
+  guide: Guide | null;
+  travellers: Traveller[];
+  place: Place | null;
+};
+
 type Game = {
   id: string;
-  name: string | null;
+  name: string;
   guide: Guide | null;
   travellers: Traveller[];
   places: Place[];

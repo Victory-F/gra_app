@@ -1,53 +1,59 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Place } from "../../../types/gameTypes";
+import { GameLocation } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
+  const playerId: string = localStorage.getItem("player") + "";
+
   const navigate = useNavigate();
-
-  const [thisLocation, setThisLocation] = useState<Place>({
+  const [gameLocation, setGameLocation] = useState<GameLocation>({
+    id: "",
     name: "",
-    imgUrl: "",
-    encounter: {
-      name: "",
-      kind: "",
-      imgUrl: "",
-      description: "",
-      secret: "",
-      visibleTo: [],
-    },
+    guide: null,
+    travellers: [],
+    place: null,
   });
-
-  socket.emit("join-room", localStorage.getItem("token"));
-
-  const locationNumber: number =
-    parseInt(localStorage.getItem("location") + "") + 1;
 
   useEffect(() => {
-    socket.emit("send-location", localStorage.getItem("token"), locationNumber);
-  }, []);
+    socket.emit(
+      "send-game-location",
+      localStorage.getItem("token") + "",
+      localStorage.getItem("location") + ""
+    );
+    socket.on("get-game-location", (gameLocation: GameLocation) => {
+      setGameLocation(gameLocation);
+      console.log(gameLocation);
+    });
+    socket.on("get-game-finish", (finished: boolean) => {
+      finished && navigate("/");
+    });
+  }, [navigate]);
 
-  socket.on("receive-location", (location) => {
-    setThisLocation(location);
-    console.log(location.toString());
-  });
-
-  console.log("I rerender");
   return (
     <div>
       Game Page
       <div>
         <h1>Current Place</h1>
-        {thisLocation.name ? thisLocation.name : "Loading..."}
+        {gameLocation.place && gameLocation.place.name}
       </div>
-      <button
-        onClick={() => {
-          localStorage.setItem("location", locationNumber.toString());
-        }}
-      >
-        Next Location
-      </button>
+      {playerId === gameLocation.id && (
+        <button
+          onClick={() => {
+            localStorage.setItem(
+              "location",
+              (parseInt(localStorage.getItem("location") + "") + 1).toString()
+            );
+            socket.emit(
+              "send-game-location",
+              gameLocation.id,
+              localStorage.getItem("location") + ""
+            );
+          }}
+        >
+          Next Location
+        </button>
+      )}
     </div>
   );
 };

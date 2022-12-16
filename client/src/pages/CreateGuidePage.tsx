@@ -17,8 +17,9 @@ const CreateGuidePage = () => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket.emit("create-guide", guide);
-    localStorage.clear();
     localStorage.setItem("token", guide.id);
+    localStorage.setItem("player", guide.id);
+    localStorage.setItem("location", "0");
     navigate("/create-location");
   };
 

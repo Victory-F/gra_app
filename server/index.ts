@@ -35,7 +35,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("create-guide", (guide) => {
     games.push({
       id: guide.id,
-      name: null,
+      name: "",
       guide: guide,
       travellers: [],
       places: [],
@@ -80,6 +80,24 @@ io.on("connection", (socket: Socket) => {
       travellers: game?.travellers.map((t) => t.name),
     });
     io.to(gameId).emit("set-start", started);
+  });
+  //GAME
+  socket.on("send-game-location", (gameId: string, location: string) => {
+    const locationIndex: number = location === "null" ? 0 : parseInt(location);
+
+    const game = games.find((g) => g.id === gameId);
+    socket.join(gameId);
+    if (locationIndex + 1 === game?.places.length) {
+      io.to(gameId).emit("get-game-finish", true);
+    } else {
+      io.to(gameId).emit("get-game-location", {
+        id: gameId,
+        name: game?.name,
+        guide: game?.guide?.name,
+        travellers: game?.travellers,
+        place: game?.places[locationIndex],
+      });
+    }
   });
 });
 
