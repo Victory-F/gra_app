@@ -7,7 +7,7 @@ import {
   CreateLocationPage,
   CreateTravellerPage,
   CreateGameNamePage,
-  StartGamePage,
+  LobbyPage,
   GamePage,
 } from "./pages";
 
@@ -21,7 +21,7 @@ function App() {
         <Route path="/create-location" element={<CreateLocationPage />} />
         <Route path="/create-traveller" element={<CreateTravellerPage />} />
         <Route path="/create-game-name" element={<CreateGameNamePage />} />
-        <Route path="/start-game" element={<StartGamePage />} />
+        <Route path="/start-game" element={<LobbyPage />} />
         <Route path="/play-game" element={<GamePage />} />
       </Routes>
     </div>
