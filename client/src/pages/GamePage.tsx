@@ -5,14 +5,12 @@ import { EncounterCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
-  const playerId: string = localStorage.getItem("player") + "";
-
   const isGuide: boolean =
     localStorage.getItem("player") === localStorage.getItem("token");
 
   const navigate = useNavigate();
   const [gameLocation, setGameLocation] = useState<GameLocation>({
-    gameId: localStorage.getItem("token") + "",
+    gameId: "",
     gameName: "",
     guide: null,
     travellers: [],
@@ -21,18 +19,33 @@ const GamePage = () => {
   const [travellersPoints, setTravellersPoints] = useState<TravellerPoints[]>();
 
   useEffect(() => {
-    socket.emit("send-game-location", localStorage.getItem("token") + "");
-
-    socket.on("get-game-location", (gameLocation: GameLocation) => {
-      setGameLocation(gameLocation);
-    });
-
+    if (!gameLocation.place) {
+      socket.emit(
+        "send-game-location",
+        localStorage.getItem("token") + "",
+        null,
+        "first"
+      );
+    } else {
+      socket.emit(
+        "send-game-location",
+        localStorage.getItem("token") + "",
+        null,
+        "current"
+      );
+    }
+    socket.emit("send-travellers-points", localStorage.getItem("token") + "");
     socket.on(
       "get-travellers-points",
       (travellersPoints: TravellerPoints[]) => {
         setTravellersPoints(travellersPoints);
+        console.log("TRAVELLERS");
       }
     );
+    socket.on("get-game-location", (gameLocation: GameLocation) => {
+      setGameLocation(gameLocation);
+      console.log("whole");
+    });
 
     socket.on("get-game-finish", (finished: boolean) => {
       finished && navigate("/");
@@ -89,7 +102,7 @@ const GamePage = () => {
                   : 0
               }
             >
-              {playerId === gameLocation.gameId && (
+              {isGuide && (
                 <div>
                   <button
                     onClick={() => {
@@ -128,7 +141,8 @@ const GamePage = () => {
             socket.emit(
               "send-game-location",
               gameLocation.gameId,
-              gameLocation.place
+              gameLocation.place,
+              "next"
             );
           }}
         >

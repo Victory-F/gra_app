@@ -1,4 +1,4 @@
-import { Traveller, TravellerPoints } from "../../../types/gameTypes";
+import { Traveller } from "../../../types/gameTypes";
 
 const TravellerCard = ({
   traveller,

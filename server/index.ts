@@ -97,23 +97,32 @@ io.on("connection", (socket: Socket) => {
     );
   });
   //game
-  socket.on("send-game-location", (gameId: string, location: Place) => {
-    const game = games.find((g) => g.id === gameId);
-
-    io.to(gameId).emit("get-game-location", {
-      gameId: gameId,
-      gameName: game?.name,
-      guide: game?.guide?.name,
-      travellers: game?.travellers,
-      place:
-        !location || !location.id
-          ? game?.places[0]
-          : game?.places[
-              game?.places.map((p) => p.id).indexOf(location.id) + 1
-            ],
-    });
-  });
-
+  socket.on(
+    "send-game-location",
+    (gameId: string, location: Place, position: string) => {
+      try {
+        let game = games.find((g) => g.id === gameId);
+        socket.join(gameId);
+        io.to(gameId).emit("get-game-location", {
+          gameId: gameId,
+          gameName: game?.name,
+          guide: game?.guide?.name,
+          travellers: game?.travellers,
+          place:
+            position && position === "first"
+              ? game?.places[0]
+              : position === "current"
+              ? game?.places[game?.places.map((p) => p.id).indexOf(location.id)]
+              : game?.places[
+                  game?.places.map((p) => p.id).indexOf(location.id) + 1
+                ],
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  );
+  //Travellers Points Change
   socket.on(
     "send-travellers-points",
     (
@@ -123,8 +132,6 @@ io.on("connection", (socket: Socket) => {
       decrease: boolean
     ) => {
       try {
-        const game = games.find((g) => g.id === gameId);
-
         if (increase || decrease) {
           games = games.map((g) =>
             g.id === gameId
@@ -139,14 +146,19 @@ io.on("connection", (socket: Socket) => {
               : g
           );
         }
+
         socket.join(gameId);
 
-        io.to(gameId).emit("get-travellers-points", game?.travellersPoints);
+        io.to(gameId).emit(
+          "get-travellers-points",
+          games.find((g) => g.id === gameId)?.travellersPoints
+        );
       } catch (e) {
         console.log(e);
       }
     }
   );
+  //Travellers Points Change
 });
 
 server.listen(PORT, () => {
