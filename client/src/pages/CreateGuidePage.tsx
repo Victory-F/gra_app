@@ -19,7 +19,6 @@ const CreateGuidePage = () => {
     socket.emit("create-guide", guide);
     localStorage.setItem("token", guide.id);
     localStorage.setItem("player", guide.id);
-    localStorage.setItem("location", "0");
     navigate("/create-location");
   };
 

@@ -3,19 +3,11 @@ export type GameState =
   | { state: "running"; game: Game }
   | { state: "ended"; game: Game };
 
-type Lobby = {
-  id: string;
-  name: string;
-  guide: string;
-  travellers: string[];
-};
+// type TravellersPoints = TravellersPoints[];
 
-type GameLocation = {
-  id: string;
-  name: string;
-  guide: Guide | null;
-  travellers: Traveller[];
-  place: Place | null;
+type TravellerPoints = {
+  plyerId: string;
+  points: number;
 };
 
 type Game = {
@@ -24,6 +16,22 @@ type Game = {
   guide: Guide | null;
   travellers: Traveller[];
   places: Place[];
+  travellersPoints: TravellerPoints[];
+};
+
+type Lobby = {
+  gameId: string;
+  gameName: string;
+  guideName: string;
+  travellersNames: string[];
+};
+
+type GameLocation = {
+  gameId: string;
+  gameName: string;
+  guide: Guide | null;
+  travellers: Traveller[];
+  place: Place | null;
 };
 
 type Guide = {
@@ -41,10 +49,10 @@ type Traveller = {
   ability: string;
   abilityDescription: string;
   imgUrl: string;
-  points: number;
 };
 
 type Place = {
+  id: string;
   name: string;
   imgUrl: string;
   encounter: Encounter;
@@ -56,7 +64,7 @@ type Encounter = {
   imgUrl: string;
   description: string;
   secret: string;
-  visibleTo: string[];
+  secretVisibleTo: string[];
 };
 
 // SOCKET.IO TYPES

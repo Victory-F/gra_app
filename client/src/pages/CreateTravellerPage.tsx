@@ -14,7 +14,6 @@ const CreateTravellerPage = () => {
     ability: "",
     abilityDescription: "",
     imgUrl: "",
-    points: 0,
   });
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {

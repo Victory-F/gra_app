@@ -10,6 +10,7 @@ const CreateLocationPage = () => {
   const [created, setCreated] = useState(false);
 
   const [location, setLocation] = useState<Place>({
+    id: "",
     name: "",
     imgUrl: "",
     encounter: {
@@ -18,7 +19,7 @@ const CreateLocationPage = () => {
       imgUrl: "",
       description: "",
       secret: "",
-      visibleTo: [],
+      secretVisibleTo: [],
     },
   });
 
@@ -37,7 +38,13 @@ const CreateLocationPage = () => {
             placeholder="name"
             type="text"
             value={location.name}
-            onChange={(e) => setLocation({ ...location, name: e.target.value })}
+            onChange={(e) =>
+              setLocation({
+                ...location,
+                id: (Math.random() * 1000).toString().slice(0, 4),
+                name: e.target.value,
+              })
+            }
             required
           />
           <br />
@@ -69,7 +76,7 @@ const CreateLocationPage = () => {
                             imgUrl: "",
                             description: "",
                             secret: "",
-                            visibleTo: [],
+                            secretVisibleTo: [],
                           },
                         }
                   );
@@ -173,6 +180,7 @@ const CreateLocationPage = () => {
             onClick={() => {
               setCreated(false);
               setLocation({
+                id: "",
                 name: "",
                 imgUrl: "",
                 encounter: {
@@ -181,7 +189,7 @@ const CreateLocationPage = () => {
                   imgUrl: "",
                   description: "",
                   secret: "",
-                  visibleTo: [],
+                  secretVisibleTo: [],
                 },
               });
             }}

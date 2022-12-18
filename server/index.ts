@@ -12,8 +12,9 @@ import {
   InterServerEvents,
   Traveller,
   Place,
+  Encounter,
+  TravellerPoints,
 } from "../types/gameTypes";
-import { start } from "repl";
 
 const PORT = process.env.PORT || 4000;
 const app: Application = express();
@@ -39,6 +40,7 @@ io.on("connection", (socket: Socket) => {
       guide: guide,
       travellers: [],
       places: [],
+      travellersPoints: [],
     });
     console.log(games);
   });
@@ -63,9 +65,19 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("add-traveller", (traveller: Traveller, code: string) => {
+    const travellerPoints: TravellerPoints = {
+      plyerId: traveller.id,
+      points: Math.floor(
+        parseInt(games.find((g) => g.id === code)?.places.length + "") / 2
+      ),
+    };
     games = games.map((game) =>
       game.id === code
-        ? { ...game, travellers: [...game.travellers, traveller] }
+        ? {
+            ...game,
+            travellers: [...game.travellers, traveller],
+            travellersPoints: [...game.travellersPoints, travellerPoints],
+          }
         : game
     );
   });
@@ -73,47 +85,65 @@ io.on("connection", (socket: Socket) => {
   socket.on("send-lobby", (gameId: string, started: boolean) => {
     const game = games.find((g) => g.id === gameId);
     socket.join(gameId);
-    io.to(gameId).emit("get-lobby", {
-      id: gameId,
-      name: game?.name,
-      guide: game?.guide?.name,
-      travellers: game?.travellers.map((t) => t.name),
-    });
-    io.to(gameId).emit("set-start", started);
+    io.to(gameId).emit(
+      "get-lobby",
+      {
+        gameId: gameId,
+        gameName: game?.name,
+        guideName: game?.guide?.name,
+        travellersNames: game?.travellers.map((t) => t.name),
+      },
+      started
+    );
   });
-  //GAME
+  //game
+  socket.on("send-game-location", (gameId: string, location: Place) => {
+    const game = games.find((g) => g.id === gameId);
+
+    io.to(gameId).emit("get-game-location", {
+      gameId: gameId,
+      gameName: game?.name,
+      guide: game?.guide?.name,
+      travellers: game?.travellers,
+      place:
+        !location || !location.id
+          ? game?.places[0]
+          : game?.places[
+              game?.places.map((p) => p.id).indexOf(location.id) + 1
+            ],
+    });
+  });
+
   socket.on(
-    "send-game-location",
-    (gameId: string, location: string, playerId: string, newPoints: number) => {
-      if (newPoints) {
-        games = games.map((g) =>
-          g.id === gameId
-            ? {
-                ...g,
-                travellers: g.travellers.map((t) =>
-                  t.id === playerId ? { ...t, points: newPoints } : t
-                ),
-              }
-            : g
-        );
-      }
-      const locationIndex: number =
-        location === "null" ? 0 : parseInt(location);
-      const game = games.find((g) => g.id === gameId);
-      socket.join(gameId);
-      if (
-        locationIndex + 1 === game?.places.length &&
-        game.places.length !== 1
-      ) {
-        io.to(gameId).emit("get-game-finish", true);
-      } else {
-        io.to(gameId).emit("get-game-location", {
-          id: gameId,
-          name: game?.name,
-          guide: game?.guide?.name,
-          travellers: game?.travellers,
-          place: game?.places[locationIndex],
-        });
+    "send-travellers-points",
+    (
+      gameId: string,
+      playerId: string,
+      increase: boolean,
+      decrease: boolean
+    ) => {
+      try {
+        const game = games.find((g) => g.id === gameId);
+
+        if (increase || decrease) {
+          games = games.map((g) =>
+            g.id === gameId
+              ? {
+                  ...g,
+                  travellersPoints: g.travellersPoints.map((t) =>
+                    t.plyerId === playerId
+                      ? { ...t, points: increase ? t.points + 1 : t.points - 1 }
+                      : t
+                  ),
+                }
+              : g
+          );
+        }
+        socket.join(gameId);
+
+        io.to(gameId).emit("get-travellers-points", game?.travellersPoints);
+      } catch (e) {
+        console.log(e);
       }
     }
   );
