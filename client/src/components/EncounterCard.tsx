@@ -2,10 +2,12 @@ import { Encounter } from "../../../types/gameTypes";
 
 const EncounterCard = ({
   encounter,
+  secretVisible,
   children,
 }: {
   encounter: Encounter;
-  children?: JSX.Element[] | JSX.Element;
+  secretVisible: boolean;
+  children?: React.ReactNode;
 }) => {
   return (
     <div>
@@ -13,12 +15,8 @@ const EncounterCard = ({
         <h1>{encounter.name}</h1>
         <h3>{encounter.kind}</h3>
         <p>{encounter.description}</p>
-        {(encounter.secretVisibleTo.includes(
-          localStorage.getItem("player") + ""
-        ) ||
-          encounter.secretVisibleTo.includes("all") ||
-          localStorage.getItem("token") + "" ===
-            localStorage.getItem("player") + "") && (
+        {(secretVisible ||
+          localStorage.getItem("token") === localStorage.getItem("player")) && (
           <p>Secret: {encounter.secret}</p>
         )}
         {children}

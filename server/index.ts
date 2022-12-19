@@ -118,7 +118,7 @@ io.on("connection", (socket: Socket) => {
                 ],
         });
       } catch (e) {
-        console.log(e);
+        console.log("here!!!", e);
       }
     }
   );
@@ -158,7 +158,13 @@ io.on("connection", (socket: Socket) => {
       }
     }
   );
-  //Travellers Points Change
+  socket.on(
+    "set-secret-visible",
+    (gameId: string, revealTo: string, secretVisible: boolean) => {
+      socket.join(gameId);
+      io.to(gameId).emit("get-secret-visible", revealTo, secretVisible);
+    }
+  );
 });
 
 server.listen(PORT, () => {

@@ -5,10 +5,12 @@ import { EncounterCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
-  const isGuide: boolean =
-    localStorage.getItem("player") === localStorage.getItem("token");
+  const gameId: string = localStorage.getItem("token") + "";
+  const playerId: string = localStorage.getItem("player") + "";
+  const isGuide: boolean = gameId === playerId;
 
   const navigate = useNavigate();
+
   const [gameLocation, setGameLocation] = useState<GameLocation>({
     gameId: "",
     gameName: "",
@@ -18,39 +20,40 @@ const GamePage = () => {
   });
   const [travellersPoints, setTravellersPoints] = useState<TravellerPoints[]>();
 
+  const [secretVisible, setSecretVisible] = useState<boolean>(false);
+
   useEffect(() => {
     if (!gameLocation.place) {
-      socket.emit(
-        "send-game-location",
-        localStorage.getItem("token") + "",
-        null,
-        "first"
-      );
+      socket.emit("send-game-location", gameId, null, "first");
     } else {
-      socket.emit(
-        "send-game-location",
-        localStorage.getItem("token") + "",
-        null,
-        "current"
-      );
+      socket.emit("send-game-location", gameId, null, "current");
     }
+    socket.on("get-game-location", (gameLocation: GameLocation) => {
+      setGameLocation(gameLocation);
+      setSecretVisible(false);
+    });
+
     socket.emit("send-travellers-points", localStorage.getItem("token") + "");
     socket.on(
       "get-travellers-points",
       (travellersPoints: TravellerPoints[]) => {
         setTravellersPoints(travellersPoints);
-        console.log("TRAVELLERS");
       }
     );
-    socket.on("get-game-location", (gameLocation: GameLocation) => {
-      setGameLocation(gameLocation);
-      console.log("whole");
-    });
+
+    socket.on(
+      "get-secret-visible",
+      (revealTo: string, secretVisible: boolean) => {
+        playerId === revealTo ||
+          (revealTo === "all" && setSecretVisible(secretVisible));
+      }
+    );
 
     socket.on("get-game-finish", (finished: boolean) => {
       finished && navigate("/");
     });
   }, [navigate]);
+  console.log(secretVisible);
 
   return (
     <div>
@@ -59,35 +62,50 @@ const GamePage = () => {
         <h1>Current Place</h1>
         {gameLocation.place && gameLocation.place.name}
       </div>
-      ENCOUNTER
       <div>
-        {gameLocation && gameLocation.place && gameLocation.place.encounter && (
-          <EncounterCard encounter={gameLocation.place.encounter}>
-            <div>
-              {localStorage.getItem("token") ===
-                localStorage.getItem("player") && (
-                <select
-                  onChange={(e) => {
-                    socket.emit(
-                      "send-game-location",
-                      localStorage.getItem("token") + "",
-                      gameLocation.place,
-                      null,
-                      null,
-                      e.target.value
+        {gameLocation &&
+          gameLocation.place &&
+          gameLocation.place.encounter &&
+          gameLocation.place.encounter.name && (
+            <EncounterCard
+              encounter={gameLocation.place.encounter}
+              secretVisible={secretVisible}
+            >
+              <div>
+                {isGuide &&
+                  gameLocation &&
+                  gameLocation.travellers.map((t) => {
+                    return (
+                      <div>
+                        <button
+                          onClick={() => {
+                            socket.emit(
+                              "set-secret-visible",
+                              gameId,
+                              t.id,
+                              true
+                            );
+                          }}
+                        >
+                          Reveal secret to: {t.name}
+                        </button>
+                      </div>
                     );
-                  }}
-                >
-                  <option value={"all"}>all</option>
-                  {gameLocation &&
-                    gameLocation.travellers.map((t) => {
-                      return <option value={t.id}>{t.name}</option>;
-                    })}
-                </select>
-              )}
-            </div>
-          </EncounterCard>
-        )}
+                  })}
+                <div>
+                  {isGuide && (
+                    <button
+                      onClick={() => {
+                        socket.emit("set-secret-visible", gameId, "all", true);
+                      }}
+                    >
+                      Reveal secret to all!!!
+                    </button>
+                  )}
+                </div>
+              </div>
+            </EncounterCard>
+          )}
       </div>
       {/* Here we can see traveller card */}
       <div>

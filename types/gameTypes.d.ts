@@ -3,8 +3,6 @@ export type GameState =
   | { state: "running"; game: Game }
   | { state: "ended"; game: Game };
 
-// type TravellersPoints = TravellersPoints[];
-
 type TravellerPoints = {
   plyerId: string;
   points: number;
