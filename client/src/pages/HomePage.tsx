@@ -1,10 +1,24 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
 
 const HomePage = () => {
+  const game: boolean =
+    localStorage.getItem("token") && localStorage.getItem("player")
+      ? true
+      : false;
+
+  const isGuide: boolean = game
+    ? localStorage.getItem("token") === localStorage.getItem("player")
+    : false;
+
   const navigate = useNavigate();
-  socket.emit("delete-game", localStorage.getItem("token") + "");
-  localStorage.clear();
+
+  useEffect(() => {
+    isGuide && socket.emit("delete-game", localStorage.getItem("token") + "");
+    localStorage.clear();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
