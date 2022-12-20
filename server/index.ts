@@ -14,6 +14,8 @@ import {
   Place,
   Encounter,
   TravellerPoints,
+  Guide,
+  Callback,
 } from "../types/gameTypes";
 
 const PORT = process.env.PORT || 4000;
@@ -26,37 +28,105 @@ const io = new Server(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let currGame: Game;
-
 let games: Game[] = [];
 
 // Every socket.on and socket.emit needs to be wrapped around "io.on('connection, socket)"
 io.on("connection", (socket: Socket) => {
   console.log("New connection", socket.id);
-  socket.on("create-guide", (guide) => {
-    games.push({
-      id: guide.id,
-      name: "",
-      guide: guide,
-      travellers: [],
-      places: [],
-      travellersPoints: [],
-    });
-    console.log(games);
+
+  //Create guide with an empty Game ID given from a guide
+  socket.on("create-guide", (guide: Guide, callback: Callback) => {
+    try {
+      if (!games.find((g) => g.id === guide.id)) {
+        const newGame: Game = {
+          id: guide.id,
+          name: "",
+          guide: guide,
+          travellers: [],
+          places: [],
+          travellersPoints: [],
+          state: "setup",
+        };
+        games = [...games, newGame];
+        callback({
+          success: true,
+          message: "Guide was created!",
+        });
+      } else {
+        callback({
+          success: false,
+          message: "Ooops, something went wrong",
+        });
+      }
+    } catch (e) {
+      callback({
+        success: false,
+        message: "Ooops, something went wrong",
+      });
+      console.log(e);
+    }
   });
-  socket.on("add-location", (location: Place, gameId: string) => {
-    games = games.map((game) =>
-      game.id === gameId
-        ? { ...game, places: [...game.places, location] }
-        : game
-    );
-  });
-  socket.on("add-game-name", (gameName: string, gameId: string) => {
-    games = games.map((game) =>
-      game.id === gameId ? { ...game, name: gameName } : game
-    );
-    console.log("GAMES", games);
-  });
+
+  //Add place to the game
+  socket.on(
+    "add-location",
+    (location: Place, gameId: string, callback: Callback) => {
+      try {
+        if (
+          games.find(
+            (g) =>
+              g.id === gameId && g.state !== "running" && g.state !== "lobby"
+          )
+        ) {
+          games = games.map((game) =>
+            game.id === gameId
+              ? { ...game, places: [...game.places, location] }
+              : game
+          );
+          callback({
+            success: true,
+            message: "Location addded!",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        callback({
+          success: false,
+          message: "Ooops, something went wrong",
+        });
+      }
+    }
+  );
+
+  //Add Game Name
+  socket.on(
+    "add-game-name",
+    (gameName: string, gameId: string, callback: Callback) => {
+      try {
+        if (
+          games.find(
+            (g) =>
+              g.id === gameId && g.state !== "running" && g.state !== "lobby"
+          )
+        ) {
+          games = games.map((game) =>
+            game.id === gameId ? { ...game, name: gameName } : game
+          );
+        } else {
+          callback({
+            success: false,
+            message: "Ooops, something went wrong",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        callback({
+          success: false,
+          message: "Ooops, something went wrong",
+        });
+      }
+    }
+  );
 
   socket.on("check-code", (code: string) => {
     games.find((game) => game.id === code)
@@ -165,6 +235,16 @@ io.on("connection", (socket: Socket) => {
       io.to(gameId).emit("get-secret-visible", revealTo, secretVisible);
     }
   );
+  //delete game
+  socket.on("delete-game", (gameId: string) => {
+    try {
+      if (games.find((g) => g.id === gameId)) {
+        games = games.filter((g) => g.id !== gameId);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 server.listen(PORT, () => {

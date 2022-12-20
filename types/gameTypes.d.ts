@@ -1,4 +1,10 @@
-export type GameState = "setup" | "running" | "ended";
+export type GameState = "setup" | "lobby" | "running";
+
+type Callback = (response: Reply) => void;
+type Reply = {
+  success: boolean;
+  message: string;
+};
 
 type Game = {
   id: string;

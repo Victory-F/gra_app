@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { socket } from "../socket/socket";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  socket.emit("delete-game", localStorage.getItem("token") + "");
   localStorage.clear();
+
   return (
     <div>
       <h1>GAME HomePage</h1>

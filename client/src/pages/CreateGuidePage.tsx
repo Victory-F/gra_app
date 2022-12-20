@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { Guide } from "../../../types/gameTypes";
+import { Guide, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
 const CreateGuidePage = () => {
@@ -16,10 +16,16 @@ const CreateGuidePage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    socket.emit("create-guide", guide);
-    localStorage.setItem("token", guide.id);
-    localStorage.setItem("player", guide.id);
-    navigate("/create-location");
+
+    socket.emit("create-guide", guide, (response: Reply) => {
+      if (response.success) {
+        localStorage.setItem("token", guide.id);
+        localStorage.setItem("player", guide.id);
+        navigate("/create-location");
+      } else {
+        navigate("/");
+      }
+    });
   };
 
   return (
