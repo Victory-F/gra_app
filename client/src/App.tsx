@@ -1,6 +1,6 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
-// import { GameState } from "../../types/gameTypes";
 import {
   HomePage,
   CreateGuidePage,
@@ -12,13 +12,34 @@ import {
 } from "./pages";
 
 function App() {
+  const navigate = useNavigate();
+  const [pressed, setPressed] = useState(false);
+  useEffect(() => {
+    window.onpopstate = () => {
+      setPressed(true);
+    };
+    if (pressed) {
+      navigate("/");
+      setPressed(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [message, setMessage] = useState<string>("");
+
   return (
     <div className="App">
-      <header className="App-header"></header>
+      <p>Message:{message}</p>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/create-guide" element={<CreateGuidePage />} />
-        <Route path="/create-location" element={<CreateLocationPage />} />
+        <Route
+          path="/create-guide"
+          element={<CreateGuidePage setMessage={setMessage} />}
+        />
+        <Route
+          path="/create-location"
+          element={<CreateLocationPage setMessage={setMessage} />}
+        />
         <Route path="/create-traveller" element={<CreateTravellerPage />} />
         <Route path="/create-game-name" element={<CreateGameNamePage />} />
         <Route path="/start-game" element={<LobbyPage />} />
