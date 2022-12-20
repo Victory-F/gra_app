@@ -1,12 +1,4 @@
-export type GameState =
-  | { state: "setup"; game: Game }
-  | { state: "running"; game: Game }
-  | { state: "ended"; game: Game };
-
-type TravellerPoints = {
-  plyerId: string;
-  points: number;
-};
+export type GameState = "setup" | "running" | "ended";
 
 type Game = {
   id: string;
@@ -15,6 +7,12 @@ type Game = {
   travellers: Traveller[];
   places: Place[];
   travellersPoints: TravellerPoints[];
+  state: GameState;
+};
+
+type TravellerPoints = {
+  plyerId: string;
+  points: number;
 };
 
 type Lobby = {
