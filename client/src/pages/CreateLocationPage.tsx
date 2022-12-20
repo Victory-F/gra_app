@@ -73,7 +73,9 @@ const CreateLocationPage = ({
               onChange={(e) =>
                 setLocation({
                   ...location,
-                  id: (Math.random() * 1000).toString().slice(0, 4),
+                  id:
+                    e.target.value.charAt(0) +
+                    Math.random().toString().slice(3, 6),
                   name: e.target.value,
                 })
               }
