@@ -40,7 +40,10 @@ function App() {
           path="/create-location"
           element={<CreateLocationPage setMessage={setMessage} />}
         />
-        <Route path="/create-traveller" element={<CreateTravellerPage />} />
+        <Route
+          path="/create-traveller"
+          element={<CreateTravellerPage setMessage={setMessage} />}
+        />
         <Route
           path="/create-game-name"
           element={<CreateGameNamePage setMessage={setMessage} />}

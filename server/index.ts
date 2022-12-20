@@ -127,29 +127,45 @@ io.on("connection", (socket: Socket) => {
     }
   );
 
-  socket.on("check-code", (code: string) => {
-    games.find((game) => game.id === code)
-      ? console.log("found")
-      : console.log("not found");
-  });
-
-  socket.on("add-traveller", (traveller: Traveller, code: string) => {
-    const travellerPoints: TravellerPoints = {
-      plyerId: traveller.id,
-      points: Math.floor(
-        parseInt(games.find((g) => g.id === code)?.places.length + "") / 2
-      ),
-    };
-    games = games.map((game) =>
-      game.id === code
-        ? {
-            ...game,
-            travellers: [...game.travellers, traveller],
-            travellersPoints: [...game.travellersPoints, travellerPoints],
-          }
-        : game
-    );
-  });
+  socket.on(
+    "add-traveller",
+    (traveller: Traveller, code: string, callback: Callback) => {
+      if (
+        games.find(
+          (game) =>
+            game.id === code &&
+            game.state === "lobby" &&
+            game.travellers.length < 7 &&
+            !game.travellers.find((t) => t.id === traveller.id)
+        )
+      ) {
+        const travellerPoints: TravellerPoints = {
+          plyerId: traveller.id,
+          points: Math.floor(
+            parseInt(games.find((g) => g.id === code)?.places.length + "") / 2
+          ),
+        };
+        games = games.map((game) =>
+          game.id === code
+            ? {
+                ...game,
+                travellers: [...game.travellers, traveller],
+                travellersPoints: [...game.travellersPoints, travellerPoints],
+              }
+            : game
+        );
+        callback({
+          success: true,
+          message: "",
+        });
+      } else {
+        callback({
+          success: false,
+          message: "Not Found",
+        });
+      }
+    }
+  );
   //LOBBY
   socket.on("send-lobby", (gameId: string, started: boolean) => {
     const game = games.find((g) => g.id === gameId);

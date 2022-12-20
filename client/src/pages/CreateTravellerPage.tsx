@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Traveller } from "../../../types/gameTypes";
+import { Reply, Traveller } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
-const CreateTravellerPage = () => {
+const CreateTravellerPage = ({
+  setMessage,
+}: {
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const navigate = useNavigate();
 
   const [code, setCode] = useState("");
+
   const [traveller, setTraveller] = useState<Traveller>({
     id: "",
     name: "",
@@ -18,30 +23,19 @@ const CreateTravellerPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    socket.emit("add-traveller", traveller, code);
-    localStorage.setItem("token", code);
-    localStorage.setItem("player", traveller.id);
-    navigate("/start-game");
-  };
-
-  const submitCode = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    socket.emit("check-code", code);
+    socket.emit("add-traveller", traveller, code, (response: Reply) => {
+      if (response.success) {
+        localStorage.clear();
+        localStorage.setItem("token", code);
+        localStorage.setItem("player", traveller.id);
+        navigate("/start-game");
+      }
+      setMessage(response.message);
+    });
   };
 
   return (
     <div>
-      <h3>Enter the Secret Code</h3>
-      <form onSubmit={submitCode}>
-        <input
-          placeholder="code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          required
-        />
-        <button type="submit">Check the code</button>
-      </form>
-
       <h1>Create Traveller</h1>
       <form onSubmit={submitForm}>
         <input
@@ -79,7 +73,10 @@ const CreateTravellerPage = () => {
           placeholder="ability description"
           value={traveller.abilityDescription}
           onChange={(e) =>
-            setTraveller({ ...traveller, abilityDescription: e.target.value })
+            setTraveller({
+              ...traveller,
+              abilityDescription: e.target.value,
+            })
           }
           required
         />
@@ -93,7 +90,15 @@ const CreateTravellerPage = () => {
           required
         />
         <br />
-        <button type="submit">Ready!</button>
+        <h3>Enter the Secret Code</h3>
+
+        <input
+          placeholder="code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          required
+        />
+        <button type="submit">Join!</button>
       </form>
     </div>
   );
