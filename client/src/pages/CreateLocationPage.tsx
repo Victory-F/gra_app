@@ -51,9 +51,6 @@ const CreateLocationPage = ({
       (response: Reply) => {
         if (response.success) {
           setCreated(true);
-          console.log(location);
-        } else {
-          navigate("/");
         }
         setMessage(response.message);
       }
