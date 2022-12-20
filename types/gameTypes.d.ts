@@ -66,7 +66,6 @@ type Encounter = {
   imgUrl: string;
   description: string;
   secret: string;
-  secretVisibleTo: string[];
 };
 
 // SOCKET.IO TYPES

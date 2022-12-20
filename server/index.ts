@@ -5,11 +5,6 @@ import bodyParser from "body-parser";
 import { Server, Socket } from "socket.io";
 import {
   Game,
-  GameState,
-  ServerToClientEvents,
-  ClientToServerEvents,
-  SocketData,
-  InterServerEvents,
   Traveller,
   Place,
   Encounter,
@@ -59,12 +54,9 @@ io.on("connection", (socket: Socket) => {
         });
       }
     } catch (e) {
-      callback({
-        success: false,
-        message: "Ooops, something went wrong",
-      });
       console.log(e);
     }
+    console.log(games);
   });
 
   //Add place to the game
@@ -75,7 +67,10 @@ io.on("connection", (socket: Socket) => {
         if (
           games.find(
             (g) =>
-              g.id === gameId && g.state !== "running" && g.state !== "lobby"
+              g.id === gameId &&
+              g.state !== "running" &&
+              g.state !== "lobby" &&
+              !g.places.find((p) => p.id === location.id)
           )
         ) {
           games = games.map((game) =>
@@ -87,13 +82,14 @@ io.on("connection", (socket: Socket) => {
             success: true,
             message: "Location addded!",
           });
+        } else {
+          callback({
+            success: false,
+            message: "Ooops, something went wrong",
+          });
         }
       } catch (e) {
         console.log(e);
-        callback({
-          success: false,
-          message: "Ooops, something went wrong",
-        });
       }
     }
   );
@@ -106,12 +102,19 @@ io.on("connection", (socket: Socket) => {
         if (
           games.find(
             (g) =>
-              g.id === gameId && g.state !== "running" && g.state !== "lobby"
+              g.id === gameId &&
+              g.state !== "running" &&
+              g.state !== "lobby" &&
+              g.places.length !== 0
           )
         ) {
           games = games.map((game) =>
             game.id === gameId ? { ...game, name: gameName } : game
           );
+          callback({
+            success: true,
+            message: "",
+          });
         } else {
           callback({
             success: false,
@@ -120,10 +123,6 @@ io.on("connection", (socket: Socket) => {
         }
       } catch (e) {
         console.log(e);
-        callback({
-          success: false,
-          message: "Ooops, something went wrong",
-        });
       }
     }
   );
@@ -236,7 +235,7 @@ io.on("connection", (socket: Socket) => {
     }
   );
   //delete game
-  socket.on("delete-game", (gameId: string) => {
+  socket.on("delete-game", (gameId: string, playerId: string) => {
     try {
       if (games.find((g) => g.id === gameId)) {
         games = games.filter((g) => g.id !== gameId);
@@ -244,6 +243,7 @@ io.on("connection", (socket: Socket) => {
     } catch (e) {
       console.log(e);
     }
+    console.log(games);
   });
 });
 
