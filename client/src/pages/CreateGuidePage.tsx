@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 
-const CreateGuidePage = () => {
+const CreateGuidePage = ({
+  setMessage,
+}: {
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const game: boolean =
+    localStorage.getItem("token") && localStorage.getItem("player")
+      ? true
+      : false;
+
+  const isGuide: boolean = game
+    ? localStorage.getItem("token") === localStorage.getItem("player")
+    : false;
+
   const navigate: NavigateFunction = useNavigate();
 
   const [guide, setGuide] = useState<Guide>({
@@ -14,9 +27,14 @@ const CreateGuidePage = () => {
     imgUrl: "",
   });
 
+  useEffect(() => {
+    isGuide && socket.emit("delete-game", localStorage.getItem("token") + "");
+    localStorage.clear();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     socket.emit("create-guide", guide, (response: Reply) => {
       if (response.success) {
         localStorage.setItem("token", guide.id);
@@ -25,6 +43,7 @@ const CreateGuidePage = () => {
       } else {
         navigate("/");
       }
+      setMessage(response.message);
     });
   };
 
