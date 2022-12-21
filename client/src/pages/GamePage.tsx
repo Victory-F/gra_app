@@ -77,8 +77,8 @@ const GamePage = () => {
     socket.on(
       "get-secret-visible",
       (revealTo: string, secretVisible: boolean) => {
-        localStorage.getItem("player") === revealTo ||
-          (revealTo === "all" && setSecretVisible(secretVisible));
+        (localStorage.getItem("player") === revealTo || revealTo === "all") &&
+          setSecretVisible(secretVisible);
       }
     );
     socket.on("end-game", (finished: boolean) => {

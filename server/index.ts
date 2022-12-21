@@ -131,7 +131,8 @@ io.on("connection", (socket: Socket) => {
           games.find(
             (game) =>
               game.id === code &&
-              game.state === "lobby" &&
+              game.state !== "running" &&
+              game.state !== "setup" &&
               game.travellers.length < 6 &&
               !game.travellers.find((t) => t.id === traveller.id)
           )
@@ -178,8 +179,9 @@ io.on("connection", (socket: Socket) => {
           games.find(
             (g) =>
               g.id === gameId &&
-              (g.travellers.find((t) => t.id === playerId) ||
-                g.guide?.id === playerId)
+              g.state !== "running" &&
+              (g.guide?.id === playerId ||
+                g.travellers.find((t) => t.id === playerId))
           )
         ) {
           games = games.map((g) =>
@@ -244,6 +246,7 @@ io.on("connection", (socket: Socket) => {
     "send-game-location",
     (gameId: string, locationId: string, position: string) => {
       try {
+        console.log(games);
         if (games.find((g) => g.id === gameId)) {
           socket.join(gameId);
           let game = games.find((g) => g.id === gameId);
