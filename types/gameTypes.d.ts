@@ -25,7 +25,11 @@ type Lobby = {
   gameId: string;
   gameName: string;
   guideName: string;
-  travellersNames: string[];
+  travellersNames: TravellerIdName[];
+};
+type TravellerIdName = {
+  id: string;
+  name: string;
 };
 
 type GameLocation = {
@@ -73,6 +77,7 @@ interface ServerToClientEvents {
   noArg: () => void;
   basicEmit: (a: number, b: string, c: BufferSource) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
+  getLobby: (lobby: Lobby, start: boolean) => void;
 }
 
 interface ClientToServerEvents {

@@ -48,10 +48,7 @@ function App() {
           path="/create-game-name"
           element={<CreateGameNamePage setMessage={setMessage} />}
         />
-        <Route
-          path="/start-game"
-          element={<LobbyPage setMessage={setMessage} />}
-        />
+        <Route path="/start-game" element={<LobbyPage />} />
         <Route path="/play-game" element={<GamePage />} />
       </Routes>
     </div>

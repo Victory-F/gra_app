@@ -6,8 +6,14 @@ import { socket } from "../socket/socket";
 const LobbyPage = () => {
   const navigate = useNavigate();
 
-  const isGuide: boolean =
-    localStorage.getItem("player") === localStorage.getItem("token");
+  const game: boolean =
+    localStorage.getItem("token") && localStorage.getItem("player")
+      ? true
+      : false;
+
+  const isGuide: boolean = game
+    ? localStorage.getItem("token") === localStorage.getItem("player")
+    : false;
 
   const [lobby, setLobby] = useState<Lobby>({
     gameId: "",
@@ -17,12 +23,29 @@ const LobbyPage = () => {
   });
 
   useEffect(() => {
-    socket.emit("send-lobby", localStorage.getItem("token"), false);
+    !game && navigate("/");
+    socket.emit(
+      "send-lobby",
+      localStorage.getItem("token"),
+      localStorage.getItem("player"),
+      false
+    );
+
     socket.on("get-lobby", (lobby: Lobby, started: boolean) => {
+      if (
+        !isGuide &&
+        !lobby.travellersNames.find(
+          (t) => t.id === localStorage.getItem("player")
+        )
+      ) {
+        navigate("/");
+      }
       setLobby(lobby);
       started && navigate("/play-game");
     });
-  }, [navigate]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -32,8 +55,29 @@ const LobbyPage = () => {
       <h4>Travellers:</h4>
       {lobby.travellersNames &&
         lobby.travellersNames.length !== 0 &&
-        lobby.travellersNames.map((l: string) => <h2 key={l}>{l}</h2>)}
-      {isGuide && (
+        lobby.travellersNames.map((t) => (
+          <div>
+            <h2 key={t.id}>{t.name}</h2>
+            {isGuide && (
+              <button
+                onClick={() => {
+                  socket.emit("delete-traveller", lobby.gameId, t.id);
+                  socket.emit(
+                    "send-lobby",
+                    localStorage.getItem("token"),
+                    localStorage.getItem("player"),
+                    false
+                  );
+                }}
+              >
+                delete
+              </button>
+            )}
+          </div>
+        ))}
+      {isGuide &&
+      lobby.travellersNames &&
+      lobby.travellersNames.length !== 0 ? (
         <button
           onClick={() => {
             socket.emit("send-lobby", lobby.gameId, true);
@@ -41,6 +85,8 @@ const LobbyPage = () => {
         >
           Let's play!
         </button>
+      ) : (
+        "Wait for players to join"
       )}
     </div>
   );

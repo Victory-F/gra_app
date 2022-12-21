@@ -7,7 +7,14 @@ import { socket } from "../socket/socket";
 const GamePage = () => {
   const gameId: string = localStorage.getItem("token") + "";
   const playerId: string = localStorage.getItem("player") + "";
-  const isGuide: boolean = gameId === playerId;
+  const game: boolean =
+    localStorage.getItem("token") && localStorage.getItem("player")
+      ? true
+      : false;
+
+  const isGuide: boolean = game
+    ? localStorage.getItem("token") === localStorage.getItem("player")
+    : false;
 
   const navigate = useNavigate();
 
@@ -23,6 +30,7 @@ const GamePage = () => {
   const [secretVisible, setSecretVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    !game && navigate("/");
     if (!gameLocation.place) {
       socket.emit("send-game-location", gameId, null, "first");
     } else {
