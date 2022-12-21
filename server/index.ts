@@ -7,11 +7,9 @@ import {
   Game,
   Traveller,
   Place,
-  Encounter,
   TravellerPoints,
   Guide,
   Callback,
-  TravellerIdName,
 } from "../types/gameTypes";
 
 const PORT = process.env.PORT || 4000;
@@ -42,6 +40,7 @@ io.on("connection", (socket: Socket) => {
           places: [],
           travellersPoints: [],
           state: "setup",
+          endGameCases: [],
         };
         games = [...games, newGame];
         callback({
@@ -69,8 +68,7 @@ io.on("connection", (socket: Socket) => {
           games.find(
             (g) =>
               g.id === gameId &&
-              g.state !== "running" &&
-              g.state !== "lobby" &&
+              g.state === "setup" &&
               !g.places.find((p) => p.id === location.id)
           )
         ) {
@@ -103,10 +101,7 @@ io.on("connection", (socket: Socket) => {
         if (
           games.find(
             (g) =>
-              g.id === gameId &&
-              g.state !== "running" &&
-              g.state !== "lobby" &&
-              g.places.length !== 0
+              g.id === gameId && g.state === "setup" && g.places.length !== 0
           )
         ) {
           games = games.map((game) =>
@@ -270,11 +265,7 @@ io.on("connection", (socket: Socket) => {
                 ]
               );
             } else {
-              io.to(gameId).emit("get-game-finish", true);
-              //delete game if finished
-              if (games.find((g) => g.id === gameId)) {
-                games = games.filter((g) => g.id !== gameId);
-              }
+              io.to(gameId).emit("end-game", true);
             }
           }
         }
@@ -309,11 +300,18 @@ io.on("connection", (socket: Socket) => {
         }
 
         socket.join(gameId);
-
-        io.to(gameId).emit(
-          "get-travellers-points",
-          games.find((g) => g.id === gameId)?.travellersPoints
-        );
+        if (
+          !games
+            .find((g) => g.id === gameId)
+            ?.travellersPoints.find((t) => t.points > 0)
+        ) {
+          io.to(gameId).emit("end-game", true);
+        } else {
+          io.to(gameId).emit(
+            "get-travellers-points",
+            games.find((g) => g.id === gameId)?.travellersPoints
+          );
+        }
       } catch (e) {
         console.log(e);
       }

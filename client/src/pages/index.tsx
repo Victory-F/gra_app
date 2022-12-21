@@ -5,3 +5,4 @@ export * from "./CreateLocationPage";
 export * from "./CreateGameNamePage";
 export * from "./LobbyPage";
 export * from "./GamePage";
+export * from "./EndGamePage";

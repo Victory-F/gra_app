@@ -9,6 +9,7 @@ import {
   CreateGameNamePage,
   LobbyPage,
   GamePage,
+  EndGamePage,
 } from "./pages";
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
         />
         <Route path="/start-game" element={<LobbyPage />} />
         <Route path="/play-game" element={<GamePage />} />
+        <Route path="/end-game" element={<EndGamePage />} />
       </Routes>
     </div>
   );

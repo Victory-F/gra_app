@@ -5,7 +5,11 @@ type Reply = {
   success: boolean;
   message: string;
 };
-
+type EndGameCase = {
+  type: "won" | "lost";
+  message: string;
+  imgUrl: string;
+};
 type Game = {
   id: string;
   name: string;
@@ -14,6 +18,7 @@ type Game = {
   places: Place[];
   travellersPoints: TravellerPoints[];
   state: GameState;
+  endGameCases: EndGameCase[];
 };
 
 type TravellerPoints = {

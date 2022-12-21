@@ -56,11 +56,12 @@ const GamePage = () => {
     socket.emit(
       "send-game-location",
       localStorage.getItem("token"),
-      location.id,
+      localStorage.getItem("place"),
       "current"
     );
 
     socket.on("get-game-location", (place: Place) => {
+      localStorage.setItem("place", place.id);
       setLocation(place);
       setSecretVisible(false);
     });
@@ -80,9 +81,8 @@ const GamePage = () => {
           (revealTo === "all" && setSecretVisible(secretVisible));
       }
     );
-    ///MAKE ENDGAME PAGE
-    socket.on("get-game-finish", (finished: boolean) => {
-      finished && navigate("/");
+    socket.on("end-game", (finished: boolean) => {
+      finished && navigate("/end-game");
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
