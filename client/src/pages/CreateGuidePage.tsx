@@ -13,10 +13,6 @@ const CreateGuidePage = ({
       ? true
       : false;
 
-  const isGuide: boolean = game
-    ? localStorage.getItem("token") === localStorage.getItem("player")
-    : false;
-
   const navigate: NavigateFunction = useNavigate();
 
   const [guide, setGuide] = useState<Guide>({
@@ -28,8 +24,7 @@ const CreateGuidePage = ({
   });
 
   useEffect(() => {
-    isGuide && socket.emit("delete-game", localStorage.getItem("token") + "");
-    localStorage.clear();
+    game && navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
