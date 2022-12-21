@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reply, Traveller } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
@@ -8,6 +8,11 @@ const CreateTravellerPage = ({
 }: {
   setMessage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const game: boolean =
+    localStorage.getItem("token") && localStorage.getItem("player")
+      ? true
+      : false;
+
   const navigate = useNavigate();
 
   const [code, setCode] = useState("");
@@ -21,11 +26,15 @@ const CreateTravellerPage = ({
     imgUrl: "",
   });
 
+  useEffect(() => {
+    game && navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket.emit("add-traveller", traveller, code, (response: Reply) => {
       if (response.success) {
-        localStorage.clear();
         localStorage.setItem("token", code);
         localStorage.setItem("player", traveller.id);
         navigate("/start-game");
