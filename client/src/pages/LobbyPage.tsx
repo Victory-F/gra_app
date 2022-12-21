@@ -80,7 +80,12 @@ const LobbyPage = () => {
       lobby.travellersNames.length !== 0 ? (
         <button
           onClick={() => {
-            socket.emit("send-lobby", lobby.gameId, true);
+            socket.emit(
+              "send-lobby",
+              lobby.gameId,
+              localStorage.getItem("player"),
+              true
+            );
           }}
         >
           Let's play!
