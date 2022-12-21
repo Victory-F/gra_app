@@ -32,12 +32,11 @@ type TravellerIdName = {
   name: string;
 };
 
-type GameLocation = {
+type GamePlayers = {
   gameId: string;
   gameName: string;
   guide: Guide | null;
   travellers: Traveller[];
-  place: Place | null;
 };
 
 type Guide = {

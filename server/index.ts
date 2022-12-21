@@ -143,9 +143,11 @@ io.on("connection", (socket: Socket) => {
         ) {
           const travellerPoints: TravellerPoints = {
             plyerId: traveller.id,
-            points: Math.floor(
-              parseInt(games.find((g) => g.id === code)?.places.length + "") / 2
-            ),
+            points:
+              Math.floor(
+                parseInt(games.find((g) => g.id === code)?.places.length + "") /
+                  2
+              ) + 1,
           };
           games = games.map((game) =>
             game.id === code
@@ -219,28 +221,65 @@ io.on("connection", (socket: Socket) => {
   );
 
   //GAME
-  socket.on(
-    "send-game-location",
-    (gameId: string, location: Place, position: string) => {
-      try {
+  socket.on("send-game-players", (gameId: string, playerId: string) => {
+    try {
+      if (
+        games.find(
+          (g) =>
+            g.id === gameId &&
+            (g.travellers.find((t) => t.id === playerId) ||
+              g.guide?.id === playerId)
+        )
+      ) {
         let game = games.find((g) => g.id === gameId);
         socket.join(gameId);
-        io.to(gameId).emit("get-game-location", {
+        io.to(gameId).emit("get-game-players", {
           gameId: gameId,
           gameName: game?.name,
           guide: game?.guide?.name,
           travellers: game?.travellers,
-          place:
-            position && position === "first"
-              ? game?.places[0]
-              : position === "current"
-              ? game?.places[game?.places.map((p) => p.id).indexOf(location.id)]
-              : game?.places[
-                  game?.places.map((p) => p.id).indexOf(location.id) + 1
-                ],
         });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  socket.on(
+    "send-game-location",
+    (gameId: string, locationId: string, position: string) => {
+      try {
+        if (games.find((g) => g.id === gameId)) {
+          socket.join(gameId);
+          let game = games.find((g) => g.id === gameId);
+          if (position === "current") {
+            io.to(gameId).emit(
+              "get-game-location",
+              locationId
+                ? game?.places.find((p) => p.id === locationId)
+                : game?.places[0]
+            );
+          } else if (position === "next") {
+            let lastPlace =
+              game && game.places && game.places[game.places.length - 1];
+            if (lastPlace?.id !== locationId) {
+              io.to(gameId).emit(
+                "get-game-location",
+                game?.places[
+                  game?.places.map((p) => p.id).indexOf(locationId) + 1
+                ]
+              );
+            } else {
+              io.to(gameId).emit("get-game-finish", true);
+              //delete game if finished
+              if (games.find((g) => g.id === gameId)) {
+                games = games.filter((g) => g.id !== gameId);
+              }
+            }
+          }
+        }
       } catch (e) {
-        console.log("here!!!", e);
+        console.log(e);
       }
     }
   );
@@ -280,6 +319,7 @@ io.on("connection", (socket: Socket) => {
       }
     }
   );
+
   socket.on(
     "set-secret-visible",
     (gameId: string, revealTo: string, secretVisible: boolean) => {

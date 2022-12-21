@@ -15,7 +15,9 @@ const TravellerCard = ({
       <h3>{traveller.kind}</h3>
       <p>{traveller.ability}</p>
       <p>{traveller.abilityDescription}</p>
-      <p>{travellerPoints}</p>
+      <p style={travellerPoints === 0 ? { color: "red" } : { color: "black" }}>
+        {travellerPoints}
+      </p>
       {children}
     </div>
   );

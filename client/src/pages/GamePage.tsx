@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GameLocation, TravellerPoints } from "../../../types/gameTypes";
+import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
-  const gameId: string = localStorage.getItem("token") + "";
-  const playerId: string = localStorage.getItem("player") + "";
   const game: boolean =
     localStorage.getItem("token") && localStorage.getItem("player")
       ? true
@@ -18,26 +16,52 @@ const GamePage = () => {
 
   const navigate = useNavigate();
 
-  const [gameLocation, setGameLocation] = useState<GameLocation>({
+  const [gamePlayers, setGamePlayers] = useState<GamePlayers>({
     gameId: "",
     gameName: "",
     guide: null,
     travellers: [],
-    place: null,
   });
+
   const [travellersPoints, setTravellersPoints] = useState<TravellerPoints[]>();
 
+  const [location, setLocation] = useState<Place>({
+    id: "",
+    name: "",
+    imgUrl: "",
+    encounter: {
+      name: "",
+      kind: "",
+      imgUrl: "",
+      description: "",
+      secret: "",
+    },
+  });
+  console.log(location.id);
   const [secretVisible, setSecretVisible] = useState<boolean>(false);
 
   useEffect(() => {
     !game && navigate("/");
-    if (!gameLocation.place) {
-      socket.emit("send-game-location", gameId, null, "first");
-    } else {
-      socket.emit("send-game-location", gameId, null, "current");
-    }
-    socket.on("get-game-location", (gameLocation: GameLocation) => {
-      setGameLocation(gameLocation);
+
+    socket.emit(
+      "send-game-players",
+      localStorage.getItem("token"),
+      localStorage.getItem("player")
+    );
+
+    socket.on("get-game-players", (gamePlayers: GamePlayers) => {
+      setGamePlayers(gamePlayers);
+    });
+
+    socket.emit(
+      "send-game-location",
+      localStorage.getItem("token"),
+      location.id,
+      "current"
+    );
+
+    socket.on("get-game-location", (place: Place) => {
+      setLocation(place);
       setSecretVisible(false);
     });
 
@@ -52,44 +76,44 @@ const GamePage = () => {
     socket.on(
       "get-secret-visible",
       (revealTo: string, secretVisible: boolean) => {
-        playerId === revealTo ||
+        localStorage.getItem("player") === revealTo ||
           (revealTo === "all" && setSecretVisible(secretVisible));
       }
     );
-
+    ///MAKE ENDGAME PAGE
     socket.on("get-game-finish", (finished: boolean) => {
       finished && navigate("/");
     });
-  }, [navigate]);
-  console.log(secretVisible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
       Game Page
       <div>
         <h1>Current Place</h1>
-        {gameLocation.place && gameLocation.place.name}
+        {location && location.name}
       </div>
       <div>
-        {gameLocation &&
-          gameLocation.place &&
-          gameLocation.place.encounter &&
-          gameLocation.place.encounter.name && (
+        {gamePlayers &&
+          location &&
+          location.encounter &&
+          location.encounter.name && (
             <EncounterCard
-              encounter={gameLocation.place.encounter}
+              encounter={location.encounter}
               secretVisible={secretVisible}
             >
               <div>
                 {isGuide &&
-                  gameLocation &&
-                  gameLocation.travellers.map((t) => {
+                  gamePlayers &&
+                  gamePlayers.travellers.map((t) => {
                     return (
                       <div>
                         <button
                           onClick={() => {
                             socket.emit(
                               "set-secret-visible",
-                              gameId,
+                              localStorage.getItem("token"),
                               t.id,
                               true
                             );
@@ -104,7 +128,12 @@ const GamePage = () => {
                   {isGuide && (
                     <button
                       onClick={() => {
-                        socket.emit("set-secret-visible", gameId, "all", true);
+                        socket.emit(
+                          "set-secret-visible",
+                          localStorage.getItem("token"),
+                          "all",
+                          true
+                        );
                       }}
                     >
                       Reveal secret to all!!!
@@ -117,8 +146,8 @@ const GamePage = () => {
       </div>
       {/* Here we can see traveller card */}
       <div>
-        {gameLocation &&
-          gameLocation.travellers.map((t) => (
+        {gamePlayers &&
+          gamePlayers.travellers.map((t) => (
             <TravellerCard
               traveller={t}
               travellerPoints={
@@ -134,7 +163,7 @@ const GamePage = () => {
                     onClick={() => {
                       socket.emit(
                         "send-travellers-points",
-                        gameLocation.gameId,
+                        gamePlayers.gameId,
                         t.id,
                         true,
                         false
@@ -147,7 +176,7 @@ const GamePage = () => {
                     onClick={() => {
                       socket.emit(
                         "send-travellers-points",
-                        gameLocation.gameId,
+                        gamePlayers.gameId,
                         t.id,
                         false,
                         true
@@ -166,13 +195,13 @@ const GamePage = () => {
           onClick={() => {
             socket.emit(
               "send-game-location",
-              gameLocation.gameId,
-              gameLocation.place,
+              localStorage.getItem("token"),
+              location?.id,
               "next"
             );
           }}
         >
-          Next Location
+          Continue
         </button>
       )}
     </div>
