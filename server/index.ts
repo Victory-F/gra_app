@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import http from "http";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -10,6 +10,7 @@ import {
   TravellerPoints,
   Guide,
   Callback,
+  EndGameCase,
 } from "../types/gameTypes";
 
 const PORT = process.env.PORT || 4000;
@@ -81,6 +82,37 @@ io.on("connection", (socket: Socket) => {
             success: true,
             message: "Location addded!",
           });
+        } else {
+          callback({
+            success: false,
+            message: "Ooops, something went wrong",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  );
+
+  //Add EndGame Cases
+  socket.on(
+    "add-endgame-cases",
+    (gameId: string, endGameCases: EndGameCase[], callback: Callback) => {
+      try {
+        if (
+          games.find(
+            (g) =>
+              g.id === gameId && g.state === "setup" && g.places.length !== 0
+          )
+        ) {
+          games = games.map((game) =>
+            game.id === gameId ? { ...game, endGameCases: endGameCases } : game
+          );
+          callback({
+            success: true,
+            message: "Created!",
+          });
+          console.log(games[0].endGameCases.toString());
         } else {
           callback({
             success: false,
@@ -269,6 +301,16 @@ io.on("connection", (socket: Socket) => {
               );
             } else {
               io.to(gameId).emit("end-game", true);
+              games = games.map((g) =>
+                g.id === gameId
+                  ? {
+                      ...g,
+                      endGameCases: g.endGameCases.filter(
+                        (c) => c.type === "won"
+                      ),
+                    }
+                  : g
+              );
             }
           }
         }
@@ -294,7 +336,14 @@ io.on("connection", (socket: Socket) => {
                   ...g,
                   travellersPoints: g.travellersPoints.map((t) =>
                     t.plyerId === playerId
-                      ? { ...t, points: increase ? t.points + 1 : t.points - 1 }
+                      ? {
+                          ...t,
+                          points: increase
+                            ? t.points + 1
+                            : t.points > 0
+                            ? t.points - 1
+                            : 0,
+                        }
                       : t
                   ),
                 }
@@ -309,6 +358,14 @@ io.on("connection", (socket: Socket) => {
             ?.travellersPoints.find((t) => t.points > 0)
         ) {
           io.to(gameId).emit("end-game", true);
+          games = games.map((g) =>
+            g.id === gameId
+              ? {
+                  ...g,
+                  endGameCases: g.endGameCases.filter((c) => c.type === "lost"),
+                }
+              : g
+          );
         } else {
           io.to(gameId).emit(
             "get-travellers-points",
@@ -339,6 +396,8 @@ io.on("connection", (socket: Socket) => {
     }
     console.log(games);
   });
+
+  //delete traveller
   socket.on("delete-traveller", (gameId: string, playerId: string) => {
     try {
       if (games.find((g) => g.id === gameId)) {

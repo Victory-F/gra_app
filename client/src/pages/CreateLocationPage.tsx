@@ -229,7 +229,7 @@ const CreateLocationPage = ({
           >
             Create Next Location
           </button>
-          <button onClick={() => navigate("/create-game-name")}>
+          <button onClick={() => navigate("/create-endgame-cases")}>
             Create the Game
           </button>
         </div>

@@ -47,6 +47,7 @@ const CreateGameNamePage = ({
           placeholder="game name"
           value={gameName}
           onChange={(e) => setGameName(e.target.value)}
+          required
         />
         <br />
         <button type="submit">Play!</button>

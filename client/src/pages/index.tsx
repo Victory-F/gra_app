@@ -2,6 +2,7 @@ export * from "./HomePage";
 export * from "./CreateTravellerPage";
 export * from "./CreateGuidePage";
 export * from "./CreateLocationPage";
+export * from "./CreateEndGameCasesPage";
 export * from "./CreateGameNamePage";
 export * from "./LobbyPage";
 export * from "./GamePage";

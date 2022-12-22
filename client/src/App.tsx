@@ -10,6 +10,7 @@ import {
   LobbyPage,
   GamePage,
   EndGamePage,
+  CreateEndGameCasesPage,
 } from "./pages";
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/create-location"
           element={<CreateLocationPage setMessage={setMessage} />}
+        />
+        <Route
+          path="/create-endgame-cases"
+          element={<CreateEndGameCasesPage setMessage={setMessage} />}
         />
         <Route
           path="/create-traveller"
