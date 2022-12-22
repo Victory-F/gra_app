@@ -402,8 +402,6 @@ io.on("connection", (socket: Socket) => {
           "get-endgame",
           games.find((g) => g.id === gameId)?.endGameCases[0]
         );
-        //delete the game when finished
-        games = games.filter((g) => g.id !== gameId);
       }
     } catch (e) {
       console.log(e);
