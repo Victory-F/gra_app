@@ -1,15 +1,5 @@
 export type GameState = "setup" | "lobby" | "running" | "ended";
 
-type Callback = (response: Reply) => void;
-type Reply = {
-  success: boolean;
-  message: string;
-};
-type EndGameCase = {
-  type: "won" | "lost";
-  message: string;
-  imgUrl: string;
-};
 type Game = {
   id: string;
   name: string;
@@ -19,29 +9,6 @@ type Game = {
   travellersPoints: TravellerPoints[];
   state: GameState;
   endGameCases: EndGameCase[];
-};
-
-type TravellerPoints = {
-  plyerId: string;
-  points: number;
-};
-
-type Lobby = {
-  gameId: string;
-  gameName: string;
-  guideName: string;
-  travellersNames: TravellerIdName[];
-};
-type TravellerIdName = {
-  id: string;
-  name: string;
-};
-
-type GamePlayers = {
-  gameId: string;
-  gameName: string;
-  guide: Guide | null;
-  travellers: Traveller[];
 };
 
 type Guide = {
@@ -76,23 +43,38 @@ type Encounter = {
   secret: string;
 };
 
-// SOCKET.IO TYPES
-interface ServerToClientEvents {
-  noArg: () => void;
-  basicEmit: (a: number, b: string, c: BufferSource) => void;
-  withAck: (d: string, callback: (e: number) => void) => void;
-  getLobby: (lobby: Lobby, start: boolean) => void;
-}
+type Lobby = {
+  gameId: string;
+  gameName: string;
+  guideName: string;
+  travellersNames: TravellerIdName[];
+};
 
-interface ClientToServerEvents {
-  hello: () => void;
-}
-
-interface InterServerEvents {
-  ping: () => void;
-}
-
-interface SocketData {
+type TravellerIdName = {
+  id: string;
   name: string;
-  age: number;
-}
+};
+type GamePlayers = {
+  gameId: string;
+  gameName: string;
+  guide: Guide | null;
+  travellers: Traveller[];
+};
+
+type TravellerPoints = {
+  plyerId: string;
+  points: number;
+};
+
+type EndGameCase = {
+  type: "won" | "lost";
+  message: string;
+  imgUrl: string;
+};
+
+type Callback = (response: Reply) => void;
+
+type Reply = {
+  success: boolean;
+  message: string;
+};
