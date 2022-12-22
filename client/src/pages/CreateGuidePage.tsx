@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Form, Input } from "../styled";
 
 const CreateGuidePage = ({
   setMessage,
@@ -45,8 +46,8 @@ const CreateGuidePage = ({
   return (
     <div>
       <h1>Create Guide</h1>
-      <form onSubmit={submitForm}>
-        <input
+      <Form onSubmit={submitForm}>
+        <Input
           placeholder="name"
           value={guide.name}
           onChange={(e) =>
@@ -61,21 +62,21 @@ const CreateGuidePage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="kind"
           value={guide.kind}
           onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
           required
         />
         <br />
-        <input
+        <Input
           placeholder="description"
           value={guide.description}
           onChange={(e) => setGuide({ ...guide, description: e.target.value })}
           required
         />
         <br />
-        <input
+        <Input
           placeholder="image/gif URL"
           value={guide.imgUrl}
           onChange={(e) => setGuide({ ...guide, imgUrl: e.target.value })}
@@ -83,7 +84,7 @@ const CreateGuidePage = ({
         />
         <br />
         <button type="submit">Ready!</button>
-      </form>
+      </Form>
     </div>
   );
 };

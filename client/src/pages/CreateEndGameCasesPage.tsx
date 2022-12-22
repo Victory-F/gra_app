@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EndGameCase, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Input } from "../styled";
 
 const CreateEndGameCasesPage = ({
   setMessage,
@@ -48,7 +49,7 @@ const CreateEndGameCasesPage = ({
       <h1>Create EndGame Cases</h1>
       <form onSubmit={submitForm}>
         <h2>Win Case</h2>
-        <input
+        <Input
           placeholder="message"
           value={cases[0].message}
           onChange={(e) =>
@@ -61,7 +62,7 @@ const CreateEndGameCasesPage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="imgUrl"
           value={cases[0].imgUrl}
           onChange={(e) =>
@@ -75,7 +76,7 @@ const CreateEndGameCasesPage = ({
         />
         <br />
         <h2>Lose Case</h2>
-        <input
+        <Input
           placeholder="message"
           value={cases[1].message}
           onChange={(e) =>
@@ -88,7 +89,7 @@ const CreateEndGameCasesPage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="imgUrl"
           value={cases[1].imgUrl}
           onChange={(e) =>

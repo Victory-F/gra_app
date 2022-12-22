@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Input } from "../styled";
 
 const CreateGameNamePage = ({
   setMessage,
@@ -43,7 +44,7 @@ const CreateGameNamePage = ({
     <div>
       <h1>Give your game a name</h1>
       <form onSubmit={submitForm}>
-        <input
+        <Input
           placeholder="game name"
           value={gameName}
           onChange={(e) => setGameName(e.target.value)}

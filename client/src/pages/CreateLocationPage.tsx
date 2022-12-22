@@ -2,6 +2,7 @@ import { Place, Reply } from "../../../types/gameTypes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
+import { Input } from "../styled";
 
 const CreateLocationPage = ({
   setMessage,
@@ -63,7 +64,7 @@ const CreateLocationPage = ({
         <form onSubmit={submitForm}>
           <div>
             <h3>Location</h3>
-            <input
+            <Input
               placeholder="name"
               type="text"
               value={location.name}
@@ -79,7 +80,7 @@ const CreateLocationPage = ({
               required
             />
             <br />
-            <input
+            <Input
               placeholder="image/gif URL"
               type="text"
               value={location.imgUrl}
@@ -120,7 +121,7 @@ const CreateLocationPage = ({
 
             {addEncounter ? (
               <div>
-                <input
+                <Input
                   placeholder="name"
                   type="text"
                   value={location.encounter.name}
@@ -136,7 +137,7 @@ const CreateLocationPage = ({
                   required
                 />
                 <br />
-                <input
+                <Input
                   placeholder="kind"
                   type="text"
                   value={location.encounter.kind}
@@ -152,7 +153,7 @@ const CreateLocationPage = ({
                   required
                 />
                 <br />
-                <input
+                <Input
                   placeholder="img/gif URL"
                   type="text"
                   value={location.encounter.imgUrl}
@@ -168,7 +169,7 @@ const CreateLocationPage = ({
                   required
                 />
                 <br />
-                <input
+                <Input
                   placeholder="description"
                   type="text"
                   value={location.encounter.description}
@@ -184,7 +185,7 @@ const CreateLocationPage = ({
                   required
                 />
                 <br />
-                <input
+                <Input
                   placeholder="secret"
                   type="text"
                   value={location.encounter.secret}

@@ -12,6 +12,7 @@ import {
   EndGamePage,
   CreateEndGameCasesPage,
 } from "./pages";
+import styled from "styled-components";
 
 function App() {
   const navigate = useNavigate();
@@ -30,36 +31,64 @@ function App() {
   const [message, setMessage] = useState<string>("");
 
   return (
-    <div className="App">
-      <p>Message:{message}</p>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/create-guide"
-          element={<CreateGuidePage setMessage={setMessage} />}
+    <div>
+      <Logo>GRA</Logo>
+      <Video className="videoTag" autoPlay loop muted>
+        <source
+          src="https://mylivewallpapers.com/wp-content/uploads/Fantasy/PREVIEW-Portal.mp4"
+          type="video/mp4"
         />
-        <Route
-          path="/create-location"
-          element={<CreateLocationPage setMessage={setMessage} />}
-        />
-        <Route
-          path="/create-endgame-cases"
-          element={<CreateEndGameCasesPage setMessage={setMessage} />}
-        />
-        <Route
-          path="/create-traveller"
-          element={<CreateTravellerPage setMessage={setMessage} />}
-        />
-        <Route
-          path="/create-game-name"
-          element={<CreateGameNamePage setMessage={setMessage} />}
-        />
-        <Route path="/start-game" element={<LobbyPage />} />
-        <Route path="/play-game" element={<GamePage />} />
-        <Route path="/end-game" element={<EndGamePage />} />
-      </Routes>
+      </Video>
+      <AppContainer>
+        <p>Message:{message}</p>
+        <br />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/create-guide"
+            element={<CreateGuidePage setMessage={setMessage} />}
+          />
+          <Route
+            path="/create-location"
+            element={<CreateLocationPage setMessage={setMessage} />}
+          />
+          <Route
+            path="/create-endgame-cases"
+            element={<CreateEndGameCasesPage setMessage={setMessage} />}
+          />
+          <Route
+            path="/create-traveller"
+            element={<CreateTravellerPage setMessage={setMessage} />}
+          />
+          <Route
+            path="/create-game-name"
+            element={<CreateGameNamePage setMessage={setMessage} />}
+          />
+          <Route path="/start-game" element={<LobbyPage />} />
+          <Route path="/play-game" element={<GamePage />} />
+          <Route path="/end-game" element={<EndGamePage />} />
+        </Routes>
+      </AppContainer>
     </div>
   );
 }
 
 export default App;
+const AppContainer = styled.div`
+  color: #fff5e7;
+  display: flex;
+  min-width: 100%;
+  min-height: 100%;
+`;
+
+const Video = styled.video`
+  position: fixed;
+  top: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+`;
+const Logo = styled.h1`
+  color: white;
+  font-family: "Amatic SC", cursive;
+`;

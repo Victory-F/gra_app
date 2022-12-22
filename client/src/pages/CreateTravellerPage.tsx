@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reply, Traveller } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Input } from "../styled";
 
 const CreateTravellerPage = ({
   setMessage,
@@ -47,7 +48,7 @@ const CreateTravellerPage = ({
     <div>
       <h1>Create Traveller</h1>
       <form onSubmit={submitForm}>
-        <input
+        <Input
           placeholder="name"
           value={traveller.name}
           onChange={(e) =>
@@ -62,14 +63,14 @@ const CreateTravellerPage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="kind"
           value={traveller.kind}
           onChange={(e) => setTraveller({ ...traveller, kind: e.target.value })}
           required
         />
         <br />
-        <input
+        <Input
           placeholder="ability"
           value={traveller.ability}
           onChange={(e) =>
@@ -78,7 +79,7 @@ const CreateTravellerPage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="ability description"
           value={traveller.abilityDescription}
           onChange={(e) =>
@@ -90,7 +91,7 @@ const CreateTravellerPage = ({
           required
         />
         <br />
-        <input
+        <Input
           placeholder="image/gif URL"
           value={traveller.imgUrl}
           onChange={(e) =>
@@ -101,7 +102,7 @@ const CreateTravellerPage = ({
         <br />
         <h3>Enter the Secret Code</h3>
 
-        <input
+        <Input
           placeholder="code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
