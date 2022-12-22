@@ -1,4 +1,4 @@
-export type GameState = "setup" | "lobby" | "running";
+export type GameState = "setup" | "lobby" | "running" | "ended";
 
 type Callback = (response: Reply) => void;
 type Reply = {

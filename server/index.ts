@@ -273,7 +273,7 @@ io.on("connection", (socket: Socket) => {
       console.log(e);
     }
   });
-
+  //send game place
   socket.on(
     "send-game-location",
     (gameId: string, locationId: string, position: string) => {
@@ -305,6 +305,7 @@ io.on("connection", (socket: Socket) => {
                 g.id === gameId
                   ? {
                       ...g,
+                      state: "ended",
                       endGameCases: g.endGameCases.filter(
                         (c) => c.type === "won"
                       ),
@@ -350,7 +351,6 @@ io.on("connection", (socket: Socket) => {
               : g
           );
         }
-
         socket.join(gameId);
         if (
           !games
@@ -362,6 +362,7 @@ io.on("connection", (socket: Socket) => {
             g.id === gameId
               ? {
                   ...g,
+                  state: "ended",
                   endGameCases: g.endGameCases.filter((c) => c.type === "lost"),
                 }
               : g
@@ -378,23 +379,33 @@ io.on("connection", (socket: Socket) => {
     }
   );
 
+  //secret visible
   socket.on(
     "set-secret-visible",
     (gameId: string, revealTo: string, secretVisible: boolean) => {
-      socket.join(gameId);
-      io.to(gameId).emit("get-secret-visible", revealTo, secretVisible);
+      try {
+        if (games.find((g) => g.id === gameId && g.state === "running")) {
+          socket.join(gameId);
+          io.to(gameId).emit("get-secret-visible", revealTo, secretVisible);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
-  //delete game
-  socket.on("delete-game", (gameId: string, playerId: string) => {
+  //endgame
+  socket.on("set-endgame", (gameId: string) => {
     try {
-      if (games.find((g) => g.id === gameId)) {
-        games = games.filter((g) => g.id !== gameId);
+      if (games.find((g) => g.id === gameId && g.state === "ended")) {
+        socket.join(gameId);
+        io.to(gameId).emit(
+          "get-endgame",
+          games.find((g) => g.id === gameId)?.endGameCases[0]
+        );
       }
     } catch (e) {
       console.log(e);
     }
-    console.log(games);
   });
 
   //delete traveller
@@ -416,6 +427,17 @@ io.on("connection", (socket: Socket) => {
     } catch (e) {
       console.log(e);
     }
+  });
+  //delete game
+  socket.on("delete-game", (gameId: string, playerId: string) => {
+    try {
+      if (games.find((g) => g.id === gameId)) {
+        games = games.filter((g) => g.id !== gameId);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(games);
   });
 });
 
