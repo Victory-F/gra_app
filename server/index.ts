@@ -23,13 +23,12 @@ const io = new Server(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//array to collect all the games
 let games: Game[] = [];
 
 // Every socket.on and socket.emit needs to be wrapped around "io.on('connection, socket)"
 io.on("connection", (socket: Socket) => {
-  console.log("New connection", socket.id);
-
-  //Create guide with an empty Game ID given from a guide
+  //Create guide with a game
   socket.on("create-guide", (guide: Guide, callback: Callback) => {
     try {
       if (!games.find((g) => g.id === guide.id)) {
@@ -57,7 +56,6 @@ io.on("connection", (socket: Socket) => {
     } catch (e) {
       console.log(e);
     }
-    console.log(games);
   });
 
   //Add place to the game
@@ -112,7 +110,6 @@ io.on("connection", (socket: Socket) => {
             success: true,
             message: "Created!",
           });
-          console.log(games[0].endGameCases.toString());
         } else {
           callback({
             success: false,
@@ -163,8 +160,7 @@ io.on("connection", (socket: Socket) => {
           games.find(
             (game) =>
               game.id === code &&
-              game.state !== "running" &&
-              game.state !== "setup" &&
+              game.state === "lobby" &&
               game.travellers.length < 6 &&
               !game.travellers.find((t) => t.id === traveller.id)
           )
@@ -256,6 +252,7 @@ io.on("connection", (socket: Socket) => {
         games.find(
           (g) =>
             g.id === gameId &&
+            g.state === "running" &&
             (g.travellers.find((t) => t.id === playerId) ||
               g.guide?.id === playerId)
         )
@@ -278,8 +275,7 @@ io.on("connection", (socket: Socket) => {
     "send-game-location",
     (gameId: string, locationId: string, position: string) => {
       try {
-        console.log(games);
-        if (games.find((g) => g.id === gameId)) {
+        if (games.find((g) => g.id === gameId && g.state === "running")) {
           socket.join(gameId);
           let game = games.find((g) => g.id === gameId);
           if (position === "current") {
@@ -330,48 +326,52 @@ io.on("connection", (socket: Socket) => {
       decrease: boolean
     ) => {
       try {
-        if (increase || decrease) {
-          games = games.map((g) =>
-            g.id === gameId
-              ? {
-                  ...g,
-                  travellersPoints: g.travellersPoints.map((t) =>
-                    t.plyerId === playerId
-                      ? {
-                          ...t,
-                          points: increase
-                            ? t.points + 1
-                            : t.points > 0
-                            ? t.points - 1
-                            : 0,
-                        }
-                      : t
-                  ),
-                }
-              : g
-          );
-        }
-        socket.join(gameId);
-        if (
-          !games
-            .find((g) => g.id === gameId)
-            ?.travellersPoints.find((t) => t.points > 0)
-        ) {
-          io.to(gameId).emit("end-game", true);
-          games = games.map((g) =>
-            g.id === gameId
-              ? {
-                  ...g,
-                  state: "ended",
-                  endGameCases: g.endGameCases.filter((c) => c.type === "lost"),
-                }
-              : g
-          );
-        } else {
-          io.to(gameId).emit(
-            "get-travellers-points",
-            games.find((g) => g.id === gameId)?.travellersPoints
-          );
+        if (games.find((g) => g.id === gameId && g.state === "running")) {
+          if (increase || decrease) {
+            games = games.map((g) =>
+              g.id === gameId
+                ? {
+                    ...g,
+                    travellersPoints: g.travellersPoints.map((t) =>
+                      t.plyerId === playerId
+                        ? {
+                            ...t,
+                            points: increase
+                              ? t.points + 1
+                              : t.points > 0
+                              ? t.points - 1
+                              : 0,
+                          }
+                        : t
+                    ),
+                  }
+                : g
+            );
+          }
+          socket.join(gameId);
+          if (
+            !games
+              .find((g) => g.id === gameId)
+              ?.travellersPoints.find((t) => t.points > 0)
+          ) {
+            io.to(gameId).emit("end-game", true);
+            games = games.map((g) =>
+              g.id === gameId
+                ? {
+                    ...g,
+                    state: "ended",
+                    endGameCases: g.endGameCases.filter(
+                      (c) => c.type === "lost"
+                    ),
+                  }
+                : g
+            );
+          } else {
+            io.to(gameId).emit(
+              "get-travellers-points",
+              games.find((g) => g.id === gameId)?.travellersPoints
+            );
+          }
         }
       } catch (e) {
         console.log(e);
@@ -402,6 +402,8 @@ io.on("connection", (socket: Socket) => {
           "get-endgame",
           games.find((g) => g.id === gameId)?.endGameCases[0]
         );
+        //delete the game when finished
+        games = games.filter((g) => g.id !== gameId);
       }
     } catch (e) {
       console.log(e);
@@ -428,16 +430,16 @@ io.on("connection", (socket: Socket) => {
       console.log(e);
     }
   });
+
   //delete game
   socket.on("delete-game", (gameId: string, playerId: string) => {
     try {
-      if (games.find((g) => g.id === gameId)) {
+      if (games.find((g) => g.id === gameId && playerId === gameId)) {
         games = games.filter((g) => g.id !== gameId);
       }
     } catch (e) {
       console.log(e);
     }
-    console.log(games);
   });
 });
 

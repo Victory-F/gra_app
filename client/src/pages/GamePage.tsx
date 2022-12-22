@@ -37,7 +37,6 @@ const GamePage = () => {
       secret: "",
     },
   });
-  console.log(location.id);
   const [secretVisible, setSecretVisible] = useState<boolean>(false);
 
   useEffect(() => {

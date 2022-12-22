@@ -15,7 +15,12 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isGuide && socket.emit("delete-game", localStorage.getItem("token") + "");
+    isGuide &&
+      socket.emit(
+        "delete-game",
+        localStorage.getItem("token") + "",
+        localStorage.getItem("player")
+      );
     localStorage.clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
