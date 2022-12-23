@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
@@ -85,110 +86,18 @@ const GamePage = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const GameContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-image: url(${location.imgUrl});
+    min-height: 100vh;
+    min-width: 100vw;
+  `;
+  console.log("I rerender");
   return (
-    <div>
-      Game Page
-      <div>
-        <h1>Current Place</h1>
-        {location && location.name}
-      </div>
-      <div>
-        {gamePlayers &&
-          location &&
-          location.encounter &&
-          location.encounter.name && (
-            <EncounterCard
-              encounter={location.encounter}
-              secretVisible={secretVisible}
-            >
-              <div>
-                {isGuide &&
-                  gamePlayers &&
-                  gamePlayers.travellers.map((t) => {
-                    return (
-                      <div>
-                        <button
-                          onClick={() => {
-                            socket.emit(
-                              "set-secret-visible",
-                              localStorage.getItem("token"),
-                              t.id,
-                              true
-                            );
-                          }}
-                        >
-                          Reveal secret to: {t.name}
-                        </button>
-                      </div>
-                    );
-                  })}
-                <div>
-                  {isGuide && (
-                    <button
-                      onClick={() => {
-                        socket.emit(
-                          "set-secret-visible",
-                          localStorage.getItem("token"),
-                          "all",
-                          true
-                        );
-                      }}
-                    >
-                      Reveal secret to all!!!
-                    </button>
-                  )}
-                </div>
-              </div>
-            </EncounterCard>
-          )}
-      </div>
-      {/* Here we can see traveller card */}
-      <div>
-        {gamePlayers &&
-          gamePlayers.travellers.map((t) => (
-            <TravellerCard
-              traveller={t}
-              travellerPoints={
-                travellersPoints && travellersPoints.length !== 0
-                  ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
-                      .points
-                  : 0
-              }
-            >
-              {isGuide && (
-                <div>
-                  <button
-                    onClick={() => {
-                      socket.emit(
-                        "send-travellers-points",
-                        gamePlayers.gameId,
-                        t.id,
-                        true,
-                        false
-                      );
-                    }}
-                  >
-                    IncreasePoints
-                  </button>
-                  <button
-                    onClick={() => {
-                      socket.emit(
-                        "send-travellers-points",
-                        gamePlayers.gameId,
-                        t.id,
-                        false,
-                        true
-                      );
-                    }}
-                  >
-                    Decrease Points
-                  </button>
-                </div>
-              )}
-            </TravellerCard>
-          ))}
-      </div>
+    <GamePageContainer>
+      <GameName>{gamePlayers && gamePlayers.gameName}</GameName>
+      <PlaceName>{location && location.name}</PlaceName>
       {isGuide && (
         <button
           onClick={() => {
@@ -203,7 +112,97 @@ const GamePage = () => {
           Continue
         </button>
       )}
-    </div>
+      <GameContainer>
+        <TravellersContainer>
+          {gamePlayers &&
+            location &&
+            location.encounter &&
+            location.encounter.name && (
+              <EncounterCard
+                encounter={location.encounter}
+                secretVisible={secretVisible}
+              />
+            )}
+          {/* Here we can see traveller card */}
+          {gamePlayers &&
+            gamePlayers.travellers.map((t) => (
+              <TravellerCard
+                traveller={t}
+                travellerPoints={
+                  travellersPoints && travellersPoints.length !== 0
+                    ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
+                        .points
+                    : 0
+                }
+              >
+                {isGuide && (
+                  <div>
+                    <button
+                      onClick={() => {
+                        socket.emit(
+                          "send-travellers-points",
+                          gamePlayers.gameId,
+                          t.id,
+                          true,
+                          false
+                        );
+                      }}
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => {
+                        socket.emit(
+                          "send-travellers-points",
+                          gamePlayers.gameId,
+                          t.id,
+                          false,
+                          true
+                        );
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      onClick={() => {
+                        socket.emit(
+                          "set-secret-visible",
+                          localStorage.getItem("token"),
+                          t.id,
+                          true
+                        );
+                      }}
+                    >
+                      secret
+                    </button>
+                  </div>
+                )}
+              </TravellerCard>
+            ))}
+        </TravellersContainer>
+      </GameContainer>
+    </GamePageContainer>
   );
 };
 export { GamePage };
+
+const GameName = styled.h1`
+  margin-bottom: 0;
+`;
+const PlaceName = styled.h3`
+  margin-top: 0.3rem;
+`;
+const GamePageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100vh;
+  min-height: 100vh;
+`;
+const TravellersContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+
+  justify-content: space-between;
+  align-items: center;
+`;

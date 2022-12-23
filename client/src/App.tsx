@@ -40,7 +40,6 @@ function App() {
         />
       </Video>
       <AppContainer>
-        <p>Message:{message}</p>
         <br />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -69,6 +68,7 @@ function App() {
           <Route path="/end-game" element={<EndGamePage />} />
         </Routes>
       </AppContainer>
+      <Message>{message}</Message>
     </div>
   );
 }
@@ -77,18 +77,24 @@ export default App;
 const AppContainer = styled.div`
   color: #fff5e7;
   display: flex;
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
 `;
 
 const Video = styled.video`
   position: fixed;
   top: 0;
-  min-width: 100%;
-  min-height: 100%;
-  z-index: -1;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: -3;
 `;
 const Logo = styled.h1`
   color: white;
-  font-family: "Amatic SC", cursive;
+  position: absolute;
+`;
+
+const Message = styled.p`
+  position: fixed;
+  top: 93vh;
+  color: white;
 `;

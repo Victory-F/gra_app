@@ -27,7 +27,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>GAME HomePage</h1>
       <button
         onClick={() => {
           navigate("/create-guide");
