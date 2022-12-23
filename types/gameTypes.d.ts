@@ -3,7 +3,7 @@ export type GameState = "setup" | "lobby" | "running" | "ended";
 type Game = {
   id: string;
   name: string;
-  guide: Guide | null;
+  guide: Guide;
   travellers: Traveller[];
   places: Place[];
   travellersPoints: TravellerPoints[];
@@ -24,7 +24,6 @@ type Traveller = {
   name: string;
   kind: string;
   ability: string;
-  abilityDescription: string;
   imgUrl: string;
 };
 
@@ -57,7 +56,7 @@ type TravellerIdName = {
 type GamePlayers = {
   gameId: string;
   gameName: string;
-  guide: Guide | null;
+  guide: Guide;
   travellers: Traveller[];
 };
 

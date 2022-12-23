@@ -22,6 +22,7 @@ const EncounterCard = ({
     <EncounterContainer>
       <h1>{encounter.name}</h1>
       <p>{encounter.kind}</p>
+      <EncounterImage src={encounter.imgUrl} />
       <p>{encounter.description}</p>
       {secretVisible || isGuide ? (
         <p>Secret: {encounter.secret}</p>
@@ -47,9 +48,17 @@ const EncounterCard = ({
 };
 export { EncounterCard };
 
+const EncounterImage = styled.img`
+  max-width: 50%;
+`;
+
 const EncounterContainer = styled.div`
   display: flex;
-  flex-flow: column wrap;
+  color: black;
+  flex-flow: column;
   align-self: center;
-  order: 5;
+  border: black solid;
+  height: 30vw;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.5);
 `;

@@ -23,7 +23,6 @@ const CreateTravellerPage = ({
     name: "",
     kind: "",
     ability: "",
-    abilityDescription: "",
     imgUrl: "",
   });
 
@@ -75,18 +74,6 @@ const CreateTravellerPage = ({
           value={traveller.ability}
           onChange={(e) =>
             setTraveller({ ...traveller, ability: e.target.value })
-          }
-          required
-        />
-        <br />
-        <Input
-          placeholder="ability description"
-          value={traveller.abilityDescription}
-          onChange={(e) =>
-            setTraveller({
-              ...traveller,
-              abilityDescription: e.target.value,
-            })
           }
           required
         />

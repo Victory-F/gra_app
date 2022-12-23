@@ -34,10 +34,7 @@ function App() {
     <div>
       <Logo>GRA</Logo>
       <Video className="videoTag" autoPlay loop muted>
-        <source
-          src="https://mylivewallpapers.com/wp-content/uploads/Fantasy/PREVIEW-Portal.mp4"
-          type="video/mp4"
-        />
+        <source src="portal.mp4" type="video/mp4" />
       </Video>
       <AppContainer>
         <br />

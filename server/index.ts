@@ -262,7 +262,7 @@ io.on("connection", (socket: Socket) => {
         io.to(gameId).emit("get-game-players", {
           gameId: gameId,
           gameName: game?.name,
-          guide: game?.guide?.name,
+          guide: game?.guide,
           travellers: game?.travellers,
         });
       }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
-import { EncounterCard, TravellerCard } from "../components";
+import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 
 const GamePage = () => {
@@ -20,7 +20,13 @@ const GamePage = () => {
   const [gamePlayers, setGamePlayers] = useState<GamePlayers>({
     gameId: "",
     gameName: "",
-    guide: null,
+    guide: {
+      id: "",
+      name: "",
+      kind: "",
+      description: "",
+      imgUrl: "",
+    },
     travellers: [],
   });
 
@@ -86,100 +92,103 @@ const GamePage = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const GameContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-image: url(${location.imgUrl});
-    min-height: 100vh;
-    min-width: 100vw;
-  `;
+
   console.log("I rerender");
   return (
     <GamePageContainer>
       <GameName>{gamePlayers && gamePlayers.gameName}</GameName>
-      <PlaceName>{location && location.name}</PlaceName>
-      {isGuide && (
-        <button
-          onClick={() => {
-            socket.emit(
-              "send-game-location",
-              localStorage.getItem("token"),
-              location?.id,
-              "next"
-            );
-          }}
-        >
-          Continue
-        </button>
-      )}
-      <GameContainer>
+      <PlaceName>
+        {location && location.name}
+        {isGuide && (
+          <button
+            onClick={() => {
+              socket.emit(
+                "send-game-location",
+                localStorage.getItem("token"),
+                location?.id,
+                "next"
+              );
+            }}
+          >
+            Continue
+          </button>
+        )}
+      </PlaceName>
+
+      <GameContainer style={{ backgroundImage: `url(${location?.imgUrl})` }}>
+        {gamePlayers &&
+          location &&
+          location.encounter &&
+          location.encounter.name && (
+            <EncounterCard
+              encounter={location.encounter}
+              secretVisible={secretVisible}
+            />
+          )}
+
+        {/* Here we can see traveller card */}
         <TravellersContainer>
-          {gamePlayers &&
-            location &&
-            location.encounter &&
-            location.encounter.name && (
-              <EncounterCard
-                encounter={location.encounter}
-                secretVisible={secretVisible}
-              />
-            )}
-          {/* Here we can see traveller card */}
           {gamePlayers &&
             gamePlayers.travellers.map((t) => (
               <TravellerCard
+                key={t.id}
                 traveller={t}
-                travellerPoints={
-                  travellersPoints && travellersPoints.length !== 0
-                    ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
-                        .points
-                    : 0
-                }
-              >
-                {isGuide && (
-                  <div>
-                    <button
-                      onClick={() => {
-                        socket.emit(
-                          "send-travellers-points",
-                          gamePlayers.gameId,
-                          t.id,
-                          true,
-                          false
-                        );
-                      }}
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={() => {
-                        socket.emit(
-                          "send-travellers-points",
-                          gamePlayers.gameId,
-                          t.id,
-                          false,
-                          true
-                        );
-                      }}
-                    >
-                      -
-                    </button>
-                    <button
-                      onClick={() => {
+                secretButton={
+                  <Secret
+                    onClick={() => {
+                      isGuide &&
                         socket.emit(
                           "set-secret-visible",
                           localStorage.getItem("token"),
                           t.id,
                           true
                         );
-                      }}
-                    >
-                      secret
-                    </button>
-                  </div>
+                    }}
+                  >
+                    🔮
+                  </Secret>
+                }
+              >
+                {isGuide && (
+                  <Increase
+                    onClick={() => {
+                      socket.emit(
+                        "send-travellers-points",
+                        gamePlayers.gameId,
+                        t.id,
+                        true,
+                        false
+                      );
+                    }}
+                  >
+                    ✨
+                  </Increase>
+                )}
+                <Points>
+                  {travellersPoints && travellersPoints.length !== 0
+                    ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
+                        .points
+                    : 0}
+                </Points>
+                {isGuide && (
+                  <Decrease
+                    onClick={() => {
+                      socket.emit(
+                        "send-travellers-points",
+                        gamePlayers.gameId,
+                        t.id,
+                        false,
+                        true
+                      );
+                    }}
+                  >
+                    🪄
+                  </Decrease>
                 )}
               </TravellerCard>
             ))}
         </TravellersContainer>
+        <GuideCard guide={gamePlayers.guide} />
       </GameContainer>
     </GamePageContainer>
   );
@@ -196,13 +205,55 @@ const GamePageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 100vh;
-  min-height: 100vh;
 `;
 const TravellersContainer = styled.div`
+  position: absolute;
+  top: 6.6rem;
   display: flex;
-  flex-flow: row wrap;
-
-  justify-content: space-between;
+  column-gap: 47vw;
+  flex-wrap: wrap;
+  justify-content: space-around;
   align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+const Secret = styled.button`
+  width: 20%;
+  padding: 0;
+  border: none;
+  background: none;
+  color: pink;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const Increase = styled.button`
+  width: 15%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0;
+`;
+
+const Decrease = styled.button`
+  width: 15%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0;
+`;
+const Points = styled.h3`
+  margin: 0;
+  font-size: 1.5rem;
+`;
+const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-size: cover;
+  min-height: 100vh;
+  min-width: 100vw;
 `;
