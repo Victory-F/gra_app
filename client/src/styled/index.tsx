@@ -4,3 +4,6 @@ export * from "./Name";
 export * from "./Kind";
 export * from "./NameKind";
 export * from "./Secret";
+export * from "./CharacterContainer.tsx";
+export * from "./CharacterImage";
+export * from "./Description";

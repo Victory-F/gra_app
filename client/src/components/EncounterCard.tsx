@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Kind, Name, NameKind } from "../styled";
+import { Kind, Name, NameKind, Secret } from "../styled";
 
 const EncounterCard = ({
   encounter,
@@ -33,7 +33,7 @@ const EncounterCard = ({
         <p>SPARKLEEESSSS!</p>
       )}
       {isGuide && (
-        <button
+        <Secret
           onClick={() => {
             socket.emit(
               "set-secret-visible",
@@ -43,8 +43,8 @@ const EncounterCard = ({
             );
           }}
         >
-          Reveal secret to all!!!
-        </button>
+          🧿
+        </Secret>
       )}
     </EncounterContainer>
   );

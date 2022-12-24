@@ -210,6 +210,7 @@ const GamePageContainer = styled.div`
 const TravellersContainer = styled.div`
   position: absolute;
   top: 6.6rem;
+  right: 30rem;
   display: flex;
   column-gap: 47vw;
   flex-wrap: wrap;
@@ -244,6 +245,7 @@ const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   background-size: cover;
   min-height: 100vh;
   min-width: 100vw;

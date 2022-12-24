@@ -1,21 +1,24 @@
 import styled from "styled-components";
 import { Guide } from "../../../types/gameTypes";
-import { Kind, Name, NameKind } from "../styled";
+import {
+  CharacterContainer,
+  Kind,
+  Name,
+  NameKind,
+  CharacterImage,
+  Description,
+} from "../styled";
 
 const GuideCard = ({ guide }: { guide: Guide }) => {
   return (
-    <GuideContainer>
+    <CharacterContainer style={{ borderRadius: "10%" }}>
       <NameKind>
         <Name>{guide.name}</Name>
         <Kind>{guide.kind}</Kind>
       </NameKind>
-      <GuideImage src={guide.imgUrl} />
-      <GuideDescription>{guide.description}</GuideDescription>
-    </GuideContainer>
+      <CharacterImage src={guide.imgUrl} />
+      <Description>{guide.description}</Description>
+    </CharacterContainer>
   );
 };
 export { GuideCard };
-
-const GuideContainer = styled.div``;
-const GuideImage = styled.img``;
-const GuideDescription = styled.p``;
