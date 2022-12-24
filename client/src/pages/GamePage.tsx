@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
+import { Secret } from "../styled";
 
 const GamePage = () => {
   const game: boolean =
@@ -216,16 +217,6 @@ const TravellersContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-`;
-const Secret = styled.button`
-  width: 20%;
-  padding: 0;
-  border: none;
-  background: none;
-  color: pink;
-  cursor: pointer;
-  font-size: 1.5rem;
-  font-weight: bold;
 `;
 
 const Increase = styled.button`

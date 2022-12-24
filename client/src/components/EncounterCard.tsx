@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Kind, Name, NameKind } from "../styled";
 
 const EncounterCard = ({
   encounter,
@@ -20,10 +21,12 @@ const EncounterCard = ({
 
   return (
     <EncounterContainer>
-      <h1>{encounter.name}</h1>
-      <p>{encounter.kind}</p>
+      <NameKind>
+        <Name>{encounter.name}</Name>
+        <Kind>{encounter.kind}</Kind>
+      </NameKind>
       <EncounterImage src={encounter.imgUrl} />
-      <p>{encounter.description}</p>
+      <Description>{encounter.description}</Description>
       {secretVisible || isGuide ? (
         <p>Secret: {encounter.secret}</p>
       ) : (
@@ -62,3 +65,5 @@ const EncounterContainer = styled.div`
   width: 30%;
   background: rgba(255, 255, 255, 0.5);
 `;
+
+const Description = styled.p``;
