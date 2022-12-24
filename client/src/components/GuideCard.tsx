@@ -1,13 +1,21 @@
+import styled from "styled-components";
 import { Guide } from "../../../types/gameTypes";
+import { Kind, Name, NameKind } from "../styled";
 
 const GuideCard = ({ guide }: { guide: Guide }) => {
   return (
-    <div>
-      <h3>{guide.name}</h3>
-      <p>{guide.kind}</p>
-      <img src={guide.imgUrl} />
-      <p>{guide.description}</p>
-    </div>
+    <GuideContainer>
+      <NameKind>
+        <Name>{guide.name}</Name>
+        <Kind>{guide.kind}</Kind>
+      </NameKind>
+      <GuideImage src={guide.imgUrl} />
+      <GuideDescription>{guide.description}</GuideDescription>
+    </GuideContainer>
   );
 };
 export { GuideCard };
+
+const GuideContainer = styled.div``;
+const GuideImage = styled.img``;
+const GuideDescription = styled.p``;
