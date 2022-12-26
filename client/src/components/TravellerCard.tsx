@@ -11,12 +11,10 @@ import {
 
 const TravellerCard = ({
   traveller,
-
   secretButton,
   children,
 }: {
   traveller: Traveller;
-
   secretButton: React.ReactNode;
   children: React.ReactNode;
 }) => {
@@ -51,6 +49,4 @@ const MiddleWrapper = styled.div`
   justify-content: center;
   gap: 5%;
   align-items: center;
-  height: 70%;
-  width: 100%;
 `;

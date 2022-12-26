@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Kind, Name, NameKind, Secret } from "../styled";
+import {
+  CharacterContainer,
+  CharacterImage,
+  Description,
+  Kind,
+  Name,
+  NameKind,
+  Secret,
+} from "../styled";
 
 const EncounterCard = ({
   encounter,
@@ -28,7 +36,7 @@ const EncounterCard = ({
       <EncounterImage src={encounter.imgUrl} />
       <Description>{encounter.description}</Description>
       {secretVisible || isGuide ? (
-        <p>Secret: {encounter.secret}</p>
+        <Description>Secret: {encounter.secret}</Description>
       ) : (
         <p>SPARKLEEESSSS!</p>
       )}
@@ -52,18 +60,10 @@ const EncounterCard = ({
 export { EncounterCard };
 
 const EncounterImage = styled.img`
-  max-width: 50%;
+  max-height: 50%;
 `;
-
-const EncounterContainer = styled.div`
-  display: flex;
-  color: black;
-  flex-flow: column;
-  align-self: center;
-  border: black solid;
-  height: 30vw;
-  width: 30%;
-  background: rgba(255, 255, 255, 0.5);
+const EncounterContainer = styled(CharacterContainer)`
+  height: 25vw;
+  width: 20vw;
+  border-radius: 0;
 `;
-
-const Description = styled.p``;

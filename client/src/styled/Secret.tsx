@@ -4,9 +4,7 @@ const Secret = styled.button`
   padding: 0;
   border: none;
   background: none;
-  color: pink;
   cursor: pointer;
   font-size: 1.5rem;
-  font-weight: bold;
 `;
 export { Secret };

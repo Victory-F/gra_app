@@ -198,9 +198,11 @@ export { GamePage };
 
 const GameName = styled.h1`
   margin-bottom: 0;
+  margin-top: 0.5vw;
 `;
 const PlaceName = styled.h3`
-  margin-top: 0.3rem;
+  margin-top: 0.3vw;
+  margin-bottom: 0.2vw;
 `;
 const GamePageContainer = styled.div`
   display: flex;
@@ -209,15 +211,15 @@ const GamePageContainer = styled.div`
 `;
 const TravellersContainer = styled.div`
   position: absolute;
-  top: 6.6rem;
-  right: 30rem;
-  display: flex;
-  column-gap: 47vw;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
   width: 100%;
   height: 100%;
+  top: 10rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: flex-start;
+  column-gap: 50%;
 `;
 
 const Increase = styled.button`
@@ -225,7 +227,7 @@ const Increase = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.3vw;
   padding: 0;
 `;
 
@@ -234,17 +236,17 @@ const Decrease = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.3vw;
   padding: 0;
 `;
 const Points = styled.h3`
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.5vw;
 `;
 const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   background-size: cover;
   min-height: 100vh;
