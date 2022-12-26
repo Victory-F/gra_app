@@ -45,7 +45,7 @@ const CreateGameNamePage = ({
       <Title>Create Game Name</Title>
       <Input
         placeholder="name"
-        maxLength={50}
+        maxLength={30}
         value={gameName}
         onChange={(e) => setGameName(e.target.value)}
         required

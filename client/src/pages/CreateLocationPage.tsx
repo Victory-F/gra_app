@@ -126,7 +126,7 @@ const CreateLocationPage = ({
             >
               <Input
                 placeholder="name"
-                maxLength={20}
+                maxLength={15}
                 type="text"
                 value={location.encounter.name}
                 onChange={(e) =>
@@ -142,7 +142,7 @@ const CreateLocationPage = ({
               />
               <Input
                 placeholder="kind"
-                maxLength={25}
+                maxLength={20}
                 type="text"
                 value={location.encounter.kind}
                 onChange={(e) =>
@@ -189,7 +189,7 @@ const CreateLocationPage = ({
               />
               <Input
                 placeholder="secret"
-                maxLength={100}
+                maxLength={70}
                 type="text"
                 value={location.encounter.secret}
                 onChange={(e) =>

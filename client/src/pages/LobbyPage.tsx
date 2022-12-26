@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { Button, Title } from "../styled";
 
 const LobbyPage = () => {
   const navigate = useNavigate();
@@ -49,9 +50,9 @@ const LobbyPage = () => {
 
   return (
     <div>
-      <h1>Name of The Game: {lobby.gameName && lobby.gameName}</h1>
-      <h2>Code: {lobby.gameId && lobby.gameId}</h2>
-      <h3>Guide: {lobby.guideName && lobby.guideName}</h3>
+      <Title>{lobby.gameName && lobby.gameName}</Title>
+      <Title>Code: {lobby.gameId && lobby.gameId}</Title>
+      <Title>Guide: {lobby.guideName && lobby.guideName}</Title>
       <h4>Travellers:</h4>
       {lobby.travellersNames &&
         lobby.travellersNames.length !== 0 &&
@@ -59,7 +60,7 @@ const LobbyPage = () => {
           <div>
             <h2 key={t.id}>{t.name}</h2>
             {isGuide && (
-              <button
+              <Button
                 onClick={() => {
                   socket.emit("delete-traveller", lobby.gameId, t.id);
                   socket.emit(
@@ -71,14 +72,14 @@ const LobbyPage = () => {
                 }}
               >
                 delete
-              </button>
+              </Button>
             )}
           </div>
         ))}
       {isGuide &&
       lobby.travellersNames &&
       lobby.travellersNames.length !== 0 ? (
-        <button
+        <Button
           onClick={() => {
             socket.emit(
               "send-lobby",
@@ -89,7 +90,7 @@ const LobbyPage = () => {
           }}
         >
           Let's play!
-        </button>
+        </Button>
       ) : (
         "Wait for players to join"
       )}
