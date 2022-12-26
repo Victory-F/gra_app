@@ -34,12 +34,24 @@ const HomePage = () => {
           navigate("/create-guide");
         }}
       >
-        Create
+        CREATE
       </Button>
-      <Button onClick={() => navigate("/create-traveller")}>Join</Button>
+      <Button
+        style={{ marginLeft: "30vw" }}
+        onClick={() => navigate("/create-traveller")}
+      >
+        JOIN
+      </Button>
     </ButtonsWrapper>
   );
 };
 export { HomePage };
 
-const ButtonsWrapper = styled.div``;
+const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5vw;
+  align-items: self-start;
+  margin-top: 10vw;
+  margin-left: 12vw;
+`;
