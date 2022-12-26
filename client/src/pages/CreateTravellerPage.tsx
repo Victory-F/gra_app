@@ -48,6 +48,7 @@ const CreateTravellerPage = ({
       <Title>Create Traveller</Title>
       <Input
         placeholder="name"
+        maxLength={12}
         value={traveller.name}
         onChange={(e) =>
           setTraveller({
@@ -62,12 +63,14 @@ const CreateTravellerPage = ({
       />
       <Input
         placeholder="kind"
+        maxLength={15}
         value={traveller.kind}
         onChange={(e) => setTraveller({ ...traveller, kind: e.target.value })}
         required
       />
       <Input
         placeholder="ability"
+        maxLength={15}
         value={traveller.ability}
         onChange={(e) =>
           setTraveller({ ...traveller, ability: e.target.value })
@@ -82,6 +85,7 @@ const CreateTravellerPage = ({
       />
       <Input
         placeholder="code"
+        maxLength={6}
         value={code}
         onChange={(e) => setCode(e.target.value)}
         required

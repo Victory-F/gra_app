@@ -48,6 +48,7 @@ const CreateGuidePage = ({
       <Title>Create Guide</Title>
       <Input
         placeholder="name"
+        maxLength={12}
         value={guide.name}
         onChange={(e) =>
           setGuide({
@@ -62,12 +63,14 @@ const CreateGuidePage = ({
       />
       <Input
         placeholder="kind"
+        maxLength={15}
         value={guide.kind}
         onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
         required
       />
       <Input
         placeholder="description"
+        maxLength={30}
         value={guide.description}
         onChange={(e) => setGuide({ ...guide, description: e.target.value })}
         required

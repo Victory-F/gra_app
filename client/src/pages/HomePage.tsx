@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { socket } from "../socket/socket";
-import { Button } from "../styled";
+import { Button, ButtonsWrapper } from "../styled";
 
 const HomePage = () => {
   const game: boolean =
@@ -36,22 +36,8 @@ const HomePage = () => {
       >
         CREATE
       </Button>
-      <Button
-        style={{ marginLeft: "30vw" }}
-        onClick={() => navigate("/create-traveller")}
-      >
-        JOIN
-      </Button>
+      <Button onClick={() => navigate("/create-traveller")}>JOIN</Button>
     </ButtonsWrapper>
   );
 };
 export { HomePage };
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5vw;
-  align-items: self-start;
-  margin-top: 10vw;
-  margin-left: 12vw;
-`;

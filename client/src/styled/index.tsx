@@ -10,3 +10,4 @@ export * from "./Description";
 export * from "./Button";
 export * from "./Title";
 export * from "./Text";
+export * from "./ButtonsWrapper";
