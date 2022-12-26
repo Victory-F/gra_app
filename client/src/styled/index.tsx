@@ -8,3 +8,5 @@ export * from "./CharacterContainer.tsx";
 export * from "./CharacterImage";
 export * from "./Description";
 export * from "./Button";
+export * from "./Title";
+export * from "./Text";

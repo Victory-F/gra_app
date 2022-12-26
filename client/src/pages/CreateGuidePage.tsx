@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Form, Input } from "../styled";
+import { Button, Form, Input, Title } from "../styled";
 
 const CreateGuidePage = ({
   setMessage,
@@ -44,48 +44,42 @@ const CreateGuidePage = ({
   };
 
   return (
-    <div>
-      <h1>Create Guide</h1>
-      <Form onSubmit={submitForm}>
-        <Input
-          placeholder="name"
-          value={guide.name}
-          onChange={(e) =>
-            setGuide({
-              ...guide,
-              id:
-                (Math.random() * 1000).toString().slice(0, 3) +
-                socket.id.toString().slice(0, 3),
-              name: e.target.value,
-            })
-          }
-          required
-        />
-        <br />
-        <Input
-          placeholder="kind"
-          value={guide.kind}
-          onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
-          required
-        />
-        <br />
-        <Input
-          placeholder="description"
-          value={guide.description}
-          onChange={(e) => setGuide({ ...guide, description: e.target.value })}
-          required
-        />
-        <br />
-        <Input
-          placeholder="image/gif URL"
-          value={guide.imgUrl}
-          onChange={(e) => setGuide({ ...guide, imgUrl: e.target.value })}
-          required
-        />
-        <br />
-        <button type="submit">Ready!</button>
-      </Form>
-    </div>
+    <Form onSubmit={submitForm}>
+      <Title>Create Guide</Title>
+      <Input
+        placeholder="name"
+        value={guide.name}
+        onChange={(e) =>
+          setGuide({
+            ...guide,
+            id:
+              (Math.random() * 1000).toString().slice(0, 3) +
+              socket.id.toString().slice(0, 3),
+            name: e.target.value,
+          })
+        }
+        required
+      />
+      <Input
+        placeholder="kind"
+        value={guide.kind}
+        onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
+        required
+      />
+      <Input
+        placeholder="description"
+        value={guide.description}
+        onChange={(e) => setGuide({ ...guide, description: e.target.value })}
+        required
+      />
+      <Input
+        placeholder="image URL"
+        value={guide.imgUrl}
+        onChange={(e) => setGuide({ ...guide, imgUrl: e.target.value })}
+        required
+      />
+      <Button type="submit">CREATE</Button>
+    </Form>
   );
 };
 export { CreateGuidePage };

@@ -1,15 +1,18 @@
 import styled from "styled-components";
 export const Input = styled.input`
-  height: 50px;
-  width: 250px;
-  padding: 1px;
-  margin: 10px;
+  height: 3vw;
+  width: 20vw;
+  padding: 0.7vw;
+  margin: 1vw;
   background: none;
   border: none;
-  border-bottom: solid;
-  font-size: 21px;
-  color: white;
+  font-size: 1.5vw;
+  color: #ffffe7;
+  border-bottom: 0.1vw solid #fff;
+  box-shadow: 0 1.3vw 1vw -1vw #d9555f;
+  &:hover,
   &:focus {
     outline: none;
+    box-shadow: 0 1.5vw 1vw -1vw #d9555f;
   }
 `;
