@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { socket } from "../socket/socket";
+import { Button } from "../styled";
 
 const HomePage = () => {
   const game: boolean =
@@ -26,19 +28,18 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
-      <button
+    <ButtonsWrapper>
+      <Button
         onClick={() => {
           navigate("/create-guide");
         }}
       >
-        Create a Game
-      </button>
-      <br />
-      <div>
-        <button onClick={() => navigate("/create-traveller")}>Join game</button>
-      </div>
-    </div>
+        Create
+      </Button>
+      <Button onClick={() => navigate("/create-traveller")}>Join</Button>
+    </ButtonsWrapper>
   );
 };
 export { HomePage };
+
+const ButtonsWrapper = styled.div``;
