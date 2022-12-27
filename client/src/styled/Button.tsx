@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 
 const Button = styled.button`
   font-size: 1.5vw;

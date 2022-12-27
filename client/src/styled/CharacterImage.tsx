@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 
 const CharacterImage = styled.img`
   max-width: 11vw;

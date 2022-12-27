@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 const Secret = styled.button`
   padding: 0;
   border: none;
