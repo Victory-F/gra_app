@@ -12,7 +12,7 @@ import {
   EndGamePage,
   CreateEndGameCasesPage,
 } from "./pages";
-const styled = require("styled-components");
+import styled from "styled-components";
 
 function App() {
   const navigate = useNavigate();
