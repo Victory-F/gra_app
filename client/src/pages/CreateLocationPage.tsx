@@ -67,13 +67,13 @@ const CreateLocationPage = ({
             maxLength={50}
             type="text"
             value={location.name}
-            onChange={(e) =>
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
               setLocation({
                 ...location,
                 id:
-                  e.target.value.charAt(0) +
+                  e.currentTarget.value.charAt(0) +
                   Math.random().toString().slice(3, 6),
-                name: e.target.value,
+                name: e.currentTarget.value,
               })
             }
             required
@@ -82,8 +82,8 @@ const CreateLocationPage = ({
             placeholder="background image URL"
             type="text"
             value={location.imgUrl}
-            onChange={(e) =>
-              setLocation({ ...location, imgUrl: e.target.value })
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setLocation({ ...location, imgUrl: e.currentTarget.value })
             }
             required
           />
@@ -129,12 +129,12 @@ const CreateLocationPage = ({
                 maxLength={15}
                 type="text"
                 value={location.encounter.name}
-                onChange={(e) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   setLocation({
                     ...location,
                     encounter: {
                       ...location.encounter,
-                      name: e.target.value,
+                      name: e.currentTarget.value,
                     },
                   })
                 }
@@ -145,12 +145,12 @@ const CreateLocationPage = ({
                 maxLength={20}
                 type="text"
                 value={location.encounter.kind}
-                onChange={(e) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   setLocation({
                     ...location,
                     encounter: {
                       ...location.encounter,
-                      kind: e.target.value,
+                      kind: e.currentTarget.value,
                     },
                   })
                 }
@@ -160,12 +160,12 @@ const CreateLocationPage = ({
                 placeholder="image URL"
                 type="text"
                 value={location.encounter.imgUrl}
-                onChange={(e) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   setLocation({
                     ...location,
                     encounter: {
                       ...location.encounter,
-                      imgUrl: e.target.value,
+                      imgUrl: e.currentTarget.value,
                     },
                   })
                 }
@@ -176,12 +176,12 @@ const CreateLocationPage = ({
                 maxLength={70}
                 type="text"
                 value={location.encounter.description}
-                onChange={(e) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   setLocation({
                     ...location,
                     encounter: {
                       ...location.encounter,
-                      description: e.target.value,
+                      description: e.currentTarget.value,
                     },
                   })
                 }
@@ -192,12 +192,12 @@ const CreateLocationPage = ({
                 maxLength={100}
                 type="text"
                 value={location.encounter.secret}
-                onChange={(e) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   setLocation({
                     ...location,
                     encounter: {
                       ...location.encounter,
-                      secret: e.target.value,
+                      secret: e.currentTarget.value,
                     },
                   })
                 }

@@ -50,13 +50,13 @@ const CreateGuidePage = ({
         placeholder="name"
         maxLength={12}
         value={guide.name}
-        onChange={(e) =>
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setGuide({
             ...guide,
             id:
               (Math.random() * 1000).toString().slice(0, 3) +
               socket.id.toString().slice(0, 3),
-            name: e.target.value,
+            name: e.currentTarget.value,
           })
         }
         required
@@ -65,20 +65,26 @@ const CreateGuidePage = ({
         placeholder="kind"
         maxLength={15}
         value={guide.kind}
-        onChange={(e) => setGuide({ ...guide, kind: e.target.value })}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setGuide({ ...guide, kind: e.currentTarget.value })
+        }
         required
       />
       <Input
         placeholder="description"
         maxLength={30}
         value={guide.description}
-        onChange={(e) => setGuide({ ...guide, description: e.target.value })}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setGuide({ ...guide, description: e.currentTarget.value })
+        }
         required
       />
       <Input
         placeholder="image URL"
         value={guide.imgUrl}
-        onChange={(e) => setGuide({ ...guide, imgUrl: e.target.value })}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setGuide({ ...guide, imgUrl: e.currentTarget.value })
+        }
         required
       />
       <Button type="submit">CREATE</Button>
