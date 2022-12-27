@@ -9,7 +9,7 @@ import {
   Guide,
   Callback,
   EndGameCase,
-} from "./types/gameTypes";
+} from "../types/gameTypes";
 
 const express = require("express");
 const bodyParser = require("body-parser");

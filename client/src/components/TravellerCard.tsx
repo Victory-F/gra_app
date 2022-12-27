@@ -1,4 +1,4 @@
-import { Traveller } from "../../types/gameTypes";
+import { Traveller } from "../../../types/gameTypes";
 import {
   CharacterContainer,
   Kind,

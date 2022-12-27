@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lobby } from "../../types/gameTypes";
+import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { Button, Name, Text, Title } from "../styled";
 import styled from "styled-components";

@@ -1,4 +1,4 @@
-import { Guide } from "../../types/gameTypes";
+import { Guide } from "../../../types/gameTypes";
 import {
   CharacterContainer,
   Kind,

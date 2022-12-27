@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { EndGameCase } from "../../types/gameTypes";
+import { EndGameCase } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { BlueLightText } from "../styled";
 

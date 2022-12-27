@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { Guide, Reply } from "../../types/gameTypes";
+import { Guide, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { Button, Form, Input, Title } from "../styled";
 

@@ -1,4 +1,4 @@
-import { Encounter } from "../../types/gameTypes";
+import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import {
   BlueLightText,

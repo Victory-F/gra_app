@@ -1,4 +1,4 @@
-import { Place, Reply } from "../../types/gameTypes";
+import { Place, Reply } from "../../../types/gameTypes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
