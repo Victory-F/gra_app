@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
+import { GamePlayers, Place, TravellerPoints } from "../../types/gameTypes";
 import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 import { BlueLightText, Button, NameKind, Secret } from "../styled";
