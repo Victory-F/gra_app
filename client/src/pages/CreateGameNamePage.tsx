@@ -47,7 +47,9 @@ const CreateGameNamePage = ({
         placeholder="name"
         maxLength={30}
         value={gameName}
-        onChange={(e) => setGameName(e.target.value)}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setGameName(e.currentTarget.value)
+        }
         required
       />
       <Button type="submit">Play!</Button>

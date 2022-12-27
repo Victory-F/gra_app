@@ -50,13 +50,13 @@ const CreateTravellerPage = ({
         placeholder="name"
         maxLength={12}
         value={traveller.name}
-        onChange={(e) =>
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setTraveller({
             ...traveller,
             id:
               socket.id.toString().slice(0, 3) +
               (Math.random() * 1000).toString().slice(0, 3),
-            name: e.target.value,
+            name: e.currentTarget.value,
           })
         }
         required
@@ -65,29 +65,35 @@ const CreateTravellerPage = ({
         placeholder="kind"
         maxLength={15}
         value={traveller.kind}
-        onChange={(e) => setTraveller({ ...traveller, kind: e.target.value })}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setTraveller({ ...traveller, kind: e.currentTarget.value })
+        }
         required
       />
       <Input
         placeholder="ability"
         maxLength={15}
         value={traveller.ability}
-        onChange={(e) =>
-          setTraveller({ ...traveller, ability: e.target.value })
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setTraveller({ ...traveller, ability: e.currentTarget.value })
         }
         required
       />
       <Input
         placeholder="image URL"
         value={traveller.imgUrl}
-        onChange={(e) => setTraveller({ ...traveller, imgUrl: e.target.value })}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setTraveller({ ...traveller, imgUrl: e.currentTarget.value })
+        }
         required
       />
       <Input
         placeholder="code"
         maxLength={6}
         value={code}
-        onChange={(e) => setCode(e.target.value)}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setCode(e.currentTarget.value)
+        }
         required
       />
       <Text>Enter the Secret Code</Text>
