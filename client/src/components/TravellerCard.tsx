@@ -39,14 +39,16 @@ export { TravellerCard };
 const Stats = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  width: 20%;
+  gap: 0.5vw;
+  min-width: 1.9vw;
 `;
 
 const MiddleWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 5%;
+  justify-content: space-between;
   align-items: center;
+  gap: 1vw;
+  min-width: 15vw;
 `;

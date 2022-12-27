@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { EndGameCase } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
+import { BlueLightText } from "../styled";
 
 const EndGamePage = () => {
   const navigate = useNavigate();
@@ -28,6 +30,31 @@ const EndGamePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <h1>{endGameCase.message}!</h1>;
+  return (
+    <EndGamePageContainer
+      style={{ backgroundImage: `url(${endGameCase.imgUrl})` }}
+    >
+      <TextContainer>
+        <BlueLightText>{endGameCase.message}</BlueLightText>
+      </TextContainer>
+    </EndGamePageContainer>
+  );
 };
 export { EndGamePage };
+
+const EndGamePageContainer = styled.div`
+  margin-top: 5.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  min-height: 100vh;
+  min-width: 100vw;
+`;
+const TextContainer = styled.div`
+  background: rgba(0, 0, 0, 0.7);
+  width: 50vw;
+  padding: 5vw;
+  text-align: center;
+`;

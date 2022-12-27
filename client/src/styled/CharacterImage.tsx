@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 const CharacterImage = styled.img`
-  max-width: 65%;
-  max-height: 130%;
-  align-self: center;
+  max-width: 11vw;
+  max-height: 9.5vw;
 `;
 export { CharacterImage };

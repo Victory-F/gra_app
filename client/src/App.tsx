@@ -13,7 +13,6 @@ import {
   CreateEndGameCasesPage,
 } from "./pages";
 import styled from "styled-components";
-import { Title } from "./styled";
 
 function App() {
   const navigate = useNavigate();
@@ -33,7 +32,13 @@ function App() {
 
   return (
     <div>
-      <Logo>GRA</Logo>
+      <Logo
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        GRA
+      </Logo>
       <Video className="videoTag" autoPlay loop muted>
         <source src="portal.mp4" type="video/mp4" />
       </Video>
@@ -77,6 +82,7 @@ const AppContainer = styled.div`
   display: flex;
   min-width: 100vw;
   min-height: 100vh;
+  color: white;
 `;
 
 const Video = styled.video`
@@ -86,11 +92,18 @@ const Video = styled.video`
   min-height: 100vh;
   z-index: -3;
 `;
-const Logo = styled(Title)`
+const Logo = styled.button`
+  background: none;
+  border: none;
+  color: white;
   position: absolute;
   font-size: 3vw;
   padding: 1vw;
-  text-shadow: 0 0 0.8vw #6456b7, 0 0 1vw #6456b7, 0 0 1.3vw #6456b7;
+  text-shadow: 0 0 0.8vw #4f86f7, 0 0 1vw #4f86f7, 0 0 1.3vw #4f86f7;
+  cursor: pointer;
+  &:hover {
+    text-shadow: 0 0 0.8vw #ffd12a, 0 0 1vw #ffd12a, 0 0 1.3vw #ffd12a;
+  }
 `;
 
 const Message = styled.p`

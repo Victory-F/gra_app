@@ -1,19 +1,18 @@
-import styled from "styled-components";
 import { Guide } from "../../../types/gameTypes";
 import {
   CharacterContainer,
   Kind,
-  Name,
   NameKind,
   CharacterImage,
   Description,
+  BlueLightText,
 } from "../styled";
 
 const GuideCard = ({ guide }: { guide: Guide }) => {
   return (
-    <CharacterContainer style={{ borderRadius: "10%" }}>
+    <CharacterContainer style={{ borderRadius: "10%", padding: "0.5vw" }}>
       <NameKind>
-        <Name>{guide.name}</Name>
+        <BlueLightText>{guide.name}</BlueLightText>
         <Kind>{guide.kind}</Kind>
       </NameKind>
       <CharacterImage src={guide.imgUrl} />

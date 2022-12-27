@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
-import { Secret } from "../styled";
+import { BlueLightText, Button, NameKind, Secret } from "../styled";
 
 const GamePage = () => {
   const game: boolean =
@@ -97,25 +97,24 @@ const GamePage = () => {
   console.log("I rerender");
   return (
     <GamePageContainer>
-      <GameName>{gamePlayers && gamePlayers.gameName}</GameName>
-      <PlaceName>
-        {location && location.name}
-        {isGuide && (
-          <button
-            onClick={() => {
-              socket.emit(
-                "send-game-location",
-                localStorage.getItem("token"),
-                location?.id,
-                "next"
-              );
-            }}
-          >
-            Continue
-          </button>
-        )}
-      </PlaceName>
-
+      {isGuide && (
+        <ContinueButton
+          onClick={() => {
+            socket.emit(
+              "send-game-location",
+              localStorage.getItem("token"),
+              location?.id,
+              "next"
+            );
+          }}
+        >
+          CONTINUE
+        </ContinueButton>
+      )}
+      <NameKind>
+        <GameName>{gamePlayers && gamePlayers.gameName}</GameName>
+        <PlaceName>{location && location.name}</PlaceName>
+      </NameKind>
       <GameContainer style={{ backgroundImage: `url(${location?.imgUrl})` }}>
         {gamePlayers &&
           location &&
@@ -135,19 +134,27 @@ const GamePage = () => {
                 key={t.id}
                 traveller={t}
                 secretButton={
-                  <Secret
-                    onClick={() => {
-                      isGuide &&
-                        socket.emit(
-                          "set-secret-visible",
-                          localStorage.getItem("token"),
-                          t.id,
-                          true
-                        );
-                    }}
-                  >
-                    🔮
-                  </Secret>
+                  isGuide ? (
+                    <Secret
+                      onClick={() => {
+                        isGuide &&
+                          socket.emit(
+                            "set-secret-visible",
+                            localStorage.getItem("token"),
+                            t.id,
+                            true
+                          );
+                      }}
+                    >
+                      <BlueLightText style={{ paddingTop: "0.7vw" }}>
+                        🧿
+                      </BlueLightText>
+                    </Secret>
+                  ) : (
+                    <BlueLightText style={{ paddingTop: "0.7vw" }}>
+                      🧿
+                    </BlueLightText>
+                  )
                 }
               >
                 {isGuide && (
@@ -162,15 +169,15 @@ const GamePage = () => {
                       );
                     }}
                   >
-                    ✨
+                    <BlueLightText>+</BlueLightText>
                   </Increase>
                 )}
-                <Points>
+                <BlueLightText>
                   {travellersPoints && travellersPoints.length !== 0
                     ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
                         .points
                     : 0}
-                </Points>
+                </BlueLightText>
                 {isGuide && (
                   <Decrease
                     onClick={() => {
@@ -183,7 +190,7 @@ const GamePage = () => {
                       );
                     }}
                   >
-                    🪄
+                    <BlueLightText>-</BlueLightText>
                   </Decrease>
                 )}
               </TravellerCard>
@@ -199,10 +206,12 @@ export { GamePage };
 const GameName = styled.h1`
   margin-bottom: 0;
   margin-top: 0.5vw;
+  font-size: 2vw;
 `;
 const PlaceName = styled.h3`
   margin-top: 0.3vw;
-  margin-bottom: 0.2vw;
+  margin-bottom: 0.7vw;
+  font-size: 1.5vw;
 `;
 const GamePageContainer = styled.div`
   display: flex;
@@ -211,15 +220,15 @@ const GamePageContainer = styled.div`
 `;
 const TravellersContainer = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 10rem;
+  width: 100vw;
+  top: 6.5vw;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   flex-direction: row;
   align-content: flex-start;
-  column-gap: 50%;
+  column-gap: 50vw;
+  z-index: 0;
 `;
 
 const Increase = styled.button`
@@ -239,16 +248,26 @@ const Decrease = styled.button`
   font-size: 1.3vw;
   padding: 0;
 `;
-const Points = styled.h3`
-  margin: 0;
-  font-size: 1.5vw;
-`;
+
 const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   background-size: cover;
   min-height: 100vh;
   min-width: 100vw;
+`;
+const ContinueButton = styled(Button)`
+  position: absolute;
+  margin-top: 1.7vw;
+  left: 90vw;
+  font-size: 1vw;
+  color: #c3cde6;
+  border: #c3cde6 solid;
+  box-shadow: 0 0 0.8vw #3f26bf, 0 0 1vw #3f26bf, inset 0 0 1.3vw #3f26bf;
+  &:hover,
+  &:focus {
+    color: white;
+    box-shadow: 0 0 1vw #3f26bf, 0 0 2vw #3f26bf, inset 0 0 1.5vw #3f26bf;
+  }
 `;

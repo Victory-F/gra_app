@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import {
+  BlueLightText,
   CharacterContainer,
-  CharacterImage,
   Description,
   Kind,
   Name,
@@ -35,12 +35,7 @@ const EncounterCard = ({
       </NameKind>
       <EncounterImage src={encounter.imgUrl} />
       <Description>{encounter.description}</Description>
-      {secretVisible || isGuide ? (
-        <Description>Secret: {encounter.secret}</Description>
-      ) : (
-        <p>SPARKLEEESSSS!</p>
-      )}
-      {isGuide && (
+      {isGuide ? (
         <Secret
           onClick={() => {
             socket.emit(
@@ -51,19 +46,26 @@ const EncounterCard = ({
             );
           }}
         >
-          🧿
+          <BlueLightText>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightText>
         </Secret>
+      ) : (
+        <BlueLightText>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightText>
       )}
+      {(secretVisible || isGuide) && <Kind>{encounter.secret}</Kind>}
     </EncounterContainer>
   );
 };
 export { EncounterCard };
 
 const EncounterImage = styled.img`
-  max-height: 50%;
+  max-height: 19vw;
+  max-width: 23vw;
 `;
 const EncounterContainer = styled(CharacterContainer)`
-  height: 25vw;
-  width: 20vw;
+  position: relative;
+  height: 31vw;
+  width: 23vw;
   border-radius: 0;
+  padding: 1vw;
+  z-index: 1;
 `;
