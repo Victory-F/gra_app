@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Button, Title } from "../styled";
+import { Button, Name, Text, Title } from "../styled";
 
 const LobbyPage = () => {
   const navigate = useNavigate();
@@ -49,18 +50,26 @@ const LobbyPage = () => {
   }, []);
 
   return (
-    <div>
+    <LobbyContainer>
       <Title>{lobby.gameName && lobby.gameName}</Title>
-      <Title>Code: {lobby.gameId && lobby.gameId}</Title>
-      <Title>Guide: {lobby.guideName && lobby.guideName}</Title>
-      <h4>Travellers:</h4>
+
+      <GuideCodeContainer>
+        <Name style={{ padding: "1.5vw" }}>
+          {lobby.guideName && lobby.guideName}
+        </Name>
+        <Code>🔮 {lobby.gameId && lobby.gameId}</Code>
+      </GuideCodeContainer>
+
       {lobby.travellersNames &&
         lobby.travellersNames.length !== 0 &&
         lobby.travellersNames.map((t) => (
-          <div>
-            <h2 key={t.id}>{t.name}</h2>
-            {isGuide && (
+          <TravellerContainer style={!isGuide ? { textAlign: "center" } : {}}>
+            <Name style={{ padding: "1.5vw" }} key={t.id}>
+              {t.name}
+            </Name>
+            {isGuide ? (
               <Button
+                style={{ fontSize: "0.6vw" }}
                 onClick={() => {
                   socket.emit("delete-traveller", lobby.gameId, t.id);
                   socket.emit(
@@ -71,10 +80,12 @@ const LobbyPage = () => {
                   );
                 }}
               >
-                delete
+                X
               </Button>
+            ) : (
+              <Icon>⭑</Icon>
             )}
-          </div>
+          </TravellerContainer>
         ))}
       {isGuide &&
       lobby.travellersNames &&
@@ -89,12 +100,54 @@ const LobbyPage = () => {
             );
           }}
         >
-          Let's play!
+          PLAY
         </Button>
+      ) : isGuide ? (
+        <Text>Share the code to start playing</Text>
       ) : (
-        "Wait for players to join"
+        <Text>Waiting for {lobby.guideName} to start the game...</Text>
       )}
-    </div>
+    </LobbyContainer>
   );
 };
 export { LobbyPage };
+
+const TravellerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0.1vw solid white;
+  box-shadow: 0 0 0.8vw #d9555f, 0 0 1vw #d9555f, inset 0 0 1.3vw #d9555f;
+  color: white;
+  margin: 0.5vw;
+`;
+const LobbyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8vw;
+  margin-left: 10vw;
+  gap: 1vw;
+  width: 25%;
+`;
+const Code = styled.p`
+  font-size: 1.5vw;
+  padding: 1vw;
+  text-shadow: 0 0 0.9vw purple, 0 0 3vw purple, 0 0 2vw purple;
+`;
+
+const GuideCodeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.4vw;
+  border: 0.1vw solid white;
+  box-shadow: 0 0 0.8vw purple, 0 0 1vw purple, inset 0 0 1.3vw purple;
+  color: white;
+  margin: 0.5vw;
+`;
+
+const Icon = styled(Title)`
+  padding: 1.3vw;
+`;

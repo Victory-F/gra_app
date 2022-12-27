@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { socket } from "../socket/socket";
 import { Button, ButtonsWrapper } from "../styled";
 
