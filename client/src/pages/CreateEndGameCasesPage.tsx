@@ -51,10 +51,10 @@ const CreateEndGameCasesPage = ({
         placeholder="message"
         maxLength={50}
         value={cases[0].message}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        onChange={(e) =>
           setCases(
             cases.map((c) =>
-              c.type === "won" ? { ...c, message: e.currentTarget.value } : c
+              c.type === "won" ? { ...c, message: e.target.value } : c
             )
           )
         }
@@ -63,10 +63,10 @@ const CreateEndGameCasesPage = ({
       <Input
         placeholder="image URL"
         value={cases[0].imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        onChange={(e) =>
           setCases(
             cases.map((c) =>
-              c.type === "won" ? { ...c, imgUrl: e.currentTarget.value } : c
+              c.type === "won" ? { ...c, imgUrl: e.target.value } : c
             )
           )
         }
@@ -78,10 +78,10 @@ const CreateEndGameCasesPage = ({
         placeholder="message"
         maxLength={50}
         value={cases[1].message}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        onChange={(e) =>
           setCases(
             cases.map((c) =>
-              c.type === "lost" ? { ...c, message: e.currentTarget.value } : c
+              c.type === "lost" ? { ...c, message: e.target.value } : c
             )
           )
         }
@@ -90,10 +90,10 @@ const CreateEndGameCasesPage = ({
       <Input
         placeholder="image URL"
         value={cases[1].imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        onChange={(e) =>
           setCases(
             cases.map((c) =>
-              c.type === "lost" ? { ...c, imgUrl: e.currentTarget.value } : c
+              c.type === "lost" ? { ...c, imgUrl: e.target.value } : c
             )
           )
         }
