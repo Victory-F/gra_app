@@ -69,7 +69,7 @@ const LobbyPage = () => {
             </Name>
             {isGuide ? (
               <Button
-                style={{ fontSize: "0.6vw" }}
+                style={{ fontSize: "0.6vw", margin: "1.5vw" }}
                 onClick={() => {
                   socket.emit("delete-traveller", lobby.gameId, t.id);
                   socket.emit(
@@ -91,6 +91,7 @@ const LobbyPage = () => {
       lobby.travellersNames &&
       lobby.travellersNames.length !== 0 ? (
         <Button
+          style={{ margin: "0", width: "50%" }}
           onClick={() => {
             socket.emit(
               "send-lobby",
@@ -126,14 +127,14 @@ const LobbyContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8vw;
+  margin-top: 6.5vw;
   margin-left: 10vw;
-  gap: 1vw;
-  width: 25%;
+  gap: 1.3vw;
+  width: 30%;
 `;
 const Code = styled.p`
   font-size: 1.5vw;
-  padding: 1vw;
+  padding-right: 1.5vw;
   text-shadow: 0 0 0.9vw purple, 0 0 3vw purple, 0 0 2vw purple;
 `;
 
