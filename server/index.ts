@@ -1,7 +1,5 @@
-import express, { Application } from "express";
 import http from "http";
 import cors from "cors";
-import bodyParser from "body-parser";
 import { Server, Socket } from "socket.io";
 import {
   Game,
@@ -13,8 +11,11 @@ import {
   EndGameCase,
 } from "../types/gameTypes";
 
+const express = require("express");
+const bodyParser = require("body-parser");
+
 const PORT = process.env.PORT || 4000;
-const app: Application = express();
+const app = express();
 const server = http.createServer(app);
 app.use(cors());
 
