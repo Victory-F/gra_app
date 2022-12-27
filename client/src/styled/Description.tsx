@@ -1,4 +1,4 @@
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const Description = styled.div`
   margin: 0;

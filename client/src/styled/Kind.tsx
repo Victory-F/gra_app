@@ -1,4 +1,4 @@
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const Kind = styled.p`
   margin: 0;

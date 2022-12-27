@@ -1,4 +1,4 @@
-const styled = require("styled-components");
+import styled from "styled-components";
 
 export const Form = styled.form`
   display: flex;

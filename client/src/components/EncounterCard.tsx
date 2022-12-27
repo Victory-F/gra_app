@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import {
@@ -9,7 +10,6 @@ import {
   NameKind,
   Secret,
 } from "../styled";
-const styled = require("styled-components");
 
 const EncounterCard = ({
   encounter,

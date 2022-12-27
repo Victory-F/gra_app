@@ -1,4 +1,4 @@
-const styled = require("styled-components");
+import styled from "styled-components";
 const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: row;

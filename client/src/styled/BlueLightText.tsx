@@ -1,5 +1,5 @@
+import styled from "styled-components";
 import { Title } from "./Title";
-const styled = require("styled-components");
 
 const BlueLightText = styled(Title)`
   margin: 0;
