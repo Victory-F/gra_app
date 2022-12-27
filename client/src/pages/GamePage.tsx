@@ -5,7 +5,7 @@ import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
 import { BlueLightText, Button, NameKind, Secret } from "../styled";
 
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const GamePage = () => {
   const game: boolean =

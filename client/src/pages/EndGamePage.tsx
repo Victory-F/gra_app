@@ -4,7 +4,7 @@ import { EndGameCase } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { BlueLightText } from "../styled";
 
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const EndGamePage = () => {
   const navigate = useNavigate();

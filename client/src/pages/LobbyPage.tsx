@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { Button, Name, Text, Title } from "../styled";
-
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const LobbyPage = () => {
   const navigate = useNavigate();
