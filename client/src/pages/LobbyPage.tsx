@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { Lobby } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { Button, Name, Text, Title } from "../styled";
+
+const styled = require("styled-components");
 
 const LobbyPage = () => {
   const navigate = useNavigate();

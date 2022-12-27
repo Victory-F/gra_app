@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 
 const Title = styled.h1`
   font-size: 2vw;

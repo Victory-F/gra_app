@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 
 const Name = styled.h1`
   margin: 0;

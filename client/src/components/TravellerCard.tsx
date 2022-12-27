@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { Traveller } from "../../../types/gameTypes";
 import {
   CharacterContainer,
@@ -8,6 +7,8 @@ import {
   CharacterImage,
   Description,
 } from "../styled";
+
+const styled = require("styled-components");
 
 const TravellerCard = ({
   traveller,

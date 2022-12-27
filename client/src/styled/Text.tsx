@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 const Text = styled.p`
   font-size: 1vw;
   margin: 0;

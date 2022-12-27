@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { EndGameCase } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import { BlueLightText } from "../styled";
+
+const styled = require("styled-components");
 
 const EndGamePage = () => {
   const navigate = useNavigate();

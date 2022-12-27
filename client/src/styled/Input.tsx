@@ -1,4 +1,4 @@
-import styled from "styled-components";
+const styled = require("styled-components");
 export const Input = styled.input`
   height: 3vw;
   width: 20vw;
