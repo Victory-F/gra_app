@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, GuideCard, TravellerCard } from "../components";

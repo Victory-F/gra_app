@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
