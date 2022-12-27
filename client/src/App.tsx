@@ -13,6 +13,7 @@ import {
   CreateEndGameCasesPage,
 } from "./pages";
 import styled from "styled-components";
+import { Title } from "./styled";
 
 function App() {
   const navigate = useNavigate();
@@ -85,9 +86,11 @@ const Video = styled.video`
   min-height: 100vh;
   z-index: -3;
 `;
-const Logo = styled.h1`
-  color: white;
+const Logo = styled(Title)`
   position: absolute;
+  font-size: 3vw;
+  padding: 1vw;
+  text-shadow: 0 0 0.8vw #6456b7, 0 0 1vw #6456b7, 0 0 1.3vw #6456b7;
 `;
 
 const Message = styled.p`
