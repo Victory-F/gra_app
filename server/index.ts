@@ -1,7 +1,17 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import express, { Application } from "express";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import http from "http";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import cors from "cors";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import bodyParser from "body-parser";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Server, Socket } from "socket.io";
 import {
   Game,
