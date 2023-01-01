@@ -96,7 +96,6 @@ const GamePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("I rerender");
   return (
     <GamePageContainer>
       {isGuide && (

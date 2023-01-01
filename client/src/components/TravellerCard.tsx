@@ -20,7 +20,6 @@ const TravellerCard = ({
   secretButton: React.ReactNode;
   children: React.ReactNode;
 }) => {
-  console.log("I rerender");
   return (
     <CharacterContainer>
       <NameKind>
