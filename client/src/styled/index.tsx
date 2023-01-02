@@ -12,3 +12,4 @@ export * from "./Title";
 export * from "./Text";
 export * from "./ButtonsWrapper";
 export * from "./BlueLightText";
+export * from "./CreateWrapper";

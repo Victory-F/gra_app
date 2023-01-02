@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide, Reply } from "../../../types/gameTypes";
+import { GuideCard } from "../components";
 import { socket } from "../socket/socket";
-import { Button, Form, Input, Title } from "../styled";
+import { Button, Form, Input, Title, CreateWrapper } from "../styled";
 
 const CreateGuidePage = ({
   setMessage,
@@ -44,51 +45,55 @@ const CreateGuidePage = ({
   };
 
   return (
-    <Form onSubmit={submitForm}>
-      <Title>Create Guide</Title>
-      <Input
-        placeholder="name"
-        maxLength={12}
-        value={guide.name}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setGuide({
-            ...guide,
-            id:
-              (Math.random() * 1000).toString().slice(0, 3) +
-              socket.id.toString().slice(0, 3),
-            name: e.currentTarget.value,
-          })
-        }
-        required
-      />
-      <Input
-        placeholder="kind"
-        maxLength={15}
-        value={guide.kind}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setGuide({ ...guide, kind: e.currentTarget.value })
-        }
-        required
-      />
-      <Input
-        placeholder="description"
-        maxLength={30}
-        value={guide.description}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setGuide({ ...guide, description: e.currentTarget.value })
-        }
-        required
-      />
-      <Input
-        placeholder="image URL"
-        value={guide.imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setGuide({ ...guide, imgUrl: e.currentTarget.value })
-        }
-        required
-      />
-      <Button type="submit">CREATE</Button>
-    </Form>
+    <CreateWrapper>
+      <Form onSubmit={submitForm}>
+        <Title>Create Guide</Title>
+        <Input
+          placeholder="name"
+          maxLength={12}
+          value={guide.name}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGuide({
+              ...guide,
+              id:
+                (Math.random() * 1000).toString().slice(0, 3) +
+                socket.id.toString().slice(0, 3),
+              name: e.currentTarget.value,
+            })
+          }
+          required
+        />
+        <Input
+          placeholder="kind"
+          maxLength={15}
+          value={guide.kind}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGuide({ ...guide, kind: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
+          placeholder="description"
+          maxLength={30}
+          value={guide.description}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGuide({ ...guide, description: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
+          placeholder="image URL"
+          value={guide.imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGuide({ ...guide, imgUrl: e.currentTarget.value })
+          }
+          required
+        />
+
+        <Button type="submit">CREATE</Button>
+      </Form>
+      <GuideCard guide={guide} />
+    </CreateWrapper>
   );
 };
 export { CreateGuidePage };
