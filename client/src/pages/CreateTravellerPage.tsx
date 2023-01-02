@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reply, Traveller } from "../../../types/gameTypes";
+import { TravellerCard } from "../components";
 import { socket } from "../socket/socket";
-import { Button, Form, Input, Text, Title } from "../styled";
+import { Button, CreateWrapper, Form, Input, Text, Title } from "../styled";
 
 const CreateTravellerPage = ({
   setMessage,
@@ -44,61 +45,64 @@ const CreateTravellerPage = ({
   };
 
   return (
-    <Form onSubmit={submitForm}>
-      <Title>Create Traveller</Title>
-      <Input
-        placeholder="name"
-        maxLength={12}
-        value={traveller.name}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setTraveller({
-            ...traveller,
-            id:
-              socket.id.toString().slice(0, 3) +
-              (Math.random() * 1000).toString().slice(0, 3),
-            name: e.currentTarget.value,
-          })
-        }
-        required
-      />
-      <Input
-        placeholder="kind"
-        maxLength={15}
-        value={traveller.kind}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setTraveller({ ...traveller, kind: e.currentTarget.value })
-        }
-        required
-      />
-      <Input
-        placeholder="ability"
-        maxLength={15}
-        value={traveller.ability}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setTraveller({ ...traveller, ability: e.currentTarget.value })
-        }
-        required
-      />
-      <Input
-        placeholder="image URL"
-        value={traveller.imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setTraveller({ ...traveller, imgUrl: e.currentTarget.value })
-        }
-        required
-      />
-      <Input
-        placeholder="code"
-        maxLength={6}
-        value={code}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setCode(e.currentTarget.value)
-        }
-        required
-      />
-      <Text>Enter the Secret Code</Text>
-      <Button type="submit">JOIN</Button>
-    </Form>
+    <CreateWrapper>
+      <Form onSubmit={submitForm}>
+        <Title>Create Traveller</Title>
+        <Input
+          placeholder="name"
+          maxLength={12}
+          value={traveller.name}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setTraveller({
+              ...traveller,
+              id:
+                socket.id.toString().slice(0, 3) +
+                (Math.random() * 1000).toString().slice(0, 3),
+              name: e.currentTarget.value,
+            })
+          }
+          required
+        />
+        <Input
+          placeholder="kind"
+          maxLength={15}
+          value={traveller.kind}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setTraveller({ ...traveller, kind: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
+          placeholder="ability"
+          maxLength={15}
+          value={traveller.ability}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setTraveller({ ...traveller, ability: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
+          placeholder="image URL"
+          value={traveller.imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setTraveller({ ...traveller, imgUrl: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
+          placeholder="code"
+          maxLength={6}
+          value={code}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setCode(e.currentTarget.value)
+          }
+          required
+        />
+        <Text>Enter the Secret Code</Text>
+        <Button type="submit">JOIN</Button>
+      </Form>
+      <TravellerCard traveller={traveller} />
+    </CreateWrapper>
   );
 };
 export { CreateTravellerPage };

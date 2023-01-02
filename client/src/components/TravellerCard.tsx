@@ -17,8 +17,8 @@ const TravellerCard = ({
   children,
 }: {
   traveller: Traveller;
-  secretButton: React.ReactNode;
-  children: React.ReactNode;
+  secretButton?: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   return (
     <CharacterContainer>
@@ -26,10 +26,16 @@ const TravellerCard = ({
         <Name>{traveller.name}</Name>
         <Kind>{traveller.kind}</Kind>
       </NameKind>
-      <MiddleWrapper>
-        {secretButton}
+      <MiddleWrapper
+        style={
+          !secretButton && !children
+            ? { justifyContent: "center" }
+            : { justifyContent: "space-between" }
+        }
+      >
+        {secretButton && secretButton}
         <CharacterImage src={traveller.imgUrl} />
-        <Stats>{children}</Stats>
+        {children && <Stats>{children}</Stats>}
       </MiddleWrapper>
       <Description>{traveller.ability}</Description>
     </CharacterContainer>
@@ -48,7 +54,6 @@ const Stats = styled.div`
 
 const MiddleWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1vw;
   min-width: 15vw;
