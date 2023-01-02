@@ -73,19 +73,19 @@ const CreateTravellerPage = ({
           required
         />
         <Input
+          placeholder="image URL"
+          value={traveller.imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setTraveller({ ...traveller, imgUrl: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
           placeholder="ability"
           maxLength={15}
           value={traveller.ability}
           onChange={(e: React.FormEvent<HTMLInputElement>) =>
             setTraveller({ ...traveller, ability: e.currentTarget.value })
-          }
-          required
-        />
-        <Input
-          placeholder="image URL"
-          value={traveller.imgUrl}
-          onChange={(e: React.FormEvent<HTMLInputElement>) =>
-            setTraveller({ ...traveller, imgUrl: e.currentTarget.value })
           }
           required
         />
