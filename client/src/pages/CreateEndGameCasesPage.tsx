@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EndGameCase, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Button, Form, Input, Text, Title } from "../styled";
+import { Button, CreateWrapper, Form, Input, Text, Title } from "../styled";
 
 const CreateEndGameCasesPage = ({
   setMessage,
@@ -45,63 +45,65 @@ const CreateEndGameCasesPage = ({
   };
 
   return (
-    <Form onSubmit={submitForm}>
-      <Title>Create End Game Cases</Title>
-      <Input
-        placeholder="message"
-        maxLength={50}
-        value={cases[0].message}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setCases(
-            cases.map((c) =>
-              c.type === "won" ? { ...c, message: e.currentTarget.value } : c
+    <CreateWrapper>
+      <Form onSubmit={submitForm}>
+        <Title>Create End Game Cases</Title>
+        <Input
+          placeholder="message"
+          maxLength={50}
+          value={cases[0].message}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setCases(
+              cases.map((c) =>
+                c.type === "won" ? { ...c, message: e.currentTarget.value } : c
+              )
             )
-          )
-        }
-        required
-      />
-      <Input
-        placeholder="image URL"
-        value={cases[0].imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setCases(
-            cases.map((c) =>
-              c.type === "won" ? { ...c, imgUrl: e.currentTarget.value } : c
+          }
+          required
+        />
+        <Input
+          placeholder="image URL"
+          value={cases[0].imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setCases(
+              cases.map((c) =>
+                c.type === "won" ? { ...c, imgUrl: e.currentTarget.value } : c
+              )
             )
-          )
-        }
-        required
-      />
-      <Text>Win Case</Text>
-      <br />
-      <Input
-        placeholder="message"
-        maxLength={50}
-        value={cases[1].message}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setCases(
-            cases.map((c) =>
-              c.type === "lost" ? { ...c, message: e.currentTarget.value } : c
+          }
+          required
+        />
+        <Text>Win Case</Text>
+        <br />
+        <Input
+          placeholder="message"
+          maxLength={50}
+          value={cases[1].message}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setCases(
+              cases.map((c) =>
+                c.type === "lost" ? { ...c, message: e.currentTarget.value } : c
+              )
             )
-          )
-        }
-        required
-      />
-      <Input
-        placeholder="image URL"
-        value={cases[1].imgUrl}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setCases(
-            cases.map((c) =>
-              c.type === "lost" ? { ...c, imgUrl: e.currentTarget.value } : c
+          }
+          required
+        />
+        <Input
+          placeholder="image URL"
+          value={cases[1].imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setCases(
+              cases.map((c) =>
+                c.type === "lost" ? { ...c, imgUrl: e.currentTarget.value } : c
+              )
             )
-          )
-        }
-        required
-      />
-      <Text>Lose Case</Text>
-      <Button type="submit">CREATE</Button>
-    </Form>
+          }
+          required
+        />
+        <Text>Lose Case</Text>
+        <Button type="submit">CREATE</Button>
+      </Form>
+    </CreateWrapper>
   );
 };
 export { CreateEndGameCasesPage };

@@ -73,19 +73,19 @@ const CreateGuidePage = ({
           required
         />
         <Input
+          placeholder="image URL"
+          value={guide.imgUrl}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGuide({ ...guide, imgUrl: e.currentTarget.value })
+          }
+          required
+        />
+        <Input
           placeholder="description"
           maxLength={30}
           value={guide.description}
           onChange={(e: React.FormEvent<HTMLInputElement>) =>
             setGuide({ ...guide, description: e.currentTarget.value })
-          }
-          required
-        />
-        <Input
-          placeholder="image URL"
-          value={guide.imgUrl}
-          onChange={(e: React.FormEvent<HTMLInputElement>) =>
-            setGuide({ ...guide, imgUrl: e.currentTarget.value })
           }
           required
         />
