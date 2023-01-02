@@ -2,7 +2,16 @@ import { Place, Reply } from "../../../types/gameTypes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
-import { Button, ButtonsWrapper, Form, Input, Title } from "../styled";
+import {
+  Button,
+  ButtonsWrapper,
+  CreateWrapper,
+  Form,
+  Input,
+  Title,
+} from "../styled";
+import { BackgroundWrapper } from "../styled/BackgroundWrapper";
+import { EncounterCard } from "../components";
 
 const CreateLocationPage = ({
   setMessage,
@@ -58,7 +67,7 @@ const CreateLocationPage = ({
     );
   };
   return (
-    <div>
+    <CreateWrapper>
       {!created ? (
         <Form onSubmit={submitForm}>
           <Title>Create Location</Title>
@@ -214,6 +223,7 @@ const CreateLocationPage = ({
           <Button
             onClick={() => {
               setCreated(false);
+              setAddEncounter(false);
               setLocation({
                 id: "",
                 name: "",
@@ -235,7 +245,19 @@ const CreateLocationPage = ({
           </Button>
         </ButtonsWrapper>
       )}
-    </div>
+      {!created && (
+        <BackgroundWrapper
+          style={{ backgroundImage: `url(${location?.imgUrl})` }}
+        >
+          {addEncounter && (
+            <EncounterCard
+              encounter={location.encounter}
+              secretVisible={true}
+            />
+          )}
+        </BackgroundWrapper>
+      )}
+    </CreateWrapper>
   );
 };
 export { CreateLocationPage };
