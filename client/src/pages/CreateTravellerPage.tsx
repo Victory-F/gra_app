@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Reply, Traveller } from "../../../types/gameTypes";
 import { TravellerCard } from "../components";
 import { socket } from "../socket/socket";
-import { Button, CreateWrapper, Form, Input, Text, Title } from "../styled";
+import {
+  Button,
+  CreateWrapper,
+  Form,
+  Input,
+  PreviewWrapper,
+  Text,
+  Title,
+} from "../styled";
 
 const CreateTravellerPage = ({
   setMessage,
@@ -101,7 +109,9 @@ const CreateTravellerPage = ({
         <Text>Enter the Secret Code</Text>
         <Button type="submit">JOIN</Button>
       </Form>
-      <TravellerCard traveller={traveller} />
+      <PreviewWrapper>
+        <TravellerCard traveller={traveller} />
+      </PreviewWrapper>
     </CreateWrapper>
   );
 };

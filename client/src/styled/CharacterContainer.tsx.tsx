@@ -7,13 +7,11 @@ const CharacterContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 15.5vw;
-  height: 15.5vw;
+  width: 12vw;
+  height: 12vw;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 50%;
   padding: 1.5vw;
-  margin: 1.5vw;
-  border: 0.1vw solid white;
-  box-shadow: 0 0 0.8vw #d9555f, 0 0 1vw #d9555f, inset 0 0 1.3vw #d9555f;
+  margin: 0 1vw 1vh 1vw;
 `;
 export { CharacterContainer };

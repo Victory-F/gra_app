@@ -222,7 +222,7 @@ const GamePageContainer = styled.div`
 const TravellersContainer = styled.div`
   position: absolute;
   width: 100vw;
-  top: 6.5vw;
+  top: 12vh;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

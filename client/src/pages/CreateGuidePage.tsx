@@ -3,7 +3,14 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Guide, Reply } from "../../../types/gameTypes";
 import { GuideCard } from "../components";
 import { socket } from "../socket/socket";
-import { Button, Form, Input, Title, CreateWrapper } from "../styled";
+import {
+  Button,
+  Form,
+  Input,
+  Title,
+  CreateWrapper,
+  PreviewWrapper,
+} from "../styled";
 
 const CreateGuidePage = ({
   setMessage,
@@ -92,13 +99,9 @@ const CreateGuidePage = ({
 
         <Button type="submit">CREATE</Button>
       </Form>
-      <div
-        style={{
-          marginBottom: "10vw",
-        }}
-      >
+      <PreviewWrapper>
         <GuideCard guide={guide} />
-      </div>
+      </PreviewWrapper>
     </CreateWrapper>
   );
 };
