@@ -5,7 +5,7 @@ import styled from "styled-components";
 const CreateWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 3vw;
+  gap: 4.3vw;
 `;
 
 export { CreateWrapper };

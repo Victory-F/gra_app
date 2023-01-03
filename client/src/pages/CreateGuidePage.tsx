@@ -50,7 +50,7 @@ const CreateGuidePage = ({
         <Title>Create Guide</Title>
         <Input
           placeholder="name"
-          maxLength={12}
+          maxLength={15}
           value={guide.name}
           onChange={(e: React.FormEvent<HTMLInputElement>) =>
             setGuide({
@@ -92,7 +92,13 @@ const CreateGuidePage = ({
 
         <Button type="submit">CREATE</Button>
       </Form>
-      <GuideCard guide={guide} />
+      <div
+        style={{
+          marginBottom: "10vw",
+        }}
+      >
+        <GuideCard guide={guide} />
+      </div>
     </CreateWrapper>
   );
 };

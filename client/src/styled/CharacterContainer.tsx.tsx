@@ -13,5 +13,7 @@ const CharacterContainer = styled.div`
   border-radius: 50%;
   padding: 1.5vw;
   margin: 1.5vw;
+  border: 0.1vw solid white;
+  box-shadow: 0 0 0.8vw #d9555f, 0 0 1vw #d9555f, inset 0 0 1.3vw #d9555f;
 `;
 export { CharacterContainer };
