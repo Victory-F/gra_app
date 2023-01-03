@@ -8,5 +8,6 @@ const BackgroundWrapper = styled.div`
   background-size: cover;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 export { BackgroundWrapper };
