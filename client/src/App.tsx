@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import {
@@ -18,20 +18,7 @@ import styled from "styled-components";
 
 function App() {
   const navigate = useNavigate();
-  const [pressed, setPressed] = useState(false);
-  useEffect(() => {
-    window.onpopstate = () => {
-      setPressed(true);
-    };
-    if (pressed) {
-      navigate("/");
-      setPressed(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [message, setMessage] = useState<string>("");
-
   return (
     <div>
       <Logo
