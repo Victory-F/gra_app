@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import styled from "styled-components";
 import { EndGameCase, Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import {
@@ -11,6 +8,7 @@ import {
   CreateWrapper,
   Form,
   Input,
+  PreviewWrapper,
   Text,
   Title,
 } from "../styled";
@@ -115,40 +113,27 @@ const CreateEndGameCasesPage = ({
         <Text>Lose Case</Text>
         <Button type="submit">CREATE</Button>
       </Form>
-      <CasesWrapper>
+      <PreviewWrapper>
+        {/* <CasesWrapper> */}
         <BackgroundWrapper
-          style={{ backgroundImage: `url(${cases[0].imgUrl})` }}
+          style={
+            cases[0].imgUrl && !cases[1].imgUrl && !cases[1].message
+              ? { backgroundImage: `url(${cases[0].imgUrl})` }
+              : { backgroundImage: `url(${cases[1].imgUrl})` }
+          }
         >
-          <CaseTextContainer>
-            <BlueLightText>{cases[0].message}</BlueLightText>
-          </CaseTextContainer>
+          {(cases[0].message || cases[1].message) && (
+            <BlueLightText
+              style={{ background: "rgba(0, 0, 0, 0.7)", padding: "1.5vw" }}
+            >
+              {cases[0].message && !cases[1].message && !cases[1].imgUrl
+                ? cases[0].message
+                : cases[1].message}
+            </BlueLightText>
+          )}
         </BackgroundWrapper>
-        <BackgroundWrapper
-          style={{ backgroundImage: `url(${cases[1].imgUrl})` }}
-        >
-          <CaseTextContainer>
-            <BlueLightText>{cases[1].message}</BlueLightText>
-          </CaseTextContainer>
-        </BackgroundWrapper>
-      </CasesWrapper>
+      </PreviewWrapper>
     </CreateWrapper>
   );
 };
 export { CreateEndGameCasesPage };
-
-const CasesWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3vw;
-  margin-right: 3vw;
-  margin-top: 3vw;
-  margin-bottom: 3vw;
-`;
-
-const CaseTextContainer = styled.div`
-  background: rgba(0, 0, 0, 0.7);
-  padding: 3vw;
-  text-align: center;
-`;

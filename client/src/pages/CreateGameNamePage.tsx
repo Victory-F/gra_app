@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reply } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
-import { Button, Form, Input, Title } from "../styled";
+import { Button, CreateWrapper, Form, Input, Title } from "../styled";
 
 const CreateGameNamePage = ({
   setMessage,
@@ -41,19 +41,21 @@ const CreateGameNamePage = ({
   }, []);
 
   return (
-    <Form onSubmit={submitForm}>
-      <Title>Create Game Name</Title>
-      <Input
-        placeholder="name"
-        maxLength={30}
-        value={gameName}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
-          setGameName(e.currentTarget.value)
-        }
-        required
-      />
-      <Button type="submit">Play!</Button>
-    </Form>
+    <CreateWrapper>
+      <Form onSubmit={submitForm}>
+        <Title>Create Game Name</Title>
+        <Input
+          placeholder="name"
+          maxLength={30}
+          value={gameName}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setGameName(e.currentTarget.value)
+          }
+          required
+        />
+        <Button type="submit">Play!</Button>
+      </Form>
+    </CreateWrapper>
   );
 };
 export { CreateGameNamePage };
