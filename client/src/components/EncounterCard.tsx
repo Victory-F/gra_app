@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Encounter } from "../../../types/gameTypes";
 import { socket } from "../socket/socket";
 import {
+  BlueLightButton,
   BlueLightText,
   CharacterContainer,
   Description,
@@ -32,7 +33,7 @@ const EncounterCard = ({
   return (
     <EncounterContainer>
       <NameKind>
-        <Name>{encounter.name}</Name>
+        <Name style={{ fontSize: "1.7vw" }}>{encounter.name}</Name>
         <Kind>{encounter.kind}</Kind>
       </NameKind>
       <EncounterImage src={encounter.imgUrl} />
@@ -48,10 +49,10 @@ const EncounterCard = ({
             );
           }}
         >
-          <BlueLightText>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightText>
+          <BlueLightButton>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightButton>
         </Secret>
       ) : (
-        <BlueLightText>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightText>
+        <BlueLightText style={{ fontSize: "2vw" }}>✧⋄⋆⋅⋆⋄✧⋄⋆⋅⋆⋄✧</BlueLightText>
       )}
       {(secretVisible || isGuide) && <Kind>{encounter.secret}</Kind>}
     </EncounterContainer>
@@ -70,4 +71,5 @@ const EncounterContainer = styled(CharacterContainer)`
   border-radius: 0;
   padding: 1vw;
   z-index: 1;
+  top: 1vh;
 `;

@@ -12,6 +12,6 @@ const CharacterContainer = styled.div`
   background: rgba(0, 0, 0, 0.7);
   border-radius: 50%;
   padding: 1.5vw;
-  margin: 0 1vw 1vh 1vw;
+  margin: 0.5vh 1vw 0.5vh 1vw;
 `;
 export { CharacterContainer };

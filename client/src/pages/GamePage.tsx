@@ -6,7 +6,13 @@ import styled from "styled-components";
 import { GamePlayers, Place, TravellerPoints } from "../../../types/gameTypes";
 import { EncounterCard, GuideCard, TravellerCard } from "../components";
 import { socket } from "../socket/socket";
-import { BlueLightText, Button, NameKind, Secret } from "../styled";
+import {
+  BlueLightButton,
+  BlueLightText,
+  Button,
+  NameKind,
+  Secret,
+} from "../styled";
 
 const GamePage = () => {
   const game: boolean =
@@ -147,13 +153,13 @@ const GamePage = () => {
                           );
                       }}
                     >
-                      <BlueLightText style={{ paddingTop: "0.7vw" }}>
-                        🧿
-                      </BlueLightText>
+                      <BlueLightButton style={{ paddingTop: "0.7vw" }}>
+                        ★
+                      </BlueLightButton>
                     </Secret>
                   ) : (
                     <BlueLightText style={{ paddingTop: "0.7vw" }}>
-                      🧿
+                      ★
                     </BlueLightText>
                   )
                 }
@@ -170,14 +176,32 @@ const GamePage = () => {
                       );
                     }}
                   >
-                    <BlueLightText>+</BlueLightText>
+                    <BlueLightButton>+</BlueLightButton>
                   </Increase>
                 )}
                 <BlueLightText>
-                  {travellersPoints && travellersPoints.length !== 0
-                    ? travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
-                        .points
-                    : 0}
+                  {travellersPoints && travellersPoints.length !== 0 ? (
+                    travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
+                      .points !== 0 ? (
+                      <BlueLightText>
+                        {
+                          travellersPoints.filter(
+                            (tp) => tp.plyerId === t.id
+                          )[0].points
+                        }
+                      </BlueLightText>
+                    ) : (
+                      <h2 style={{ color: "red" }}>
+                        {
+                          travellersPoints.filter(
+                            (tp) => tp.plyerId === t.id
+                          )[0].points
+                        }
+                      </h2>
+                    )
+                  ) : (
+                    0
+                  )}
                 </BlueLightText>
                 {isGuide && (
                   <Decrease
@@ -191,7 +215,7 @@ const GamePage = () => {
                       );
                     }}
                   >
-                    <BlueLightText>-</BlueLightText>
+                    <BlueLightButton>-</BlueLightButton>
                   </Decrease>
                 )}
               </TravellerCard>
@@ -222,7 +246,7 @@ const GamePageContainer = styled.div`
 const TravellersContainer = styled.div`
   position: absolute;
   width: 100vw;
-  top: 12vh;
+  top: 7vw;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -255,7 +279,7 @@ const GameContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background-size: cover;
-  min-height: 100vh;
+  min-height: 91vh;
   min-width: 100vw;
 `;
 const ContinueButton = styled(Button)`

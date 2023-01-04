@@ -5,14 +5,16 @@ import {
   NameKind,
   CharacterImage,
   Description,
-  Name,
+  BlueLightText,
 } from "../styled";
 
 const GuideCard = ({ guide }: { guide: Guide }) => {
   return (
-    <CharacterContainer style={{ borderRadius: "10%", padding: "0.5vw" }}>
+    <CharacterContainer
+      style={{ borderRadius: "10%", padding: "0.5vw", marginTop: "1.5vh" }}
+    >
       <NameKind>
-        <Name>{guide.name}</Name>
+        <BlueLightText>{guide.name}</BlueLightText>
         <Kind>{guide.kind}</Kind>
       </NameKind>
       <CharacterImage src={guide.imgUrl} />

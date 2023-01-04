@@ -49,12 +49,13 @@ const Stats = styled.div`
   justify-content: space-around;
   align-items: center;
   gap: 0.5vw;
-  min-width: 1.9vw;
+  width: 1.3vw;
 `;
 
 const MiddleWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1vw;
-  min-width: 15vw;
+  min-width: 12.5vw;
+  padding: 0.5vw;
 `;
