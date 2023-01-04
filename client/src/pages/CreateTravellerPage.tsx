@@ -109,7 +109,7 @@ const CreateTravellerPage = ({
         <Text>Enter the Secret Code</Text>
         <Button type="submit">JOIN</Button>
       </Form>
-      <PreviewWrapper>
+      <PreviewWrapper style={{ borderRadius: "10vw", height: "17vw" }}>
         <TravellerCard traveller={traveller} />
       </PreviewWrapper>
     </CreateWrapper>
