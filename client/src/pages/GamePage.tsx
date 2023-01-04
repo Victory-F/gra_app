@@ -153,12 +153,32 @@ const GamePage = () => {
                           );
                       }}
                     >
-                      <BlueLightButton style={{ paddingTop: "0.7vw" }}>
-                        ★
-                      </BlueLightButton>
+                      {travellersPoints &&
+                      travellersPoints.length !== 0 &&
+                      travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
+                        .points !== 0 ? (
+                        <BlueLightButton>★</BlueLightButton>
+                      ) : (
+                        <BlueLightButton
+                          style={{
+                            color: "black",
+                          }}
+                        >
+                          ★
+                        </BlueLightButton>
+                      )}
                     </Secret>
+                  ) : travellersPoints &&
+                    travellersPoints.length !== 0 &&
+                    travellersPoints.filter((tp) => tp.plyerId === t.id)[0]
+                      .points !== 0 ? (
+                    <BlueLightText>★</BlueLightText>
                   ) : (
-                    <BlueLightText style={{ paddingTop: "0.7vw" }}>
+                    <BlueLightText
+                      style={{
+                        color: "black",
+                      }}
+                    >
                       ★
                     </BlueLightText>
                   )
@@ -191,13 +211,17 @@ const GamePage = () => {
                         }
                       </BlueLightText>
                     ) : (
-                      <h2 style={{ color: "red" }}>
+                      <BlueLightText
+                        style={{
+                          color: "black",
+                        }}
+                      >
                         {
                           travellersPoints.filter(
                             (tp) => tp.plyerId === t.id
                           )[0].points
                         }
-                      </h2>
+                      </BlueLightText>
                     )
                   ) : (
                     0
@@ -246,7 +270,7 @@ const GamePageContainer = styled.div`
 const TravellersContainer = styled.div`
   position: absolute;
   width: 100vw;
-  top: 7vw;
+  top: 6.5vw;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -287,12 +311,13 @@ const ContinueButton = styled(Button)`
   margin-top: 1.7vw;
   left: 90vw;
   font-size: 1vw;
-  color: #c3cde6;
-  border: #c3cde6 solid;
-  box-shadow: 0 0 0.8vw #3f26bf, 0 0 1vw #3f26bf, inset 0 0 1.3vw #3f26bf;
+  color: lightgray;
+  border: lightgray solid;
+  box-shadow: 0 0 0.8vw grey, 0 0 1vw grey, inset 0 0 1.3vw grey;
   &:hover,
   &:focus {
     color: white;
-    box-shadow: 0 0 1vw #3f26bf, 0 0 2vw #3f26bf, inset 0 0 1.5vw #3f26bf;
+    border: white solid;
+    box-shadow: 0 0 1vw lightgray, 0 0 1vw lightgray, inset 0 0 1vw lightgray;
   }
 `;
