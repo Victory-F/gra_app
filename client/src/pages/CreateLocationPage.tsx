@@ -8,6 +8,7 @@ import {
   CreateWrapper,
   Form,
   Input,
+  PreviewWrapper,
   Title,
 } from "../styled";
 import { BackgroundWrapper } from "../styled/BackgroundWrapper";
@@ -98,6 +99,11 @@ const CreateLocationPage = ({
           />
           {!addEncounter ? (
             <Button
+              style={{
+                fontSize: "0.9vw",
+                border: "0.1vw solid white",
+                margin: "0.9vw",
+              }}
               type="button"
               onClick={() => {
                 setAddEncounter(true);
@@ -107,6 +113,11 @@ const CreateLocationPage = ({
             </Button>
           ) : (
             <Button
+              style={{
+                fontSize: "0.9vw",
+                border: "0.1vw solid white",
+                margin: "0.9vw",
+              }}
               type="button"
               onClick={() => {
                 setAddEncounter(false);
@@ -219,7 +230,7 @@ const CreateLocationPage = ({
           <Button type="submit">CREATE</Button>
         </Form>
       ) : (
-        <ButtonsWrapper>
+        <ButtonsWrapper style={{ margin: "1.5vw" }}>
           <Button
             onClick={() => {
               setCreated(false);
@@ -246,16 +257,18 @@ const CreateLocationPage = ({
         </ButtonsWrapper>
       )}
       {!created && (
-        <BackgroundWrapper
-          style={{ backgroundImage: `url(${location?.imgUrl})` }}
-        >
-          {addEncounter && (
-            <EncounterCard
-              encounter={location.encounter}
-              secretVisible={true}
-            />
-          )}
-        </BackgroundWrapper>
+        <PreviewWrapper>
+          <BackgroundWrapper
+            style={{ backgroundImage: `url(${location?.imgUrl})` }}
+          >
+            {addEncounter && (
+              <EncounterCard
+                encounter={location.encounter}
+                secretVisible={true}
+              />
+            )}
+          </BackgroundWrapper>
+        </PreviewWrapper>
       )}
     </CreateWrapper>
   );

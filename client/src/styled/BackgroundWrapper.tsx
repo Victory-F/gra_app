@@ -3,7 +3,7 @@
 import styled from "styled-components";
 
 const BackgroundWrapper = styled.div`
-  width: 60vw;
+  width: 55vw;
   height: 36vw;
   background-size: cover;
   display: flex;
