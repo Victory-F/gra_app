@@ -12,7 +12,6 @@ import {
   EndGamePage,
   CreateEndGameCasesPage,
 } from "./pages";
-
 import styled from "styled-components";
 
 function App() {
