@@ -60,12 +60,12 @@ const EncounterCard = ({
 export { EncounterCard };
 
 const EncounterImage = styled.img`
-  max-height: 19vw;
-  max-width: 23vw;
+  max-height: 17vw;
+  max-width: 21vw;
 `;
 const EncounterContainer = styled(CharacterContainer)`
   position: relative;
-  height: 31vw;
+  height: 28vw;
   width: 23vw;
   border-radius: 0;
   padding: 1vw;
