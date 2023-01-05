@@ -34,9 +34,25 @@ const EndGamePage = () => {
     <EndGamePageContainer
       style={{ backgroundImage: `url(${endGameCase.imgUrl})` }}
     >
-      <TextContainer>
-        <BlueLightText>{endGameCase.message}</BlueLightText>
-      </TextContainer>
+      <BlueLightText
+        style={
+          endGameCase.type === "lost"
+            ? {
+                color: "black",
+                background: "rgba(0, 0, 0, 0.7)",
+                padding: "2.5vw",
+                fontSize: "2vw",
+              }
+            : {
+                color: "white",
+                background: "rgba(0, 0, 0, 0.7)",
+                padding: "2.5vw",
+                fontSize: "2vw",
+              }
+        }
+      >
+        {endGameCase.message}
+      </BlueLightText>
     </EndGamePageContainer>
   );
 };
@@ -51,10 +67,4 @@ const EndGamePageContainer = styled.div`
   background-size: cover;
   min-height: 100vh;
   min-width: 100vw;
-`;
-const TextContainer = styled.div`
-  background: rgba(0, 0, 0, 0.7);
-  width: 50vw;
-  padding: 5vw;
-  text-align: center;
 `;
