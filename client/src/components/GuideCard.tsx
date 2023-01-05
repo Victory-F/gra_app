@@ -11,7 +11,7 @@ import {
 const GuideCard = ({ guide }: { guide: Guide }) => {
   return (
     <CharacterContainer
-      style={{ borderRadius: "10%", padding: "0.5vw", marginTop: "1.5vh" }}
+      style={{ borderRadius: "10%", padding: "0.7vw", marginTop: "1.5vh" }}
     >
       <NameKind>
         <BlueLightText>{guide.name}</BlueLightText>
