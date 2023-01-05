@@ -13,6 +13,7 @@ import {
   CreateEndGameCasesPage,
 } from "./pages";
 import styled from "styled-components";
+import { Text } from "./styled";
 
 function App() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function App() {
   return (
     <div>
       <Logo
+        title="Home"
         onClick={() => {
           navigate("/");
         }}
@@ -70,6 +72,7 @@ const AppContainer = styled.div`
   min-width: 100vw;
   min-height: 100vh;
   color: white;
+  font-family: "Varela Round", sans-serif;
 `;
 
 const Video = styled.video`
@@ -77,25 +80,27 @@ const Video = styled.video`
   top: 0;
   min-width: 100vw;
   min-height: 100vh;
-  z-index: -3;
+  z-index: -1;
 `;
 const Logo = styled.button`
+  font-family: "Varela Round", sans-serif;
   background: none;
   border: none;
   color: white;
   position: absolute;
   font-size: 3vw;
   padding: 1vw;
-  text-shadow: 0 0 0.8vw #4f86f7, 0 0 1vw #4f86f7, 0 0 1.3vw #4f86f7;
+  text-shadow: 0 0 0.8vw #ffcccc, 0 0 1vw #ffcccc, 0 0 1.3vw #ffcccc;
   cursor: pointer;
   &:hover {
-    text-shadow: 0 0 0.8vw #ffd12a, 0 0 1vw #ffd12a, 0 0 1.3vw #ffd12a;
+    text-shadow: 0 0 0.8vw #ffa791, 0 0 1vw #ffa791, 0 0 1.3vw #ffa791;
   }
 `;
 
-const Message = styled.p`
+const Message = styled(Text)`
   position: fixed;
-  top: 94vh;
+  top: 95vh;
   color: white;
   left: 0.7vw;
+  font-size: 1.2vw;
 `;
