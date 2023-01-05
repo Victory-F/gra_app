@@ -304,7 +304,7 @@ const GameContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background-size: cover;
-  min-height: 91vh;
+  min-height: 100vh;
   min-width: 100vw;
 `;
 const ContinueButton = styled(Button)`
