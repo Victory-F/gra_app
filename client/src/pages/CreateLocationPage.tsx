@@ -208,7 +208,7 @@ const CreateLocationPage = ({
                 required
               />
               <Input
-                placeholder="secret"
+                placeholder="secret (visible to guide only)"
                 maxLength={100}
                 type="text"
                 value={location.encounter.secret}
