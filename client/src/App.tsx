@@ -32,7 +32,7 @@ function App() {
       <AppContainer>
         <br />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage setMessage={setMessage} />} />
           <Route
             path="/create-guide"
             element={<CreateGuidePage setMessage={setMessage} />}
@@ -95,6 +95,7 @@ const Logo = styled.button`
 
 const Message = styled.p`
   position: fixed;
-  top: 93vh;
+  top: 94vh;
   color: white;
+  left: 0.7vw;
 `;

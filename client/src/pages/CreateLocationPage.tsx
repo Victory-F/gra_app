@@ -233,6 +233,7 @@ const CreateLocationPage = ({
         <ButtonsWrapper style={{ margin: "1.5vw" }}>
           <Button
             onClick={() => {
+              setMessage("");
               setCreated(false);
               setAddEncounter(false);
               setLocation({
@@ -251,7 +252,12 @@ const CreateLocationPage = ({
           >
             Create Next Location
           </Button>
-          <Button onClick={() => navigate("/create-endgame-cases")}>
+          <Button
+            onClick={() => {
+              navigate("/create-endgame-cases");
+              setMessage("");
+            }}
+          >
             Create the Game
           </Button>
         </ButtonsWrapper>

@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { socket } from "../socket/socket";
 import { Button, ButtonsWrapper } from "../styled";
 
-const HomePage = () => {
+const HomePage = ({
+  setMessage,
+}: {
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const game: boolean =
     localStorage.getItem("token") && localStorage.getItem("player")
       ? true
@@ -23,6 +27,7 @@ const HomePage = () => {
         localStorage.getItem("player")
       );
     localStorage.clear();
+    setMessage("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
