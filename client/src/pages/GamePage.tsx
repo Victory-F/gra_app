@@ -141,6 +141,7 @@ const GamePage = () => {
                 secretButton={
                   isGuide ? (
                     <Secret
+                      title={`Reveal Secret to ${t.name}`}
                       onClick={() => {
                         isGuide &&
                           socket.emit(
@@ -184,6 +185,7 @@ const GamePage = () => {
               >
                 {isGuide && (
                   <Increase
+                    title="Increase Points"
                     onClick={() => {
                       socket.emit(
                         "send-travellers-points",
@@ -227,6 +229,7 @@ const GamePage = () => {
                 </BlueLightText>
                 {isGuide && (
                   <Decrease
+                    title="Decrease Points"
                     onClick={() => {
                       socket.emit(
                         "send-travellers-points",

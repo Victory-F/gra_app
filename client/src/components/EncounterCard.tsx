@@ -38,6 +38,7 @@ const EncounterCard = ({
       <Description>{encounter.description}</Description>
       {isGuide ? (
         <Secret
+          title="Reveal Secret to All"
           onClick={() => {
             socket.emit(
               "set-secret-visible",
