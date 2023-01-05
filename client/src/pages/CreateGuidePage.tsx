@@ -89,7 +89,7 @@ const CreateGuidePage = ({
         />
         <Input
           placeholder="description"
-          maxLength={30}
+          maxLength={15}
           value={guide.description}
           onChange={(e: React.FormEvent<HTMLInputElement>) =>
             setGuide({ ...guide, description: e.currentTarget.value })
