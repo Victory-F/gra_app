@@ -308,17 +308,16 @@ const GameContainer = styled.div`
   min-width: 100vw;
 `;
 const ContinueButton = styled(Button)`
+  font-family: "Varela Round", sans-serif;
   position: absolute;
   margin-top: 1.7vw;
   left: 90vw;
   font-size: 1vw;
-  color: lightgray;
-  border: lightgray solid;
-  box-shadow: 0 0 0.8vw grey, 0 0 1vw grey, inset 0 0 1.3vw grey;
+  color: white;
+  border: white solid;
+  box-shadow: 0 0 0.8vw #ffa791, 0 0 1vw #ffa791, inset 0 0 1.3vw #ffa791;
   &:hover,
   &:focus {
-    color: white;
-    border: white solid;
-    box-shadow: 0 0 1vw lightgray, 0 0 1vw lightgray, inset 0 0 1vw lightgray;
+    box-shadow: 0 0 1vw #ffcccc, 0 0 1vw #ffcccc, inset 0 0 1vw #ffcccc;
   }
 `;

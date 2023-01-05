@@ -53,7 +53,7 @@ const CreateGameNamePage = ({
           }
           required
         />
-        <Button type="submit">Play!</Button>
+        <Button type="submit">PLAY</Button>
       </Form>
     </CreateWrapper>
   );

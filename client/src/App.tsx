@@ -90,10 +90,10 @@ const Logo = styled.button`
   position: absolute;
   font-size: 3vw;
   padding: 1vw;
-  text-shadow: 0 0 0.8vw #ffcccc, 0 0 1vw #ffcccc, 0 0 1.3vw #ffcccc;
+  text-shadow: 0 0 0.8vw #ffa791, 0 0 1vw #ffa791, 0 0 1.3vw #ffa791;
   cursor: pointer;
   &:hover {
-    text-shadow: 0 0 0.8vw #ffa791, 0 0 1vw #ffa791, 0 0 1.3vw #ffa791;
+    text-shadow: 0 0 0.8vw #ffcccc, 0 0 1vw #ffcccc, 0 0 1.3vw #ffcccc;
   }
 `;
 
