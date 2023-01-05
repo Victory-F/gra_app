@@ -45,12 +45,12 @@ io.on("connection", (socket: Socket) => {
         games = [...games, newGame];
         callback({
           success: true,
-          message: "Guide was created!",
+          message: "Guide Created",
         });
       } else {
         callback({
           success: false,
-          message: "Ooops, something went wrong",
+          message: "Ooops, Error",
         });
       }
     } catch (e) {
@@ -78,12 +78,12 @@ io.on("connection", (socket: Socket) => {
           );
           callback({
             success: true,
-            message: "Location addded!",
+            message: "Location Addded",
           });
         } else {
           callback({
             success: false,
-            message: "Ooops, something went wrong",
+            message: "Ooops, Error",
           });
         }
       } catch (e) {
@@ -108,12 +108,12 @@ io.on("connection", (socket: Socket) => {
           );
           callback({
             success: true,
-            message: "Created!",
+            message: "Cases Created",
           });
         } else {
           callback({
             success: false,
-            message: "Ooops, something went wrong",
+            message: "Ooops, Error",
           });
         }
       } catch (e) {
@@ -143,7 +143,7 @@ io.on("connection", (socket: Socket) => {
         } else {
           callback({
             success: false,
-            message: "Ooops, something went wrong",
+            message: "Ooops, Error",
           });
         }
       } catch (e) {
