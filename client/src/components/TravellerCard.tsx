@@ -54,6 +54,6 @@ const MiddleWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1vw;
-  min-width: 12.5vw;
+  min-width: 12vw;
   padding: 0.5vw;
 `;
