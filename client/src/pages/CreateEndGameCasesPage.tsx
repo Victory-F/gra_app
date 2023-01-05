@@ -124,7 +124,15 @@ const CreateEndGameCasesPage = ({
         >
           {(cases[0].message || cases[1].message) && (
             <BlueLightText
-              style={{ background: "rgba(0, 0, 0, 0.7)", padding: "1.5vw" }}
+              style={
+                cases[1].message
+                  ? {
+                      background: "rgba(0, 0, 0, 0.7)",
+                      padding: "1.5vw",
+                      color: "black",
+                    }
+                  : { background: "rgba(0, 0, 0, 0.7)", padding: "1.5vw" }
+              }
             >
               {cases[0].message && !cases[1].message && !cases[1].imgUrl
                 ? cases[0].message
