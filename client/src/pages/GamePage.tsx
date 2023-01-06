@@ -310,7 +310,7 @@ const GameContainer = styled.div`
 const ContinueButton = styled(Button)`
   font-family: "Varela Round", sans-serif;
   position: absolute;
-  margin-top: 1.8vw;
+  margin-top: 1.5vw;
   left: 85vw;
   font-size: 1vw;
   color: white;

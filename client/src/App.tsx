@@ -221,7 +221,7 @@ const Message = styled(Text)`
 const Info = styled(Logo)`
   left: 95vw;
   font-size: 2.5vw;
-  top: 0.2vw;
+  padding: 0.9vw;
 `;
 const InfoWrapper = styled(PreviewWrapper)`
   font-family: "Varela Round", sans-serif;
