@@ -78,7 +78,7 @@ io.on("connection", (socket: Socket) => {
           );
           callback({
             success: true,
-            message: "Location Addded",
+            message: "Location Added",
           });
         } else {
           callback({
