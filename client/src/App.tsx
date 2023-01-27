@@ -87,7 +87,7 @@ function App() {
                   Guide tells the story, switches the locations, sets the tasks
                   or just wants Travellers to figure everything out by
                   themselves. The Guide may increase or decrease Traveller’s
-                  points, reveal secrets to one/several Traveller’s or to them
+                  points, reveal secrets to one/several Travellers or to them
                   all. Travellers win the Game if they passed all the Locations
                   and at least one of them has at least 1 point at the end.
                   Travellers lose the game if all of them have 0 points at any
