@@ -1,7 +1,5 @@
 # gra_app
-GRA - app for creating and playing games.
-
-https://gra-for-fun.netlify.app/
+Play here: https://gra-for-fun.netlify.app/
 
 <img width="1438" alt="Screenshot 2023-01-06 at 15 14 18" src="https://user-images.githubusercontent.com/100996452/211029355-41f0f490-212f-4538-aaf0-16ba5157bf70.png">
 
